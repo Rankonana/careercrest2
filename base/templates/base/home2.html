@@ -1,0 +1,55 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<style>
+    .home-container{
+        display:grid ;
+        grid-template-columns: 1fr 3fr;
+    }
+</style>
+
+<div class="home-container">
+    <div>
+        <h3> Browser Categories</h3>
+        <hr>
+        <div>
+            <a href="{% url 'home' %}"> All</a> 
+        </div>
+        {% for category in categories %}
+        <div>
+            <a href="{% url 'home' %}?q={{category.name}}"> {{category.name}}</a> 
+        </div>
+        {% endfor %}
+    </div>
+    <div>
+        {% for job in jobs %}
+        <div>
+            <h5>
+            <a href="{% url 'job' job.id %}">{{job.title}}</a>
+            </h5>
+            <span>{{job.companyname}}</span>,
+            <!-- <span>{{job.companylogo}}</span> -->
+            <span>{{job.jobType}}</span>,
+
+            <small> 
+                {% for i in job.jobCategory.all %}
+                <a href=""> {{i}} </a> ,
+                {% endfor %}
+            </small>
+
+            <span>{{job.location}}</span>
+
+            posted {{job.updated| timesince}} ago,
+
+            Expires in {{job.expiryDate| timeuntil }} 
+
+            <hr>
+
+
+                
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
