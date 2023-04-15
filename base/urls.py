@@ -15,5 +15,10 @@ urlpatterns = [
     path('privacy-policy/',views.privacypolicy,name="privacy-policy"),
     path('terms-and-conditions/',views.termsandconditions,name="terms-and-conditions"),
     
-    path('my_view/',views.my_view,name="my_view"),
+    path('xxx/<int:page>/',views.xxx,name="xxx"),
+    path("terms.json",views.listing_api,name="terms-api"),
+    path('loadmore/',views.loadmore,name="loadmore"),
+
+
+
 ]

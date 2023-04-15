@@ -1,0 +1,17 @@
+{% for kw in page_obj %}
+<pre>{{kw}}</pre>
+{% endfor %}
+
+
+{% for page_number in page_obj.adjusted_elided_pages %}
+{% if page_number == page_obj.paginator.ELLIPSIS %}
+    {{page_number}}
+{% else %}
+    <a
+        href="{% url 'xxx' page_number %}"
+        class="{% if page_number == page_obj.number %}current{% endif %}"
+    >
+        {{page_number}}
+    </a>
+{% endif %}
+{% endfor %}

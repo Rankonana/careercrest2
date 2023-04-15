@@ -6,52 +6,39 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import JsonResponse
 
 
-def my_view(request):
-    data = Job.objects.all()
-    print(data.count())
 
-    # Set the number of items per page
-    items_per_page = 2
 
-    paginator = Paginator(data, items_per_page)
+def xxx(request, page):
+    keywords = Job.objects.all()
+    paginator = Paginator(keywords, per_page=2)
+    page_object = paginator.get_page(page)
+    page_object.adjusted_elided_pages = paginator.get_elided_page_range(page)
+    context = {"page_obj": page_object}
+    return render(request, "base/xxx.html", context)
 
-    page_number = request.GET.get('page')
+def listing_api(request):
+    page_number = request.GET.get("page", 1)
+    per_page = request.GET.get("per_page", 2)
+    startswith = request.GET.get("startswith", "")
+    keywords = Job.objects.filter(
+        title__startswith=startswith
+    )
+    paginator = Paginator(keywords, per_page)
+    page_obj = paginator.get_page(page_number)
+    data = [{"title": kw.title} for kw in page_obj.object_list]
 
-    try:
-        page_obj = paginator.page(page_number)
-    except PageNotAnInteger:
-        # If page is not an integer, return the first page
-        page_obj = paginator.page(1)
-    except EmptyPage:
-        # If page is out of range, return the last page
-        page_obj = paginator.page(paginator.num_pages)
+    payload = {
+        "page": {
+            "current": page_obj.number,
+            "has_next": page_obj.has_next(),
+            "has_previous": page_obj.has_previous(),
+        },
+        "data": data
+    }
+    return JsonResponse(payload)
 
-    serialized_data = []
-    for obj in page_obj:
-        # Serialize the data
-        data = {
-            'id': obj.id, 'title': obj.title,
-            'title': obj.title,
-            'description': obj.description,
-            'location': obj.location,
-            'salary': obj.salary,
-            'remotePosition': obj.remotePosition,
-            'jobType': str(obj.jobType),
-            'jobCategory': [str(category) for category in obj.jobCategory.all()],
-            'positionFilled': obj.positionFilled,
-            'featuredListing': obj.featuredListing,
-            'importantInformation': obj.importantInformation,
-            'expiryDate': str(obj.expiryDate),
-            'applicationLinkOrEmail': obj.applicationLinkOrEmail,
-            'created': str(obj.created),
-            'updated': str(obj.updated),
-            'companyname': obj.companyname,
-            'companylogo': obj.companylogo
-            }
-        serialized_data.append(data)
-
-    return JsonResponse({'data': serialized_data})
-
+def loadmore(request):
+    return render(request,'base/loadmore.html')
 
 jobs=[]
 def home(request):
