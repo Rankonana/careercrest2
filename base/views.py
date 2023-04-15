@@ -12,31 +12,56 @@ from django.http import JsonResponse
 def listing_api(request):
     page_number = request.GET.get("page", 1)
     per_page = request.GET.get("per_page", 2)
-    startswith = request.GET.get("startswith", "")
-    keywords = Job.objects.filter(
-        title__startswith=startswith
-    )
-    paginator = Paginator(keywords, per_page)
+
+    keyword = request.GET.get("keyword", "")
+    category = request.GET.get("jobCategory", "")
+    location = request.GET.get("location", "")
+
+
+    jobs = []
+    jobs = Job.objects.all()
+
+    if category == ''  and keyword == '' and location == '':
+        jobs = jobs
+
+    if category != '':
+        jobs = jobs.filter(
+            Q(jobCategory = category)
+            )
+    if keyword != '':
+        jobs = jobs.filter(
+        Q(title__icontains=keyword) |
+        Q(description__icontains=keyword)| 
+        Q(location__icontains=keyword)| 
+        Q(importantInformation__icontains=keyword)| 
+        Q(companyname__icontains=keyword)            
+        )
+
+    if location != '':
+        jobs = jobs.filter(
+        Q(location__icontains=location) 
+        )
+    paginator = Paginator(jobs, per_page)
     page_obj = paginator.get_page(page_number)
 
-    data = [{"title": kw.title,
-            "id": kw.id,
-            "description": kw.description,
-            "location": kw.location,
-            "salary": kw.salary,
-            "remotePosition": kw.remotePosition,
-            "jobType": str(kw.jobType),
-            "jobCategory": [str(category) for category in kw.jobCategory.all()],
-            "positionFilled": kw.positionFilled,
-            "featuredListing": kw.featuredListing,
-            "importantInformation": kw.importantInformation,
-            "expiryDate": str(kw.expiryDate),
-            "applicationLinkOrEmail": kw.applicationLinkOrEmail,
-            "created": str(kw.created),
-            "updated": str(kw.updated),
-            "companyname": kw.companyname,
-            "companylogo": kw.companylogo
-             } for kw in page_obj.object_list
+    data = [{"title": jb.title,
+            "id": jb.id,
+            "description": jb.description,
+            "location": jb.location,
+            "salary": jb.salary,
+            "remotePosition": jb.remotePosition,
+            "jobType": str(jb.jobType),
+            "jobCategory": [str(category) for category in jb.jobCategory.all()],
+            "positionFilled": jb.positionFilled,
+            "featuredListing": jb.featuredListing,
+            "importantInformation": jb.importantInformation,
+            "expiryDate": str(jb.expiryDate),
+            "applicationLinkOrEmail": jb.applicationLinkOrEmail,
+            "created": str(jb.created),
+            "updated": str(jb.updated),
+            "companyname": jb.companyname,
+            "companylogo": jb.companylogo
+             } for jb in page_obj.object_list
             ]
 
     payload = {
@@ -119,8 +144,8 @@ def termsandconditions(request):
 
 
 def xxx(request, page):
-    keywords = Job.objects.all()
-    paginator = Paginator(keywords, per_page=2)
+    jobs = Job.objects.all()
+    paginator = Paginator(jobs, per_page=2)
     page_object = paginator.get_page(page)
     page_object.adjusted_elided_pages = paginator.get_elided_page_range(page)
     context = {"page_obj": page_object}

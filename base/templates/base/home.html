@@ -171,10 +171,17 @@
     function calltheapi() {
             var currentPage = $('.my-list').data('page');
             var url = 'http://127.0.0.1:8000/terms.json';
+
+            const params = new URLSearchParams(window.location.search);
+            const location = params.get('location');
+            const keyword = params.get('keyword');
+            const jobCategory = params.get('category');
+
+
             $.ajax({
                 type: 'GET',
                 url: url,
-                data: {'page': currentPage + 1,'per_page':6},
+                data: {'page': currentPage + 1,'per_page':6,'keyword': keyword,'jobCategory': jobCategory,'location': location},
                 success: function(response) {
                     var data = response['data'];
                     if (data.length > 0) {
