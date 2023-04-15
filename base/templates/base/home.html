@@ -103,10 +103,9 @@
             </ul>
             <div class="tab-content">
                 <div id="tab-1" class="tab-pane  fade show p-0 active" >
-                    <div class="my-list" data-page="1">
+                    <div id="keywords"></div>
 
-                    </div>
-                    <button class="load-more btn btn-primary py-3 px-5">Load More</button>
+                    <a href="#" class="btn btn-primary py-3 px-5" id="next">Load more jobs</a>
 
                 </div>
                 <div id="tab-2" class="tab-pane fade show p-0">
@@ -171,52 +170,72 @@
 <!-- Jobs End -->
 
 
-<script type="text/javascript">
-    $(document).ready(function() {
-        $('.load-more').click(function() {
-            var currentPage = $('.my-list').data('page');
-            var url = 'http://127.0.0.1:8000/my_view/';
-            $.ajax({
-                type: 'GET',
-                url: url,
-                data: {'page': currentPage + 1},
-                success: function(response) {
-                    var data = response['data'];
-                    if (data.length > 0) {
-                        $('.my-list').data('page', currentPage + 1);
-                        for (var i = 0; i < data.length; i++) {
-                            $('.my-list').append(
+<script>
+    async function getData(url, page, paginateBy) {
+        const urlWithParams = url + "?" + new URLSearchParams({
+            page: page,
+            per_page: paginateBy
+        })
+        const response = await fetch(urlWithParams);
+        return response.json();
+    }
 
-                                        `<div class="job-item p-4 mb-4">
+    class LoadMorePaginator {
+        constructor(perPage) {
+            this.perPage = perPage
+            this.pageIndex = 1
+            this.container = document.querySelector("#keywords")
+            this.next = document.querySelector("#next")
+            this.next.addEventListener("click", this.onNextClick.bind(this))
+            this.loadMore()
+        }
+
+        onNextClick(event) {
+            event.preventDefault()
+            this.pageIndex++
+            this.loadMore()
+        }
+
+        addElement(keyword) {
+            
+            this.container.append(keyword)
+        }
+
+        loadMore() {
+            getData("{% url 'terms-api' %}", this.pageIndex, this.perPage)
+                .then(response => {
+                    response.data.forEach((el) => {
+                        const jobListItem = document.createElement('div');
+                        jobListItem.innerHTML = 
+                                    `<div class="job-item p-4 mb-4">
                                         <div class="row g-4">
                                             <div class="col-sm-12 col-md-8 d-flex align-items-center">
-                                                <img class="flex-shrink-0 img-fluid border rounded" src=" ${data[i]['companylogo']}" alt="" style="width: 80px; height: 80px;">
+                                                <img class="flex-shrink-0 img-fluid border rounded" src=" ${el.companylogo}" alt="" style="width: 80px; height: 80px;">
                                                 <div class="text-start ps-4">
-                                                    <a href="/job/${data[i]['id']}/"><h5 class="mb-3">${data[i]['title']} </h5> </a> 
-                                                    <span class="text-truncate me-3"><i class="fa fa-map-marker-alt text-primary me-2"></i>${data[i]['location']} </span>
-                                                    <span class="text-truncate me-3"><i class="far fa-clock text-primary me-2"></i>${data[i]['jobType']}</span>
-                                                    <span class="text-truncate me-0"><i class="far fa-money-bill-alt text-primary me-2"></i>${data[i]['salary']} </span>
+                                                    <a href="/job/${el.id}/"><h5 class="mb-3">${el.title} </h5> </a> 
+                                                    <span class="text-truncate me-3"><i class="fa fa-map-marker-alt text-primary me-2"></i>${el.location} </span>
+                                                    <span class="text-truncate me-3"><i class="far fa-clock text-primary me-2"></i>${el.jobType}</span>
+                                                    <span class="text-truncate me-0"><i class="far fa-money-bill-alt text-primary me-2"></i>${el.salary} </span>
                                                 </div>
                                             </div>
                                             <div class="col-sm-12 col-md-4 d-flex flex-column align-items-start align-items-md-end justify-content-center">
                                                 <div class="d-flex mb-3">
                                                     <a class="btn btn-light btn-square me-3" href=""><i class="far fa-heart text-primary"></i></a>
-                                                    <a class="btn btn-primary" href="/job/${data[i]['id']}/">View More</a>
+                                                    <a class="btn btn-primary" href="/job/${el.id}/">View More</a>
                                                 </div>
-                                                <small class="text-truncate"><i class="far fa-calendar-alt text-primary me-2"></i>Expires: ${data[i]['expiryDate']}</small>
+                                                <small class="text-truncate"><i class="far fa-calendar-alt text-primary me-2"></i>Expires: ${el.expiryDate}</small>
                                             </div>
                                         </div>
-                                    </div>`
-                                
-                                );
-                        }
-                    } else {
-                        $('.load-more').hide();
-                    }
-                }
-            });
-        });
-    });
+                                    </div>`;
+                        this.addElement(jobListItem)
+                        
+                    });
+                    this.next.style.display = !response.page.has_next ? "none" : "inline-block"
+                });
+        }
+    }
+
+    new LoadMorePaginator(6);
 </script>
 
 

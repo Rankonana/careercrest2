@@ -25,7 +25,26 @@ def listing_api(request):
     )
     paginator = Paginator(keywords, per_page)
     page_obj = paginator.get_page(page_number)
-    data = [{"title": kw.title} for kw in page_obj.object_list]
+
+    data = [{"title": kw.title,
+            "id": kw.id,
+            "description": kw.description,
+            "location": kw.location,
+            "salary": kw.salary,
+            "remotePosition": kw.remotePosition,
+            "jobType": str(kw.jobType),
+            "jobCategory": [str(category) for category in kw.jobCategory.all()],
+            "positionFilled": kw.positionFilled,
+            "featuredListing": kw.featuredListing,
+            "importantInformation": kw.importantInformation,
+            "expiryDate": str(kw.expiryDate),
+            "applicationLinkOrEmail": kw.applicationLinkOrEmail,
+            "created": str(kw.created),
+            "updated": str(kw.updated),
+            "companyname": kw.companyname,
+            "companylogo": kw.companylogo
+             } for kw in page_obj.object_list
+            ]
 
     payload = {
         "page": {
