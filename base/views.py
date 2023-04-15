@@ -8,13 +8,6 @@ from django.http import JsonResponse
 
 
 
-def xxx(request, page):
-    keywords = Job.objects.all()
-    paginator = Paginator(keywords, per_page=2)
-    page_object = paginator.get_page(page)
-    page_object.adjusted_elided_pages = paginator.get_elided_page_range(page)
-    context = {"page_obj": page_object}
-    return render(request, "base/xxx.html", context)
 
 def listing_api(request):
     page_number = request.GET.get("page", 1)
@@ -56,8 +49,7 @@ def listing_api(request):
     }
     return JsonResponse(payload)
 
-def loadmore(request):
-    return render(request,'base/loadmore.html')
+
 
 jobs=[]
 def home(request):
@@ -124,3 +116,14 @@ def privacypolicy(request):
     return render(request,'base/privacy-policy.html')
 def termsandconditions(request):
     return render(request,'base/terms-and-conditions.html')
+
+
+def xxx(request, page):
+    keywords = Job.objects.all()
+    paginator = Paginator(keywords, per_page=2)
+    page_object = paginator.get_page(page)
+    page_object.adjusted_elided_pages = paginator.get_elided_page_range(page)
+    context = {"page_obj": page_object}
+    return render(request, "base/xxx.html", context)
+def loadmore(request):
+    return render(request,'base/loadmore.html')
