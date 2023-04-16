@@ -17,16 +17,23 @@ def listing_api(request):
     category = request.GET.get("jobCategory", "")
     location = request.GET.get("location", "")
 
+    jobtype = request.GET.get("jobType", "")
+
+
 
     jobs = []
     jobs = Job.objects.all()
 
-    if category == ''  and keyword == '' and location == '':
+    if category == ''  and keyword == '' and location == '' and jobtype == '':
         jobs = jobs
 
     if category != '':
         jobs = jobs.filter(
             Q(jobCategory = category)
+            )
+    if jobtype != '':
+        jobs = jobs.filter(
+            Q(jobType = jobtype)
             )
     if keyword != '':
         jobs = jobs.filter(
@@ -50,7 +57,7 @@ def listing_api(request):
             "location": jb.location,
             "salary": jb.salary,
             "remotePosition": jb.remotePosition,
-            "jobType": str(jb.jobType),
+            "jobType": [str(jobtype) for jobtype in jb.jobType.all()],
             "jobCategory": [str(category) for category in jb.jobCategory.all()],
             "positionFilled": jb.positionFilled,
             "featuredListing": jb.featuredListing,
