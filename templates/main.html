@@ -9,7 +9,14 @@
     <meta content="" name="description">
 
     <!-- Favicon -->
-    <link href="{% static 'img/favicon.ico' %}" rel="icon">
+    <link rel="icon" href="{% static 'img/favicon-32x32.png' %}" sizes="32x32">
+    <link rel="icon" href="{% static 'img/favicon-16x16.png' %}" sizes="16x16">
+    <link rel="apple-touch-icon" href="{% static 'img/apple-touch-icon.png' %}">
+
+    <link rel="icon" href="{% static 'img/android-chrome-192x192.png' %}" sizes="192x192">
+    <link rel="icon" href="{% static 'img/android-chrome-512x512.png' %}" sizes="512x512">
+    <link rel="icon" href="{% static 'img/favicon.ico' %}" >
+
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -61,7 +68,6 @@
                         <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown">Jobs</a>
                         <div class="dropdown-menu rounded-0 m-0">
                             <a href="{% url 'joblist' %}" class="dropdown-item">Job List</a>
-                            <a href="{% url 'category' %}" class="dropdown-item">Job by Category</a>
 
                         </div>
                     </div>

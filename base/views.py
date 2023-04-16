@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.http import Http404
 from .models import Job,JobCategories,JobTypes
 from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -28,8 +29,6 @@ def listing_api(request):
         jobs = jobs.filter(
             Q(jobCategory = category)
             )
-        jobs = Job.objects.all()
-
 
     if keyword != '':
         jobs = jobs.filter(
@@ -118,21 +117,30 @@ def home(request):
     return render(request,'base/home.html',context)
 
 def job(request,pk):
-    job = Job.objects.get(id=pk)
-    jobtypename = job.jobType
-    jobtype = JobTypes.objects.get(name = jobtypename)
-
-    context = {'job': job,'jobtype': jobtype}
+    try:
+        job = Job.objects.get(id=pk)
+        jobtypename = job.jobType
+        jobtype = JobTypes.objects.get(name = jobtypename)
+        context = {'job': job,'jobtype': jobtype}
+    except Job.DoesNotExist:
+        return render(request,'base/notfound.html')
     return render(request,'base/job.html',context)
 
 def about(request):
     return render(request,'base/about.html')
-def category(request):
-    return render(request,'base/category.html')
+
+# def category(request):
+#     jobs = Job.objects.all()
+#     categories = JobCategories.objects.all()
+#     context = {'categories': categories,'jobs': jobs}
+#     return render(request,'base/category.html',context)
+
 def contact(request):
     return render(request,'base/contact.html')
 def joblist(request):
-    return render(request,'base/job-list.html')
+    categories = JobCategories.objects.all()
+    context = {'categories': categories}
+    return render(request,'base/job-list.html',context)
 def testimonial(request):
     return render(request,'base/testimonial.html')
 def notfound(request):

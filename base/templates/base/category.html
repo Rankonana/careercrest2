@@ -1,22 +1,6 @@
 {% extends 'main.html' %}
 
 {% block content %}
-<!-- Header End -->
-<div class="container-xxl py-5 bg-dark page-header mb-5">
-    <div class="container my-5 pt-5 pb-4">
-        <h1 class="display-3 text-white mb-3 animated slideInDown">Category</h1>
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb text-uppercase">
-                <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
-                <li class="breadcrumb-item"><a href="#">Pages</a></li>
-                <li class="breadcrumb-item text-white active" aria-current="page">Category</li>
-            </ol>
-        </nav>
-    </div>
-</div>
-<!-- Header End -->
-
-
 <!-- Category Start -->
 <div class="container-xxl py-5">
     <div class="container">
@@ -82,4 +66,123 @@
     </div>
 </div>
 <!-- Category End -->
+
+<!-- Search Start -->
+<div  class="container-fluid bg-primary mb-5 wow fadeIn" data-wow-delay="0.1s" style="padding: 35px;">
+    <div class="container">
+        <form method="GET" action="{% url 'category' %}">
+            <div class="row g-2">
+                <div class="col-md-10">
+                    <div class="row g-2">
+                        <div class="col-md-4">
+                            <input type="text" class="form-control border-0" name="keyword" placeholder="Title, company, industry..." />
+                        </div>
+                        <div class="col-md-4">
+                            <select name="category" class="form-select border-0">
+                                <option value=""  selected>Choose Category</option>
+    
+                                {% for category in categories %}
+                                    <option   value="{{category.id}}">{{category.name}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" name="location" class="form-control border-0" placeholder="Johannesburg.." />
+    
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-dark border-0 w-100">Search</button>
+                </div>
+            </div>
+        </form>
+        
+    </div>
+</div>
+<!-- Search End -->
+
+
+<!-- Jobs Start -->
+<div class="container-xxl py-5">
+    <div class="container">
+        <h1 class="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">Job Listing</h1>
+        <div class="tab-class text-center wow fadeInUp" data-wow-delay="0.3s">
+            <ul class="nav nav-pills d-inline-flex justify-content-center border-bottom mb-5">
+            </ul>
+            <div class="tab-content">
+                <div id="tab-1" class="tab-pane fade show p-0 active">
+                    <div class="my-list" data-page="0">
+                    </div>                                                      
+                    <button class=" load-more btn btn-primary py-3 px-5" >Load More</button>
+                </div>              
+                
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Jobs End -->
+<script type="text/javascript">
+    
+    function calltheapi() {
+            var currentPage = $('.my-list').data('page');
+            var url = 'http://127.0.0.1:8000/terms.json';
+
+            const params = new URLSearchParams(window.location.search);
+            const location = params.get('location');
+            const keyword = params.get('keyword');
+            const jobCategory = params.get('category');
+
+
+
+
+            $.ajax({
+                type: 'GET',
+                url: url,
+                data: {'page': currentPage + 1,'per_page':6,'keyword': keyword,'jobCategory': jobCategory,'location': location},
+                success: function(response) {
+                    var data = response['data'];
+                    if (data.length > 0) {
+                        $('.my-list').data('page', currentPage + 1);
+                        for (var i = 0; i < data.length; i++) {
+                            $('.my-list').append(
+                                `<div class="job-item p-4 mb-4">
+                                        <div class="row g-4">
+                                            <div class="col-sm-12 col-md-8 d-flex align-items-center">
+                                                <img class="flex-shrink-0 img-fluid border rounded" src="${data[i]['companylogo']}" alt="" style="width: 80px; height: 80px;">
+                                                <div class="text-start ps-4">
+                                                    <a href="/job/${data[i]['id']}/"><h5 class="mb-3">${data[i]['title']} </h5> </a> 
+                                                    <span class="text-truncate me-3"><i class="fa fa-map-marker-alt text-primary me-2"></i>${data[i]['location']}</span>
+                                                    <span class="text-truncate me-3"><i class="far fa-clock text-primary me-2"></i>${data[i]['jobType']}</span>
+                                                    <span class="text-truncate me-0"><i class="far fa-money-bill-alt text-primary me-2"></i>${data[i]['salary']} </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12 col-md-4 d-flex flex-column align-items-start align-items-md-end justify-content-center">
+                                                <div class="d-flex mb-3">
+                                                    <a class="btn btn-light btn-square me-3" href=""><i class="far fa-heart text-primary"></i></a>
+                                                    <a class="btn btn-primary" href="/job/${data[i]['id']}/">View More</a>
+                                                </div>
+                                                <small class="text-truncate"><i class="far fa-calendar-alt text-primary me-2"></i>Expires:${data[i]['expiryDate']}</small>
+                                            </div>
+                                        </div>
+                                    </div>`
+
+                            );
+                            
+                        }
+                    }
+                    if(!response.page.has_next){
+                        $('.load-more').hide();
+                    }
+                }
+            });
+        }
+
+
+    $(document).ready(function() {
+        calltheapi();       
+        $('.load-more').click(calltheapi);
+    });
+
+</script>
 {% endblock %}
