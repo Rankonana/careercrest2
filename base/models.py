@@ -20,7 +20,7 @@ class Job(models.Model):
     location  = models.CharField(max_length=200,null=True,blank=True)
     salary  = models.CharField(max_length=200,null=True,blank=True)
     remotePosition  = models.BooleanField(null=True,blank=True)
-    jobType  =  models.ManyToManyField(JobTypes,null=True,blank=True)
+    jobType  =  models.ForeignKey(JobTypes,on_delete=models.SET_NULL,null=True,blank=True)
     jobCategory  =  models.ManyToManyField(JobCategories,null=True,blank=True)
     positionFilled  = models.BooleanField(null=True,blank=True)
     featuredListing  = models.BooleanField(null=True,blank=True)

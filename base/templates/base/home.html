@@ -14,25 +14,9 @@
                 <div class="container">
                     <div class="row justify-content-start">
                         <div class="col-10 col-lg-8">
-                            <h1 class="display-3 text-white animated slideInDown mb-4">Find The Perfect Job That You Deserved</h1>
-                            <p class="fs-5 fw-medium text-white mb-4 pb-2">Vero elitr justo clita lorem. Ipsum dolor at sed stet sit diam no. Kasd rebum ipsum et diam justo clita et kasd rebum sea elitr.</p>
-                            <a href="" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Search A Job</a>
-                            <a href="" class="btn btn-secondary py-md-3 px-md-5 animated slideInRight">Find A Talent</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="owl-carousel-item position-relative">
-            <img class="img-fluid" src="{% static 'img/carousel-2.jpg' %}" alt="">
-            <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center" style="background: rgba(43, 57, 64, .5);">
-                <div class="container">
-                    <div class="row justify-content-start">
-                        <div class="col-10 col-lg-8">
-                            <h1 class="display-3 text-white animated slideInDown mb-4">Find The Best Startup Job That Fit You</h1>
-                            <p class="fs-5 fw-medium text-white mb-4 pb-2">Vero elitr justo clita lorem. Ipsum dolor at sed stet sit diam no. Kasd rebum ipsum et diam justo clita et kasd rebum sea elitr.</p>
-                            <a href="" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Search A Job</a>
-                            <a href="" class="btn btn-secondary py-md-3 px-md-5 animated slideInRight">Find A Talent</a>
+                            <h1 class="display-3 text-white animated slideInDown mb-4">Empowering your career search</h1>
+                            <p class="fs-5 fw-medium text-white mb-4 pb-2">Welcome to Career Crest, your ultimate destination for finding the perfect job. We believe that everyone deserves a fulfilling career and it is our mission to make that a reality for you.</p>
+                            <a href="{% url 'joblist' %}" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Search A Job</a>
                         </div>
                     </div>
                 </div>
@@ -44,7 +28,7 @@
 
 
 <!-- Search Start -->
-<div class="container-fluid bg-primary mb-5 wow fadeIn" data-wow-delay="0.1s" style="padding: 35px;">
+<div  class="container-fluid bg-primary mb-5 wow fadeIn" data-wow-delay="0.1s" style="padding: 35px;">
     <div class="container">
         <form method="GET" action="{% url 'home' %}">
             <div class="row g-2">
@@ -85,28 +69,6 @@
         <h1 class="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">Job Listing</h1>
         <div class="tab-class text-center wow fadeInUp" data-wow-delay="0.3s">
             <ul class="nav nav-pills d-inline-flex justify-content-center border-bottom mb-5">
-                
-                <li class="nav-item">
-                    <a class="d-flex align-items-center text-start mx-3 ms-0 pb-3 " >
-                        <h6 class="mt-n1 mb-0"> Filter by : </h6>
-                    </a>
-                </li>
-
-                <li class="nav-item">
-                    <a class=" filter-link d-flex align-items-center text-start mx-3 ms-0 pb-3 active" data-value="4"  data-bs-toggle="pill">
-                        <h6 class="mt-n1 mb-0"> View All</h6>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class=" filter-link d-flex align-items-center text-start mx-3 pb-3" data-value="1" data-bs-toggle="pill">
-                        <h6 class="mt-n1 mb-0">Full Time</h6>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="filter-link d-flex align-items-center text-start mx-3 me-0 pb-3" data-value="2" data-bs-toggle="pill">
-                        <h6 class="mt-n1 mb-0">Part Time</h6>
-                    </a>
-                </li>
             </ul>
             <div class="tab-content">
                 <div id="tab-1" class="tab-pane fade show p-0 active">
@@ -131,14 +93,13 @@
             const keyword = params.get('keyword');
             const jobCategory = params.get('category');
 
-            const jobType = params.get('jobtype');
 
 
 
             $.ajax({
                 type: 'GET',
                 url: url,
-                data: {'page': currentPage + 1,'per_page':6,'keyword': keyword,'jobType': jobType,'jobCategory': jobCategory,'location': location},
+                data: {'page': currentPage + 1,'per_page':6,'keyword': keyword,'jobCategory': jobCategory,'location': location},
                 success: function(response) {
                     var data = response['data'];
                     if (data.length > 0) {
@@ -183,17 +144,5 @@
         $('.load-more').click(calltheapi);
     });
 
-
-    $('.filter-link').click(function(e) {
-    e.preventDefault();
-    $(".my-list").empty();
-    var value = $(this).data('value');
-    var urlParams = new URLSearchParams(window.location.search);
-    urlParams.set('jobtype', value);
-    var newUrl = window.location.pathname + '?' + urlParams.toString();
-    window.history.pushState({path:newUrl},'',newUrl);
-    // Call function to update data with new filter
-     calltheapi();
-  });
 </script>
 {% endblock %}

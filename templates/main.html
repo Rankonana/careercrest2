@@ -1,5 +1,6 @@
 {% load static %}
-<html lang="en"><head>
+<html lang="en">
+<head>
     <meta charset="utf-8">
     <title>CareerCrest - {% block title %}{% endblock %}</title>
 
@@ -60,18 +61,20 @@
                         <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown">Jobs</a>
                         <div class="dropdown-menu rounded-0 m-0">
                             <a href="{% url 'joblist' %}" class="dropdown-item">Job List</a>
-                            <a href="job-detail.html" class="dropdown-item active">Job Detail</a>
+                            <a href="{% url 'category' %}" class="dropdown-item">Job by Category</a>
+
                         </div>
                     </div>
                     <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">About us</a>
                         <div class="dropdown-menu rounded-0 m-0">
-                            <a href="{% url 'category' %}" class="dropdown-item">Job Category</a>
-                            <a href="{% url 'testimonial' %}" class="dropdown-item">Testimonial</a>
-                            <a href="{% url 'notfound' %}" class="dropdown-item">404</a>
+                            <a href="{% url 'about' %}" class="nav-item nav-link">About Us</a>
+                            <a href="{% url 'contact' %}" class="nav-item nav-link">Contact Us</a>
+                            <a href="{% url 'privacy-policy' %}" class="nav-item nav-link">Privacy Policy</a>
+                            <a href="{% url 'terms-and-conditions' %}" class="nav-item nav-link">Terms And Conditions</a>
+
                         </div>
                     </div>
-                    <a href="{% url 'contact' %}" class="nav-item nav-link">Contact</a>
                 </div>
                 <a href="" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">Post A Job<i class="fa fa-arrow-right ms-3"></i></a>
             </div>
