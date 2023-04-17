@@ -1,5 +1,12 @@
 from django.urls import path
 from . import views
+from django.contrib.sitemaps.views import sitemap
+
+from . sitemaps import JobSitemap
+
+sitemaps = {
+		"jobs": JobSitemap,
+}
 
 urlpatterns = [
     path('',views.home,name="home"),
@@ -13,6 +20,9 @@ urlpatterns = [
     path('our-services/',views.ourservices,name="our-services"),
     path('privacy-policy/',views.privacypolicy,name="privacy-policy"),
     path('terms-and-conditions/',views.termsandconditions,name="terms-and-conditions"),
+
+    path('sitemap.xml', sitemap, {'sitemaps': sitemaps},
+						name='django.contrib.sitemaps.views.sitemap'),
     
     path('xxx/<int:page>/',views.xxx,name="xxx"),
     path("terms.json",views.listing_api,name="terms-api"),

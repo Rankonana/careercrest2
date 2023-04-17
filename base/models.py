@@ -1,6 +1,10 @@
 from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
+from django.utils import timezone
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
+import time
 
 
 # Create your models here.
@@ -32,21 +36,16 @@ class Job(models.Model):
     applicationLinkOrEmail  = models.CharField(max_length=200)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now_add=True)
-    slug = models.SlugField(unique=True)
-
-
     companyname = models.CharField(max_length=200)
     companylogo = models.TextField(null=True, blank=True)
 
-    def save(self, *args, **kwargs):
-        self.slug = slugify(self.title)
-        super().save(*args, **kwargs)
 
     class Meta:
         ordering = ['-updated','-created']
     def __str__(self) :
         return self.title
-    def get_absolute_url(self):
-        return reverse("job",kwargs={"pk":str(self.id) + "-"+ self.title})
     
+    def get_absolute_url(self):
+        return reverse("job",
+                            args=[self.id])
 
