@@ -62,7 +62,9 @@ def listing_api(request):
             "created": str(jb.created),
             "updated": str(jb.updated),
             "companyname": jb.companyname,
-            "companylogo": jb.companylogo
+            "companylogo": jb.companylogo,
+            "theurl": jb.get_absolute_url()
+
              } for jb in page_obj.object_list
             ]
 
@@ -88,7 +90,7 @@ def home(request):
         category = ''
 
     jobs = Job.objects.all()
-    total_obj = Job.objects.count()       
+    total_obj = Job.objects.count()   
 
 
     if category == ''  and keyword == '' and location == '':

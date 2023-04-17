@@ -41,5 +41,6 @@ class Job(models.Model):
     
     def get_absolute_url(self):
         return reverse("job",
-                            args=[str(self.id) + "/" + self.title.replace(" ", "-")])
+                            args=[self.id,self.title.replace(" ", "-").replace("/", "-").replace("\\", "-").lower()])
+
 
