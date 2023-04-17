@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render , get_object_or_404
 from django.http import Http404
 from .models import Job,JobCategories,JobTypes
 from django.db.models import Q
@@ -116,9 +116,9 @@ def home(request):
     context = {'jobs':jobs, 'categories': categories,'total_obj': total_obj}
     return render(request,'base/home.html',context)
 
-def job(request,pk):
+def job(request, id,title):
     try:
-        job = Job.objects.get(id=pk)
+        job = get_object_or_404(Job,id=id)
         jobtypename = job.jobType
         jobtype = JobTypes.objects.get(name = jobtypename)
         context = {'job': job,'jobtype': jobtype}
@@ -129,7 +129,7 @@ def job(request,pk):
 def about(request):
     return render(request,'base/about.html')
 
-# def category(request):
+# def category(request): 
 #     jobs = Job.objects.all()
 #     categories = JobCategories.objects.all()
 #     context = {'categories': categories,'jobs': jobs}

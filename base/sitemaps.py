@@ -11,3 +11,6 @@ class JobSitemap(Sitemap):
 		
 		def lastmod(self, obj):
 				return obj.updated
+		
+		def location(self,obj):
+			return '/job/%s' % (str(obj.id) +"/" + obj.title.replace(" ", "-").lower().replace("/", "-").replace("\\", "-"))

@@ -4,6 +4,9 @@ from django.contrib import admin
 
 from .models import Job,JobTypes,JobCategories
 
+
 admin.site.register(Job)
 admin.site.register(JobTypes)
 admin.site.register(JobCategories)
+
+

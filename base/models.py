@@ -1,11 +1,5 @@
 from django.db import models
 from django.urls import reverse
-from django.utils.text import slugify
-from django.utils import timezone
-from django.db.models.signals import pre_save
-from django.dispatch import receiver
-import time
-
 
 # Create your models here.
 
@@ -14,6 +8,7 @@ class JobTypes(models.Model):
 
     def __str__(self):
         return self.name
+        
     
 class JobCategories(models.Model):
     name = models.CharField(max_length=200)
@@ -39,7 +34,6 @@ class Job(models.Model):
     companyname = models.CharField(max_length=200)
     companylogo = models.TextField(null=True, blank=True)
 
-
     class Meta:
         ordering = ['-updated','-created']
     def __str__(self) :
@@ -47,5 +41,5 @@ class Job(models.Model):
     
     def get_absolute_url(self):
         return reverse("job",
-                            args=[self.id])
+                            args=[str(self.id) + "/" + self.title.replace(" ", "-")])
 

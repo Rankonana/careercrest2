@@ -111,7 +111,7 @@
                                             <div class="col-sm-12 col-md-8 d-flex align-items-center">
                                                 <img class="flex-shrink-0 img-fluid border rounded" src="${data[i]['companylogo']}" alt="" style="width: 80px; height: 80px;">
                                                 <div class="text-start ps-4">
-                                                    <a href="/job/${data[i]['id']}/"><h5 class="mb-3">${data[i]['title']} </h5> </a> 
+                                                    <a href="/job/${data[i]['id']}/${data[i]['title'].replace(/\s+/g, '-').toLowerCase().replace('/', '-')}/"><h5 class="mb-3">${data[i]['title']} </h5> </a> 
                                                     <span class="text-truncate me-3"><i class="fa fa-map-marker-alt text-primary me-2"></i>${data[i]['location']}</span>
                                                     <span class="text-truncate me-3"><i class="far fa-clock text-primary me-2"></i>${data[i]['jobType']}</span>
                                                     <span class="text-truncate me-0"><i class="far fa-money-bill-alt text-primary me-2"></i>${data[i]['salary']} </span>
@@ -119,8 +119,7 @@
                                             </div>
                                             <div class="col-sm-12 col-md-4 d-flex flex-column align-items-start align-items-md-end justify-content-center">
                                                 <div class="d-flex mb-3">
-                                                    <a class="btn btn-light btn-square me-3" href=""><i class="far fa-heart text-primary"></i></a>
-                                                    <a class="btn btn-primary" href="/job/${data[i]['id']}/">View More</a>
+                                                    <a class="btn btn-primary" href="/job/${data[i]['id']}/${data[i]['title'].replace(/\s+/g, '-').toLowerCase().replace('/', '-')}/">View More</a>
                                                 </div>
                                                 <small class="text-truncate"><i class="far fa-calendar-alt text-primary me-2"></i>Expires:${data[i]['expiryDate']}</small>
                                             </div>

@@ -10,7 +10,7 @@ sitemaps = {
 
 urlpatterns = [
     path('',views.home,name="home"),
-    path('job/<str:pk>/',views.job,name="job"),
+    path('job/<int:id>/<str:title>/',views.job,name="job"),
     path('about/',views.about,name="about"),
     path('contact/',views.contact,name="contact"),
     path('joblist/',views.joblist,name="joblist"),
