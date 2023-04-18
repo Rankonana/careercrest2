@@ -2,11 +2,46 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>CareerCrest - {% block title %}{% endblock %}</title>
+    <title>CareerCrest - {% block title %}Jobs{% endblock %}</title>
 
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="" name="keywords">
-    <meta content="" name="description">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" >
+    <meta name='robots' content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' />
+
+    <!-- normal seo start -->
+    <meta name="keywords" content="jobs near me,sasol careers, transnet, dpsa, gauteng health, gauteng department of health,General jobs, Admin jobs,dpsa vacancies 2023,vacancies,dpsa vacancies 2022,grade 12 jobs, matric jobs, jobs, bursaries,work from home jobs, eskom vacancies, jobs, jobs indeed{% block keywords %}No grade 12{% endblock %}">
+    <meta name="description" content="{% block description %}Find your next job here{% endblock %}">
+    <link rel="canonical" href="https://careercrest.co.za{% block canonical %}{% endblock %}" />
+
+
+    <!-- normal seo end -->
+
+    <!-- Twitter card data start -->
+    <meta name="twitter:card" content="{% block tcard %}summary_large_image{% endblock %}">
+    <meta name="twitter:site" content="{% block tsite %}@careercrest_sa{% endblock %}">
+    <meta name="twitter:title" content="{% block ttitle %}Jobs{% endblock %}">
+    <meta name="twitter:description" content="{% block tdescription %}Find your next job here{% endblock %}">
+    <meta name="twitter:creator" content="{% block tcreator %}@careercrest_sa{% endblock %}">
+    <meta name="twitter:image" content="{% block timage %}https://www.careercrest.co.za/static/img/carousel-1.png{% endblock %}">
+    <!-- Twitter card data end -->
+
+    <!-- Open Graph data start -->
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="{% block ogtitle %}Jobs - Careercrest{% endblock %}" />
+    <meta property="og:type" content="{% block ogtype %}website{% endblock %}" />
+    <meta property="article:publisher" content="https://www.facebook.com/SAcareercrest" />
+    <meta property="og:url" content="https://www.careercrest.co.za{% block ogurl %}https://careercrest.co.za{% endblock %}" />
+    <meta property="og:image" content="{% block ogimage %}https://www.careercrest.co.za/static/img/carousel-1.png{% endblock %}" />
+    <meta property="og:description" content="{% block ogdescription %}Find your next job here{% endblock %}" />
+    <meta property="og:site_name" content="{% block ogsite_name %}CareerCrest{% endblock %}" />
+    <!-- Open Graph data end -->
+
+
+
+
+
+	
+
+
 
     <!-- Favicon -->
     <link rel="icon" href="{% static 'img/favicon-32x32.png' %}" sizes="32x32">
