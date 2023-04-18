@@ -34,6 +34,8 @@ class Job(models.Model):
     companyname = models.CharField(max_length=200)
     seodescription = models.TextField(null=True, blank=True)
     companylogo = models.ImageField(null=True,blank=True,default="logo.png")
+    companylogoexternal = models.URLField(null=True, blank=True)
+
 
 
     class Meta:

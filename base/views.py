@@ -43,29 +43,30 @@ def listing_api(request):
     paginator = Paginator(jobs, per_page)
     page_obj = paginator.get_page(page_number)
 
-    data = [{"title": jb.title,
-            "id": jb.id,
-            "description": jb.description,
-            "location": jb.location,
-            "salary": jb.salary,
-            "remotePosition": jb.remotePosition,
-            "jobType": str(jb.jobType),
-            "jobCategory": [str(category) for category in jb.jobCategory.all()],
-            "positionFilled": jb.positionFilled,
-            "featuredListing": jb.featuredListing,
-            "importantInformation": jb.importantInformation,
-            "expiryDate": str(jb.expiryDate),
-            "applicationLinkOrEmail": jb.applicationLinkOrEmail,
-            "created": str(jb.created),
-            "updated": str(jb.updated),
-            "companyname": jb.companyname,
-            "companylogo": jb.companylogo.url if jb.companylogo else None,
-            "theurl": jb.get_absolute_url(),
-            "seodescription": jb.seodescription
-
-
-             } for jb in page_obj.object_list
-            ]
+    data = [
+    {
+        "title": jb.title,
+        "id": jb.id,
+        "description": jb.description,
+        "location": jb.location,
+        "salary": jb.salary,
+        "remotePosition": jb.remotePosition,
+        "jobType": str(jb.jobType),
+        "jobCategory": [str(category) for category in jb.jobCategory.all()],
+        "positionFilled": jb.positionFilled,
+        "featuredListing": jb.featuredListing,
+        "importantInformation": jb.importantInformation,
+        "expiryDate": str(jb.expiryDate),
+        "applicationLinkOrEmail": jb.applicationLinkOrEmail,
+        "created": str(jb.created),
+        "updated": str(jb.updated),
+        "companyname": jb.companyname,
+        "companylogo": jb.companylogoexternal if jb.companylogoexternal else (jb.companylogo.url if jb.companylogo else None),
+        "theurl": jb.get_absolute_url(),
+        "seodescription": jb.seodescription
+    } 
+    for jb in page_obj.object_list
+]
 
     payload = {
         "page": {
