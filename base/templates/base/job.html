@@ -4,12 +4,12 @@
 {% block keywords %}{{job.title}}{% endblock %}
 {% block canonical %}{{job.get_absolute_url}}{% endblock %}
 
-{% block description %}{{ job.description|truncatechars:100 }}{% endblock %}
+{% block description %}{{ job.seodescription|truncatechars:100 }}{% endblock %}
 
 {% block tcard %}summary_large_image{% endblock %}
 {% block tsite %}@careercrest_sa{% endblock %}
 {% block ttitle %}{{job.title}}{% endblock %}
-{% block tdescription %}{{ job.description|truncatechars:100 }}{% endblock %}
+{% block tdescription %}{{ job.seodescription|truncatechars:100 }}{% endblock %}
 {% block tcreator %}@careercrest_sa{% endblock %}
 {% block timage %}{{job.companylogo}}{% endblock %}
 
@@ -18,7 +18,7 @@
 <meta property="article:modified_time" content="{{job.updated}}" />
 {% block ogurl %}{{ job.get_absolute_url }}{% endblock %}
 {% block ogimage %}{{ job.companylogo }}{% endblock %}
-{% block ogdescription %}{{ job.description|truncatechars:100 }}{% endblock %}
+{% block ogdescription %}{{ job.seodescription|truncatechars:100 }}{% endblock %}
 {% block ogsite_name %}CareerCrest{% endblock %}
 
 

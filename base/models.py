@@ -32,7 +32,9 @@ class Job(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now_add=True)
     companyname = models.CharField(max_length=200)
-    companylogo = models.TextField(null=True, blank=True)
+    seodescription = models.TextField(null=True, blank=True)
+    companylogo = models.ImageField(null=True,blank=True,default="logo.png")
+
 
     class Meta:
         ordering = ['-updated','-created']

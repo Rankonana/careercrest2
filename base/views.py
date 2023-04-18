@@ -59,8 +59,10 @@ def listing_api(request):
             "created": str(jb.created),
             "updated": str(jb.updated),
             "companyname": jb.companyname,
-            "companylogo": jb.companylogo,
-            "theurl": jb.get_absolute_url()
+            "companylogo": jb.companylogo.url if jb.companylogo else None,
+            "theurl": jb.get_absolute_url(),
+            "seodescription": jb.seodescription
+
 
              } for jb in page_obj.object_list
             ]
