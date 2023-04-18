@@ -3,11 +3,8 @@ from django.http import Http404
 from .models import Job,JobCategories,JobTypes
 from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
+from django.http import HttpResponse
 from django.http import JsonResponse
-
-
-
 
 
 def listing_api(request):
@@ -155,6 +152,10 @@ def privacypolicy(request):
 def termsandconditions(request):
     return render(request,'base/terms-and-conditions.html')
 
+def ads_txt(request):
+    content = "google.com, pub-4323271819190092, DIRECT, f08c47fec0942fa0"
+    response = HttpResponse(content, content_type='text/plain')
+    return response
 
 def xxx(request, page):
     jobs = Job.objects.all()

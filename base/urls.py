@@ -24,6 +24,8 @@ urlpatterns = [
 
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps},
 						name='django.contrib.sitemaps.views.sitemap'),
+    path('ads.txt', views.ads_txt, name='ads_txt'),
+
     
     path('xxx/<int:page>/',views.xxx,name="xxx"),
     path("terms.json",views.listing_api,name="terms-api"),
