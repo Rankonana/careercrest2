@@ -121,10 +121,12 @@ def home(request):
 def job(request, id,title):
     try:
         job = get_object_or_404(Job,id=id)
-        if(job.companylogo):
-            job.companylogo = job.companylogo.url
-        else:
+
+        if(job.companylogoexternal):
             job.companylogo = job.companylogoexternal
+        else:
+            job.companylogo = "https://careercrest.co.za" + str(job.companylogo.url)
+
 
         jobtypename = job.jobType
         jobtype = JobTypes.objects.get(name = jobtypename)
