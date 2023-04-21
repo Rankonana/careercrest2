@@ -108,7 +108,7 @@ Our user-friendly interface and powerful search engine make job hunting easy and
     
     function calltheapi() {
             var currentPage = $('.my-list').data('page');
-            var url = 'https://careercrest.co.za/terms.json';
+            var url = 'http://127.0.0.1:8000/terms.json';
 
             const params = new URLSearchParams(window.location.search);
             const location = params.get('location');
@@ -131,7 +131,7 @@ Our user-friendly interface and powerful search engine make job hunting easy and
                                 <div class="job-item p-4 mb-4">
                                     <div class="row g-4">
                                         <div class="col-sm-12 col-md-8 d-flex align-items-center">
-                                            <img class="flex-shrink-0 img-fluid border rounded" src="${data[i]['companylogo'] || '/static/img/android-chrome-512x512.png'}" alt="" style="width: 80px; height: 80px;">
+                                            <img class="flex-shrink-0 img-fluid border rounded" src="${data[i]['companylogo'] || '/media/logo.png'}" alt="" style="width: 80px; height: 80px;">
                                             <div class="text-start ps-4">
                                                 <a href="${data[i]['theurl']}"><h5 class="mb-3">${data[i]['title'] || 'Vacancy'}</h5></a> 
                                                 

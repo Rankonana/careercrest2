@@ -121,6 +121,11 @@ def home(request):
 def job(request, id,title):
     try:
         job = get_object_or_404(Job,id=id)
+        if(job.companylogo):
+            job.companylogo = job.companylogo.url
+        else:
+            job.companylogo = job.companylogoexternal
+
         jobtypename = job.jobType
         jobtype = JobTypes.objects.get(name = jobtypename)
         context = {'job': job,'jobtype': jobtype}
