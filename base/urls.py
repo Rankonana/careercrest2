@@ -34,4 +34,6 @@ urlpatterns = [
     path('loadmore/',views.loadmore,name="loadmore"),
 ]
 
+#Before calling static
+# urlpatterns += static(settings.MEDIA_URL,document_root = settings.MEDIA_ROOT)
 urlpatterns += static(settings.MEDIA_URL,document_root = settings.MEDIA_ROOT)
