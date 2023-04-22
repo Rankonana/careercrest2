@@ -65,8 +65,7 @@ def listing_api(request):
         "theurl": jb.get_absolute_url(),
         "seodescription": jb.seodescription
     } 
-    for jb in page_obj.object_list
-]
+    for jb in page_obj.object_list]
 
     payload = {
         "page": {
@@ -120,13 +119,11 @@ def home(request):
 
 def job(request, id,title):
     try:
-        job = get_object_or_404(Job,id=id)
-
+        job = Job.objects.get(id=id)
         if(job.companylogoexternal):
             job.companylogo = job.companylogoexternal
         else:
             job.companylogo = "https://careercrest.co.za" + str(job.companylogo.url)
-
 
         jobtypename = job.jobType
         jobtype = JobTypes.objects.get(name = jobtypename)
@@ -152,7 +149,7 @@ def joblist(request):
     return render(request,'base/job-list.html',context)
 def testimonial(request):
     return render(request,'base/testimonial.html')
-def notfound(request):
+def notfound(request,path):
     return render(request,'base/notfound.html')
 
 def ourservices(request):
