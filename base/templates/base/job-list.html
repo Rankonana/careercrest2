@@ -125,31 +125,26 @@ Our user-friendly interface and powerful search engine make job hunting easy and
                         $('.my-list').data('page', currentPage + 1);
                         for (var i = 0; i < data.length; i++) {
                             $('.my-list').append(`
-                                <div class="job-item p-4 mb-4">
-                                    <div class="row g-4">
-                                        <div class="col-sm-12 col-md-8 d-flex align-items-center">
-                                            <img class="flex-shrink-0 img-fluid border rounded" src="${data[i]['companylogo'] || '/media/logo.png'}" alt="" style="width: 80px; height: 80px;">
-                                            <div class="text-start ps-4">
-                                                <a href="${data[i]['theurl']}"><h5 class="mb-3">${data[i]['title'] || 'Vacancy'}</h5></a> 
-                                                
-                                                            
-                                                ${data[i]['location'] ? `<span class="text-truncate me-3"><i class="fa fa-map-marker-alt text-primary me-2"></i>${data[i]['location']}</span>` : ''}
-                                                
-                                                ${data[i]['jobType'] ? `<span class="text-truncate me-3"><i class="far fa-clock text-primary me-2"></i>${data[i]['jobType']}</span>` : ''}
-                                                
-                                                ${data[i]['salary'] ? `<span class="text-truncate me-3"><i class="far fa-money-bill-alt text-primary me-2"></i>${data[i]['salary']}</span>` : ''}
-                                                                
-                                            </div>
+                            <div class="job-item mb-4">
+                                    <a href="${data[i]['theurl']}">
+                                        <img src="${data[i]['companylogo'] || '/static/img/android-chrome-512x512.png'}" alt="Job Image" style="width: 80px; height: 80px; margin-top: 15px;">
+                                    </a>
+                                    <div class="job-details">
+                                        <a href="${data[i]['theurl']}"><h2 class="job-title" style="font-size: 15px; margin-top: 15px;">${data[i]['title'] || 'Vacancy'}</h2></a> 
+                                       
+                                        ${data[i]['salary'] ? `<p class="job-salary"><i class="far fa-money-bill-alt text-primary me-2"></i>${data[i]['salary']}</p>` : ''}
+
+                                        ${data[i]['companyname'] ? `<p class="job-companyname"><i class="far fa-solid fa-building text-primary me-2"></i>@${data[i]['companyname']}</p>` : ''}
+
+                                        ${data[i]['location'] ? `<p class="job-location"><i class="fa fa-map-marker-alt text-primary me-2"></i>${data[i]['location']}</p>` : ''}
+                                        ${data[i]['expiryDate'] !== null && data[i]['expiryDate'] !== undefined && data[i]['expiryDate'] !== '' && data[i]['expiryDate'] !== 'None' ? `<p class="job-expiry-date"><i class="far fa-calendar-alt text-primary me-2"></i>Expires:${data[i]['expiryDate']}</p>` : ''}
+
+                                        <a class="btn btn-primary more-info-button" href="${data[i]['theurl']}" style="margin-bottom: 5px;">More info</a>
+
                                         </div>
-                                        <div class="col-sm-12 col-md-4 d-flex flex-column align-items-start align-items-md-end justify-content-center">
-                                            <div class="d-flex mb-3">
-                                                <a class="btn btn-primary" href="${data[i]['theurl']}">View More</a>
-                                            </div>
-                                            
-                                            ${data[i]['expiryDate'] ? `<small class="text-truncate"><i class="far fa-calendar-alt text-primary me-2"></i>Expires:${data[i]['expiryDate']}</small>` : ''}
-                                        </div>
-                                    </div>
-                                </div>`
+
+                                   
+                            </div>`
                             );
                             
                         }
