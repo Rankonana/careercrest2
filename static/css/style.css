@@ -331,6 +331,80 @@
   }
    
 
+/* job details */
+.job-header-detail {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    border: 1px solid #ccc;
+  }
+  
+  .job-image-detail {
+    flex: 0 0 auto;
+    margin-right: 20px;
+  }
+  
+  .job-image-detail img {
+    display: block;
+    max-width: 100%;
+  }
+  
+  .job-details-detail {
+    flex: 1 1 auto;
+  }
+  
+  .job-title-detail {
+    font-size: 24px;
+    margin-bottom: 10px;
+    word-wrap: break-word;
+  }
+  
+  .job-meta-detail {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .job-meta-detail span {
+    font-size: 14px;
+    color: #666;
+    margin-right: 10px;
+  }
+  
+  .job-salary-detail {
+    margin-left: auto;
+  }
+  
+  @media (max-width: 767px) {
+    .job-header-detail {
+      flex-wrap: wrap;
+    }
+    
+    .job-image-detail {
+      flex: 1 1 100%;
+      margin-right: 0;
+      margin-bottom: 20px;
+    }
+    
+    .job-details-detail {
+      flex: 1 1 100%;
+    }
+    
+    .job-meta-detail {
+      flex-wrap: nowrap;
+    }
+    
+    .job-meta-detail span {
+      display: block;
+      margin-bottom: 5px;
+    }
+    
+    .job-salary-detail {
+      margin-left: 0;
+      margin-top: 10px;
+    }
+  }
+  
+
 
 /*** Testimonial ***/
 .testimonial-carousel .owl-item .testimonial-item,
