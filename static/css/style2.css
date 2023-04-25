@@ -275,7 +275,7 @@
 .job-item {
     border: 1px solid transparent;
     border-radius: 2px;
-    box-shadow: 0 0 45px rgba(3, 2, 2, 0.08);
+    box-shadow: 0 0 45px rgba(0, 0, 0, .08);
     transition: .5s;
 }
 
@@ -283,53 +283,6 @@
     border-color: rgba(0, 0, 0, .08);
     box-shadow: none;
 }
-
- .job-item {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    box-sizing: border-box;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    margin-bottom: 20px;
-  }
-  
-  .job-item img {
-    width: 150px;
-    height: 150px;
-    object-fit: cover;
-    border-radius: 5px;
-    margin-right: 20px;
-  }
-  
-  .job-details {
-    flex: 1;
-  }
-  
-  .job-title {
-    font-size: 18px;
-    font-weight: bold;
-    margin: 0 0 10px 0;
-  }
-  
-  .job-salary,
-  .job-location {
-    font-size: 18px;
-    margin: 0;
-  }
-  
-  @media only screen and (max-width: 767px) {
-    .job-item {
-      flex-direction: column;
-    }
-    
-    .job-item img {
-      margin-right: 0;
-      margin-bottom: 20px;
-    }
-  }
-   
 
 
 /*** Testimonial ***/

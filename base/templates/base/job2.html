@@ -45,30 +45,25 @@
     <div class="container">
         <div class="row gy-5 gx-4">
             <div class="col-lg-8">
-                <div class="job-header-detail bg-light" style="padding: 10px; margin-bottom: 20px;">
-                    <div class="job-image-detail">
-                      {% if job.companylogo and job.companylogo != 'none' %}
-                      <img src="{{job.companylogo}}" alt="company Image" style="width: 80px; height: 80px;">
-                      {% else %}
-                      <img  src="/media/logo.png" alt="company Image" style="width: 80px; height: 80px;">
-                      {% endif %}
-                    </div>
-                    <div class="job-details-detail">
-                      <h2 class="job-title-detail" style="font-size: 15px; margin-top: 10px;">{{job.title}}</h2>
-                      <div class="job-meta-detail">
+                <div class="d-flex align-items-center mb-5">
+                    {% if job.companylogo and job.companylogo != 'none' %}
+                    <img class="flex-shrink-0 img-fluid border rounded" src="{{job.companylogo}}" alt="" style="width: 80px; height: 80px;">
+                    {% else %}
+                    <img class="flex-shrink-0 img-fluid border rounded" src="/media/logo.png" alt="" style="width: 80px; height: 80px;">
+                    {% endif %}
+                    <div class="text-start ps-4">
+                        <h3 class="mb-3"> {{job.title}}</h3>
                         {% if job.location and job.location != 'none' %}
-                        <p class="job-location-detail"><i class="fa fa-map-marker-alt text-primary me-2"></i>{{job.location}}</p>
+                        <span class="text-truncate me-3"><i class="fa fa-map-marker-alt text-primary me-2"></i>{{job.location}}</span>
                         {% endif %}
                         {% if jobtype and jobtype != 'none' %}
-                        <p class="job-type-detail"><i class="far fa-clock text-primary me-2"></i>{{jobtype}}</p>
+                        <span class="text-truncate me-3"><i class="far fa-clock text-primary me-2"></i>{{jobtype}}</span>
                         {% endif %}
                         {% if job.salary and job.salary != 'none' %}
-                        <p class="job-salary-detail"><i class="far fa-money-bill-alt text-primary me-2"></i>{{job.salary}}</p>
+                        <span class="text-truncate me-0"><i class="far fa-money-bill-alt text-primary me-2"></i>{{job.salary}}</span>
                         {% endif %}
-                      </div>
                     </div>
                 </div>
-                
 
                 <div class="mb-5"> 
                     {{job.description|safe|urlize}} 
@@ -120,5 +115,4 @@
 </div>
 <!-- Job Detail End -->
 {% endblock %}
-
 

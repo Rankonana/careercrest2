@@ -1,8 +1,8 @@
 {% extends 'main.html' %}
 
-{% block title %}Find Your Dream Job - Comprehensive Job Listings | Job list{% endblock %}
+{% block title %}Find Your Dream Job - Comprehensive Job Listings | Career Crest{% endblock %}
 {% block keywords %}{% endblock %}
-{% block canonical %}https://www.careercrest.co.za/joblist/{% endblock %}
+{% block canonical %}{% endblock %}
 
 {% block description %}Find your dream job today with our comprehensive job listing website.
 We offer thousands of job opportunities across multiple industries and locations.
@@ -12,19 +12,19 @@ Our user-friendly interface and powerful search engine make job hunting easy and
 
 {% block tcard %}summary_large_image{% endblock %}
 {% block tsite %}@careercrest_sa{% endblock %}
-{% block ttitle %}Find Your Dream Job - Comprehensive Job Listings | Job list{% endblock %}
+{% block ttitle %}Find Your Dream Job - Comprehensive Job Listings | Career Crest{% endblock %}
 {% block tdescription %}Find your dream job today with our comprehensive job listing website.
 We offer thousands of job opportunities across multiple industries and locations.
  Search for jobs by keyword, location, or category and easily apply with just a few clicks.
 Our user-friendly interface and powerful search engine make job hunting easy and convenient.
  Join our community of job seekers and employers today!{% endblock %}
 {% block tcreator %}@careercrest_sa{% endblock %}
-{% block timage %}https://www.careercrest.co.za/static/img/carousel-1.png{% endblock %}
+{% block timage %}https://www.careercrest.co.za/media/logo.png{% endblock %}
 
-{% block ogtitle %}Find Your Dream Job - Comprehensive Job Listings | Job list{% endblock %}
+{% block ogtitle %}Find Your Dream Job - Comprehensive Job Listings | Career Crest{% endblock %}
 {% block ogtype %}article{% endblock %}
-{% block ogurl %}/joblist/{% endblock %}
-{% block ogimage %}https://www.careercrest.co.za/static/img/carousel-1.png{% endblock %}
+{% block ogurl %}{% endblock %}
+{% block ogimage %}https://www.careercrest.co.za/media/logo.png{% endblock %}
 {% block ogdescription %}Find your dream job today with our comprehensive job listing website.
 We offer thousands of job opportunities across multiple industries and locations.
  Search for jobs by keyword, location, or category and easily apply with just a few clicks.
@@ -32,27 +32,36 @@ Our user-friendly interface and powerful search engine make job hunting easy and
  Join our community of job seekers and employers today!{% endblock %}
 {% block ogsite_name %}CareerCrest{% endblock %}
 
+
 {% block content %}
-<!-- Header End -->
-<div class="container-xxl py-5 bg-dark page-header mb-5">
-    <div class="container my-5 pt-5 pb-4">
-        <h1 class="display-3 text-white mb-3 animated slideInDown">Job List</h1>
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb text-uppercase">
-                <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
-                <li class="breadcrumb-item"><a href="#">Pages</a></li>
-                <li class="breadcrumb-item text-white active" aria-current="page">Job List</li>
-            </ol>
-        </nav>
+{% load static %}
+
+<!-- Carousel Start -->
+<div class="container-fluid p-0">
+    <div class="owl-carousel header-carousel position-relative">
+        <div class="owl-carousel-item position-relative">
+            <img class="img-fluid" src="{% static 'img/carousel-1.jpg' %}" alt="">
+            <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center" style="background: rgba(43, 57, 64, .5);">
+                <div class="container">
+                    <div class="row justify-content-start">
+                        <div class="col-10 col-lg-8">
+                            <h1 class="display-3 text-white animated slideInDown mb-4">Empowering your career search</h1>
+                            <p class="fs-5 fw-medium text-white mb-4 pb-2">Welcome to Career Crest, your ultimate destination for finding the perfect job. We believe that everyone deserves a fulfilling career and it is our mission to make that a reality for you.</p>
+                            <a href="{% url 'joblist' %}" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Search A Job</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-<!-- Header End -->
+<!-- Carousel End -->
 
 
 <!-- Search Start -->
-<div class="container-fluid bg-primary mb-5 wow fadeIn" data-wow-delay="0.1s" style="padding: 35px;">
+<div  class="container-fluid bg-primary mb-5 wow fadeIn" data-wow-delay="0.1s" style="padding: 35px;">
     <div class="container">
-        <form method="GET" action="{% url 'joblist' %}">
+        <form method="GET" action="{% url 'home' %}">
             <div class="row g-2">
                 <div class="col-md-10">
                     <div class="row g-2">
@@ -115,6 +124,9 @@ Our user-friendly interface and powerful search engine make job hunting easy and
             const keyword = params.get('keyword');
             const jobCategory = params.get('category');
 
+
+
+
             $.ajax({
                 type: 'GET',
                 url: url,
@@ -125,7 +137,7 @@ Our user-friendly interface and powerful search engine make job hunting easy and
                         $('.my-list').data('page', currentPage + 1);
                         for (var i = 0; i < data.length; i++) {
                             $('.my-list').append(`
-                            <div class="job-item mb-4">
+                                <div class="job-item mb-4">
                                     <a href="${data[i]['theurl']}">
                                         <img src="${data[i]['companylogo'] || '/static/img/android-chrome-512x512.png'}" alt="Job Image" style="width: 80px; height: 80px; margin-top: 15px;">
                                     </a>
@@ -144,13 +156,16 @@ Our user-friendly interface and powerful search engine make job hunting easy and
                                         </div>
 
                                    
-                            </div>`
+                            </div>
+				    `
                             );
+
                             
                         }
                     }
                     if(!response.page.has_next){
                         $('.load-more').hide();
+                        
                     }
                 }
             });
