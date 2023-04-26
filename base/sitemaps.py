@@ -29,10 +29,14 @@ class JobSitemap(Sitemap):
 			return '/job/%s' % (str(obj.id) +"/" + obj.title.replace(" ", "-").lower().replace("/", "-").replace("\\", "-"))
 
 class PostSitemap(Sitemap):
-    changefreq = 'daily'
-    priority = 0.9
-
-    def items(self):
-        return Post.objects.all()
-    def lastmod(self, obj):
-        return obj.updated
+		changefreq = "daily"
+		priority = 0.9
+		
+		def items(self):
+				return Post.objects.all()
+		
+		def lastmod(self, obj):
+				return obj.updated
+		
+		def location(self,obj):
+			return '/blog/%s' % (str(obj.id) +"/" + obj.title.replace(" ", "-").lower().replace("/", "-").replace("\\", "-"))

@@ -175,6 +175,7 @@ def xxx(request, page):
 def loadmore(request):
     return render(request,'base/loadmore.html')
 
+# Blog
 def post_list(request):
     posts = Post.objects.all() 
     # search
