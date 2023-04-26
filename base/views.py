@@ -49,7 +49,7 @@ def listing_api(request):
         "id": jb.id,
         "description": jb.description,
         "location": jb.location,
-        "salary": jb.salary[:50],
+        "salary": jb.salary,
         "remotePosition": jb.remotePosition,
         "jobType": str(jb.jobType),
         "jobCategory": str(jb.jobCategory),
