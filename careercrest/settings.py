@@ -48,6 +48,10 @@ INSTALLED_APPS = [
     # Blog
     'ckeditor', 
     'ckeditor_uploader',
+
+    #Blog and Resume
+    'blog.apps.BlogConfig',
+    'resume.apps.ResumeConfig',
 ]
 
 SITE_ID = 1

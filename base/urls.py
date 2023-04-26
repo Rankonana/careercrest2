@@ -1,14 +1,13 @@
 from django.urls import path, include
 from . import views
 from django.contrib.sitemaps.views import sitemap
-from . sitemaps import JobSitemap,StaticSitemap, PostSitemap
+from . sitemaps import JobSitemap,StaticSitemap
 from django.conf import settings
 from django.conf.urls.static import static
 
 sitemaps = {
 		"jobs": JobSitemap,
-        'static': StaticSitemap,
-        "posts": PostSitemap
+        'static': StaticSitemap
 }
 
 urlpatterns = [
@@ -34,10 +33,7 @@ urlpatterns = [
     path("terms.json",views.listing_api,name="terms-api"),
     path('loadmore/',views.loadmore,name="loadmore"),
 
-    # Blog
-    path('blog/',views.post_list,name="post_list"),
-    path('blog/<int:id>/<str:title>/',views.post_detail,name="post_detail"),
-    path('ckeditor/',include('ckeditor_uploader.urls')),
+
 
 
 
