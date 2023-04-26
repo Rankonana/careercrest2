@@ -1,10 +1,11 @@
-from django.shortcuts import render , get_object_or_404
+from django.shortcuts import render , get_object_or_404, redirect
 from django.http import Http404
-from .models import Job,JobCategories,JobTypes
+from .models import Job,JobCategories,JobTypes, Post
 from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse
 from django.http import JsonResponse
+from django.views.generic import ListView, DetailView
 
 
 def listing_api(request):
@@ -173,3 +174,34 @@ def xxx(request, page):
     return render(request, "base/xxx.html", context)
 def loadmore(request):
     return render(request,'base/loadmore.html')
+
+def post_list(request):
+    posts = Post.objects.all() 
+    # search
+    query = request.GET.get("q")
+    if query:
+        posts=Post.objects.filter(Q(title__icontains=query) ).distinct()
+            
+    
+    paginator = Paginator(posts, 2) # 10 posts in each page
+    page = request.GET.get('page')
+    try:
+        posts = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer deliver the first page
+        posts = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range deliver last page of results
+        posts = paginator.page(paginator.num_pages)
+    
+   
+        
+    return render(request,'base/post_list.html',{'posts':posts, page:'pages'})
+
+def post_detail(request, id,title):
+    try:
+        post = Post.objects.get(id=id)
+        context = {'post': post}
+    except Post.DoesNotExist:
+        return render(request,'base/notfound.html')
+    return render(request,'base/post_detail.html',context)

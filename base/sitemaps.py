@@ -1,7 +1,7 @@
 from django.contrib.sitemaps import Sitemap
 from django.urls import reverse
 
-from .models import Job
+from .models import Job, Post
 
 class StaticSitemap(Sitemap):
     """Reverse 'static' views for XML sitemap."""
@@ -27,3 +27,12 @@ class JobSitemap(Sitemap):
 		
 		def location(self,obj):
 			return '/job/%s' % (str(obj.id) +"/" + obj.title.replace(" ", "-").lower().replace("/", "-").replace("\\", "-"))
+
+class PostSitemap(Sitemap):
+    changefreq = 'daily'
+    priority = 0.9
+
+    def items(self):
+        return Post.objects.all()
+    def lastmod(self, obj):
+        return obj.updated

@@ -1,0 +1,21 @@
+{% extends 'main.html' %}
+{% block title %}Blog{% endblock %}
+{% block content %}
+{% load static %}
+    
+    <form class="d-flex" action="http://127.0.0.1:8000/blog/">
+      <input class="form-control mr-0" type="search" value="{{request.GET.q}}" name="q" placeholder="Search" aria-label="Search">
+    </form>
+    <main class="container my-3">
+        
+        <h2 class="my-3">
+          {% if request.GET.q is not null %}
+            Search Results for "{{ request.GET.q }}"
+          {% endif %}
+        </h2>
+
+        {% block blogcontent %}
+
+        {% endblock blogcontent %}
+    </main>
+{% endblock %}

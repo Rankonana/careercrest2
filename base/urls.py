@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
 from django.contrib.sitemaps.views import sitemap
 from . sitemaps import JobSitemap,StaticSitemap
@@ -32,6 +32,13 @@ urlpatterns = [
     path('xxx/<int:page>/',views.xxx,name="xxx"),
     path("terms.json",views.listing_api,name="terms-api"),
     path('loadmore/',views.loadmore,name="loadmore"),
+
+    path('blog/',views.post_list,name="post_list"),
+    path('blog/<int:id>/<str:title>/',views.post_detail,name="post_detail"),
+    path('ckeditor/',include('ckeditor_uploader.urls')),
+
+
+
 ]
 
 #Before calling static
