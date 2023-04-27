@@ -1,24 +1,5 @@
-from django.forms import ModelForm
-from .models import Resume, WorkExperience, Education, Skill
+from django import forms
 
-
-class ResumeForm(ModelForm):
-    class Meta:
-        model = Resume
-        fields = '__all__'
-
-class WorkExperienceForm(ModelForm):
-    class Meta:
-        model = WorkExperience
-        fields = '__all__'
-
-class EducationForm(ModelForm):
-    class Meta:
-        model = Education
-        fields = '__all__'
-
-class SkillForm(ModelForm):
-    class Meta:
-        model = Skill
-        fields = '__all__'
-
+class ResumeForm(forms.Form):
+    title = forms.CharField(label='Title', max_length=100)
+    professional_summary = forms.CharField(label='Professional Summary',max_length=100)

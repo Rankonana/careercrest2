@@ -6,7 +6,6 @@ from django.db import models
 #     pass
 
 class Resume(models.Model):
-    # user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     professional_summary = models.TextField()

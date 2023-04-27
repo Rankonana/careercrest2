@@ -7,6 +7,8 @@ from .models import Resume, WorkExperience
 from django.db.models import Q
 import random
 import string
+from django.shortcuts import get_object_or_404
+
 
 
 
@@ -22,29 +24,34 @@ def home(request):
     return render(request, 'resume/resume_home.html',{'tracking': tracking})
     
 def createBasic(request,tracking):
-    if request.method == 'POST':
-        title = request.POST.get('title')
-        summary = request.POST.get('professional_summary')
-
-        if Resume.objects.get(tracking=tracking):
-            resume = Resume(user=request.user, title=title, professional_summary=summary,tracking= tracking)
-            resume.save()
-            return redirect('create-work',tracking=tracking)
+    form = ResumeForm()
+    if request.method == "POST":
+        form = ResumeForm(request.POST)
+        if form.is_valid():
+            print(form.cleaned_data)
+            resume, created = Resume.objects.update_or_create(
+                            tracking = tracking,
+                            defaults={
+                                       'user': request.user,
+                                       'title' : form.cleaned_data['title'],
+                                       'professional_summary': form.cleaned_data['professional_summary']},
+                            )
+            print(created)
         else:
-            resume = Resume(user=request.user, title=title, professional_summary=summary,tracking= tracking)
-            resume.save()
-            return redirect('create-work',tracking=tracking)
+            print(form.errors)
     else:
+        # get values of existing resume
+        initial_values = {'title': 'hello'}
+        # form = ResumeForm(initial=initial_values)
         try:
-            resume = Resume.objects.get(tracking=tracking)
-            context = {'resume': resume}
-            return render(request, 'resume/resume_basic.html',context)
+            rm = get_object_or_404(Resume,tracking=tracking)
+            form_data = {'title': rm.title, 'professional_summary': rm.professional_summary}
+            print(rm.title)
+            form = ResumeForm(data=form_data)
         except:
-            resume = Resume()
-            context = {'resume': resume}
-            print("not exist")
-            print(tracking)
-            return render(request, 'resume/resume_basic.html',context)
+            pass
+    context = {'form': form }
+    return render(request, 'resume/resume_basic.html',context)
 
     
 def createWork(request,tracking):
