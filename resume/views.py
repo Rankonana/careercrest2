@@ -25,17 +25,27 @@ def createBasic(request,tracking):
     if request.method == 'POST':
         title = request.POST.get('title')
         summary = request.POST.get('professional_summary')
-        resume = Resume(user=request.user, title=title, professional_summary=summary,tracking= tracking)
-        resume.save()
-        return redirect('create-work',tracking=tracking)
+
+        if Resume.objects.get(tracking=tracking):
+            resume = Resume(user=request.user, title=title, professional_summary=summary,tracking= tracking)
+            resume.save()
+            return redirect('create-work',tracking=tracking)
+        else:
+            resume = Resume(user=request.user, title=title, professional_summary=summary,tracking= tracking)
+            resume.save()
+            return redirect('create-work',tracking=tracking)
     else:
         try:
             resume = Resume.objects.get(tracking=tracking)
             context = {'resume': resume}
+            return render(request, 'resume/resume_basic.html',context)
         except:
             resume = Resume()
             context = {'resume': resume}
-        return render(request, 'resume/resume_basic.html',context)
+            print("not exist")
+            print(tracking)
+            return render(request, 'resume/resume_basic.html',context)
+
     
 def createWork(request,tracking):
     if request.method == 'POST':

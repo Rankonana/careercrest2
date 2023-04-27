@@ -1,16 +1,8 @@
-<h3>Create Resume</h3>
-<div class="container">
-            <h2>Work Information</h2>
-            {% for obj in works %}
-                {{obj.id}}--{{ obj.job_title }}, {{ obj.employer }},{{ obj.start_date }} <hr>
-            {% endfor %}
-            <form method="post">
-                {% csrf_token %}
-                <input type="text" name="job_title" value="{{work.job_title}}">
-                <input type="text" name="employer" value="{{work.employer}}">
-                <input type="date" name="start_date" value="{{work.start_date}}">
-                <input type="date" name="end_date" value="{{work.end_date}}">
-                <input type="text" name="job_description" value="{{work.job_description}}">
-                <button type="submit" class="btn btn-primary">Next</button>
-            </form>
-</div>
+<h2>Work Information</h2>
+
+{% for obj in works %}
+    {{obj.id}}--{{ obj.job_title }}, {{ obj.employer }},{{ obj.start_date }} <hr>
+    <a href=""> Edit</a>
+    <a href=""> Delete</a>
+{% endfor %}
+
