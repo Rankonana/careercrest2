@@ -1,0 +1,10 @@
+<h3>Create Resume</h3>
+<div class="container">
+            <h2>Basic Information</h2>
+            <form method="post">
+                {% csrf_token %}
+                <input type="text" name="title" value="{{resume.title}}">
+                <input type="text" name="professional_summary" value="{{resume.professional_summary}}">
+                <button type="submit" class="btn btn-primary">Next</button>
+            </form>
+</div>
