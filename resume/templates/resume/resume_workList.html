@@ -1,8 +1,11 @@
 <h2>Work Information</h2>
 
 {% for obj in works %}
-    {{obj.id}}--{{ obj.job_title }}, {{ obj.employer }},{{ obj.start_date }} <hr>
-    <a href=""> Edit</a>
-    <a href=""> Delete</a>
+    {{obj.id}}--{{ obj.job_title }}, {{ obj.employer }},{{ obj.start_date }}
+   <a href="{% url 'addeditwork' tracking obj.worktracking  %}"> Edit</a>
+   <a href="{% url 'addeditwork' tracking obj.worktracking  %}"> Delete</a>
+
+   <hr>
 {% endfor %}
 
+<a href="{% url 'addeditwork' tracking newone  %}"> Add new one</a>

@@ -9,7 +9,7 @@ urlpatterns = [
     path('',views.home,name="resume-home"),
     path('create-basic/<str:tracking>',views.createBasic,name="create-basic"),
     path('list-work/<str:tracking>',views.listWork,name="list-work"),
-    path('add-edit-work/<str:tracking>',views.addEditWork,name="add-edit-work"),
+    path('addeditwork/<str:tracking>/<str:worktracking>',views.addEditWork,name="addeditwork"),
 
     # path('',views.home,name="resume-home"),
     # path('',views.home,name="resume-home"),

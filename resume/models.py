@@ -33,6 +33,8 @@ class WorkExperience(models.Model):
     start_date = models.DateField()
     end_date = models.DateField()
     job_description = models.TextField()
+    worktracking = models.CharField(max_length=255)
+
 
     def __str__(self):
         return self.job_title + " " + self.employer

@@ -40,9 +40,6 @@ def createBasic(request,tracking):
         else:
             print(form.errors)
     else:
-        # get values of existing resume
-        initial_values = {'title': 'hello'}
-        # form = ResumeForm(initial=initial_values)
         try:
             rm = get_object_or_404(Resume,tracking=tracking)
             form_data = {'title': rm.title, 'professional_summary': rm.professional_summary}
@@ -59,36 +56,46 @@ def listWork(request,tracking):
         works = WorkExperience.objects.filter(
             Q(resume = resume)
             )
-        context = {'works': works}
+        if works:
+            print("big e")
+        else:
+            worktracking = generate_random_string(10)
+            return redirect('addeditwork',tracking,worktracking)
+        context = {'works': works,'tracking': tracking,'worktracking':worktracking}
     except:
-        works = WorkExperience()
-        context = {'works': works}
+        newone = generate_random_string(10)
+        context = {'works': works,'tracking': tracking,'newone': newone}
     return render(request, 'resume/resume_workList.html',context)
 
-def addEditWork(request,tracking):
+def addEditWork(request,tracking,worktracking):
+    form = WorkForm()
     if request.method == 'POST':
-        resume = Resume.objects.get(tracking=tracking)
-        job_title = request.POST.get('job_title')
-        employer = request.POST.get('employer')
-        start_date = request.POST.get('start_date')
-        end_date = request.POST.get('end_date')
-        job_description = request.POST.get('job_description')
-        work = WorkExperience(resume=resume, 
-                                job_title=job_title,
-                                employer=employer,
-                                start_date= start_date,
-                                end_date= end_date,
-                                job_description=job_description)
-        work.save()
-        return redirect('list-work',tracking=tracking)
+        form = WorkForm(request.POST)
+        if form.is_valid():
+            rm = Resume.objects.get(tracking=tracking)
+            work, created = WorkExperience.objects.update_or_create(
+                            worktracking = worktracking,
+                            defaults={
+                                       'resume': rm,
+                                       'job_title' : form.cleaned_data['job_title'],
+                                       'employer' : form.cleaned_data['employer'],
+                                       'start_date' : form.cleaned_data['start_date'],
+                                       'end_date' : form.cleaned_data['end_date'],
+                                       'job_description': form.cleaned_data['job_description']},
+                            )
+            return redirect('list-work',tracking=tracking)
     else:
         try:
-            resume = Resume.objects.get(tracking=tracking)
-            works = WorkExperience.objects.filter(
-                                                Q(resume = resume)
-                                                )
-            context = {'works': works}
+            wk = get_object_or_404(WorkExperience,worktracking=worktracking)
+            form_data = {'job_title': wk.job_title,
+                          'employer': wk.employer,
+                          'start_date': wk.start_date,
+                          'end_date': wk.end_date,
+                          'job_description': wk.job_description                    
+                          }
+            print(form_data)
+            form = WorkForm(data=form_data)
         except:
-            works = WorkExperience()
-            context = {'works': works}
-    return render(request, 'resume/resume_workList.html',context)
+            pass
+    context = {'form': form}
+    return render(request, 'resume/edit_delete_work.html',context)
