@@ -1,0 +1,15 @@
+<h2>Education Information</h2>
+
+{% for obj in educations %}
+    {{obj.id}}--{{ obj.schoolname }}, {{ obj.schoollocation }}
+   <a href="{% url 'addeditedu' tracking obj.edutracking  %}"> Edit</a>
+   <a href="{% url 'deleteedu' tracking obj.edutracking  %}"> Delete</a>
+
+   <hr>
+{% endfor %}
+
+<a href="{% url 'addeditedu' tracking newone  %}"> Add new one</a>
+
+<a href="{% url 'list-work' tracking %}"> Back</a>
+<a href="{% url 'list-work' tracking %}"> Next</a>
+

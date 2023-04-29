@@ -30,6 +30,8 @@ class WorkExperience(models.Model):
     resume = models.ForeignKey(Resume, on_delete=models.CASCADE, related_name='work_experience')
     job_title = models.CharField(max_length=255)
     employer = models.CharField(max_length=255)
+    city = models.CharField(max_length=255)
+    country = models.CharField(max_length=255)
     start_date = models.DateField()
     end_date = models.DateField()
     job_description = models.TextField()
@@ -41,13 +43,17 @@ class WorkExperience(models.Model):
     
 class Education(models.Model):
     resume = models.ForeignKey(Resume, on_delete=models.CASCADE, related_name='education')
+    schoolname = models.CharField(max_length=255)
+    schoollocation= models.CharField(max_length=255)
     degree = models.CharField(max_length=255)
-    major = models.CharField(max_length=255)
-    university = models.CharField(max_length=255)
-    graduation_date = models.DateField()
+    fieldofstudy = models.CharField(max_length=255)
+    start_date = models.DateField()
+    end_date = models.DateField()
+    edu_description = models.CharField(max_length=255)
+    edutracking = models.CharField(max_length=255)
 
     def __str__(self):
-        return self.degree + " " +self.university
+        return self.degree
 
 class Skill(models.Model):
     resume = models.ForeignKey(Resume, on_delete=models.CASCADE)
