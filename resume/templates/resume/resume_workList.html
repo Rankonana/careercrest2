@@ -3,7 +3,7 @@
 {% for obj in works %}
     {{obj.id}}--{{ obj.job_title }}, {{ obj.employer }},{{ obj.start_date }}
    <a href="{% url 'addeditwork' tracking obj.worktracking  %}"> Edit</a>
-   <a href="{% url 'addeditwork' tracking obj.worktracking  %}"> Delete</a>
+   <a href="{% url 'deletework' tracking obj.worktracking  %}"> Delete</a>
 
    <hr>
 {% endfor %}

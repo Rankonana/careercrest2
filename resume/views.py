@@ -67,6 +67,7 @@ def listWork(request,tracking):
         context = {'works': works,'tracking': tracking,'newone': newone}
     return render(request, 'resume/resume_workList.html',context)
 
+
 def addEditWork(request,tracking,worktracking):
     form = WorkForm()
     if request.method == 'POST':
@@ -98,4 +99,9 @@ def addEditWork(request,tracking,worktracking):
         except:
             pass
     context = {'form': form}
-    return render(request, 'resume/edit_delete_work.html',context)
+    return render(request, 'resume/add_edit_work.html',context)
+
+def deleteWork(request,tracking,worktracking):
+    wk = WorkExperience.objects.get(worktracking=worktracking)
+    wk.delete()
+    return redirect('list-work',tracking=tracking)
