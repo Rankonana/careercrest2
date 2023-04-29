@@ -34,7 +34,15 @@ def createBasic(request,tracking):
                             defaults={
                                        'user': request.user,
                                        'title' : form.cleaned_data['title'],
-                                       'professional_summary': form.cleaned_data['professional_summary']},
+                                       'lastname': form.cleaned_data['lastname'],
+                                       'profession': form.cleaned_data['profession'],
+                                       'city': form.cleaned_data['city'],
+                                       'country': form.cleaned_data['country'],
+                                       'postalcode': form.cleaned_data['postalcode'],
+                                       'phone': form.cleaned_data['phone'],
+                                       'email': form.cleaned_data['email']
+
+                                       },
                             )
             return redirect('list-work',tracking=tracking)
 
@@ -43,13 +51,50 @@ def createBasic(request,tracking):
     else:
         try:
             rm = get_object_or_404(Resume,tracking=tracking)
-            form_data = {'title': rm.title, 'professional_summary': rm.professional_summary}
-            print(rm.title)
+            form_data = {'title': rm.title,'lastname': rm.lastname,
+                          'lastname': rm.lastname,
+                          'profession': rm.profession,
+                          'city': rm.city,
+                          'country': rm.country,
+                          'postalcode': rm.postalcode,
+                          'phone': rm.phone,
+                          'email': rm.email
+
+                          }
             form = ResumeForm(data=form_data)
         except:
             pass
     context = {'form': form,'tracking':tracking }
     return render(request, 'resume/resume_basic.html',context)
+
+
+def createSummary(request,tracking):
+    form = ResumeForm()
+    if request.method == "POST":
+        form = ResumeForm(request.POST)
+        if form.is_valid():
+            print(form.cleaned_data)
+            resume, created = Resume.objects.update_or_create(
+                            tracking = tracking,
+                            defaults={
+                                       'user': request.user,
+                                       'professional_summary' : form.cleaned_data['professional_summary']
+                                       },
+                            )
+            return redirect('list-work',tracking=tracking)
+
+        else:
+            print(form.errors)
+    else:
+        try:
+            rm = get_object_or_404(Resume,tracking=tracking)
+            form_data = {'professional_summary': rm.professional_summary}
+            form = ResumeForm(data=form_data)
+        except:
+            pass
+    context = {'form': form,'tracking':tracking }
+    return render(request, 'resume/resume_summary.html',context)
+
 
 def listWork(request,tracking):
     try:

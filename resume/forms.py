@@ -1,8 +1,17 @@
 from django import forms
 
 class ResumeForm(forms.Form):
-    title = forms.CharField(label='Title', max_length=100)
-    professional_summary = forms.CharField(label='Professional Summary',max_length=100)
+    title = forms.CharField(label='Title', max_length=100,required=False)
+    image = forms.ImageField(required=False)
+    # firstname = forms.CharField(label='firstname', max_length=100)
+    lastname = forms.CharField(label='lastname', max_length=100,required=False)
+    profession = forms.CharField(label='profession', max_length=100,required=False)
+    city = forms.CharField(label='city', max_length=100,required=False)
+    country = forms.CharField(label='country', max_length=100,required=False)
+    postalcode = forms.CharField(label='postalcode', max_length=100,required=False)
+    phone = forms.CharField(label='phone', max_length=100,required=False)
+    email = forms.EmailField(label='email', max_length=100,required=False)
+    professional_summary = forms.CharField(label='Professional Summary',max_length=100,required=False)
 
 class WorkForm(forms.Form):
     job_title = forms.CharField(label='job title',max_length=100)
