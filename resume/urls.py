@@ -8,7 +8,8 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('',views.home,name="resume-home"),
     path('create-basic/<str:tracking>',views.createBasic,name="create-basic"),
-    path('create-work/<str:tracking>',views.createWork,name="create-work"),
+    path('list-work/<str:tracking>',views.listWork,name="list-work"),
+    path('add-edit-work/<str:tracking>',views.addEditWork,name="add-edit-work"),
 
     # path('',views.home,name="resume-home"),
     # path('',views.home,name="resume-home"),

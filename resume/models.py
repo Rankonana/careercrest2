@@ -26,16 +26,6 @@ SOCIAL_CHOICES = (
 #     def __str__(self):
 #         return self.name
 
-class Education(models.Model):
-    resume = models.ForeignKey(Resume, on_delete=models.CASCADE, related_name='education')
-    degree = models.CharField(max_length=255)
-    major = models.CharField(max_length=255)
-    university = models.CharField(max_length=255)
-    graduation_date = models.DateField()
-
-    def __str__(self):
-        return self.degree + " " +self.university
-
 class WorkExperience(models.Model):
     resume = models.ForeignKey(Resume, on_delete=models.CASCADE, related_name='work_experience')
     job_title = models.CharField(max_length=255)
@@ -46,6 +36,16 @@ class WorkExperience(models.Model):
 
     def __str__(self):
         return self.job_title + " " + self.employer
+    
+class Education(models.Model):
+    resume = models.ForeignKey(Resume, on_delete=models.CASCADE, related_name='education')
+    degree = models.CharField(max_length=255)
+    major = models.CharField(max_length=255)
+    university = models.CharField(max_length=255)
+    graduation_date = models.DateField()
+
+    def __str__(self):
+        return self.degree + " " +self.university
 
 class Skill(models.Model):
     resume = models.ForeignKey(Resume, on_delete=models.CASCADE)

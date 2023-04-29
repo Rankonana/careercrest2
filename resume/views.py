@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 #from .forms import ResumeForm, WorkExperienceForm, EducationForm, SkillForm
-from .forms import ResumeForm
+from .forms import ResumeForm , WorkForm
 from django.shortcuts import render, redirect
 from .models import Resume, WorkExperience
 from django.db.models import Q
@@ -36,7 +36,7 @@ def createBasic(request,tracking):
                                        'title' : form.cleaned_data['title'],
                                        'professional_summary': form.cleaned_data['professional_summary']},
                             )
-            print(created)
+            return redirect('list-work',tracking=tracking)
         else:
             print(form.errors)
     else:
@@ -53,8 +53,19 @@ def createBasic(request,tracking):
     context = {'form': form }
     return render(request, 'resume/resume_basic.html',context)
 
-    
-def createWork(request,tracking):
+def listWork(request,tracking):
+    try:
+        resume = Resume.objects.get(tracking=tracking)
+        works = WorkExperience.objects.filter(
+            Q(resume = resume)
+            )
+        context = {'works': works}
+    except:
+        works = WorkExperience()
+        context = {'works': works}
+    return render(request, 'resume/resume_workList.html',context)
+
+def addEditWork(request,tracking):
     if request.method == 'POST':
         resume = Resume.objects.get(tracking=tracking)
         job_title = request.POST.get('job_title')
@@ -69,7 +80,7 @@ def createWork(request,tracking):
                                 end_date= end_date,
                                 job_description=job_description)
         work.save()
-        return redirect('create-work',tracking=tracking)
+        return redirect('list-work',tracking=tracking)
     else:
         try:
             resume = Resume.objects.get(tracking=tracking)
@@ -80,5 +91,4 @@ def createWork(request,tracking):
         except:
             works = WorkExperience()
             context = {'works': works}
-    return render(request, 'resume/resume_work.html',context)
-
+    return render(request, 'resume/resume_workList.html',context)
