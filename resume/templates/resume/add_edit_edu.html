@@ -1,6 +1,16 @@
+{% extends 'base-resume.html' %}
+{% block title %}Add/edit education{% endblock %}
+{% block content %}
+{% load static %}
+
+<div class="container">
+
 <form method="post">
     {% csrf_token %}
     {{form.as_p}}
-    <button type="submit">Save</button>
+    <button type="submit" class="btn btn-success">Save</button>
 </form>
-<a href="{% url 'list-edu' tracking %}"> Cancel</a>
+<a href="{% url 'list-edu' tracking %}" class="btn btn-danger"> Cancel</a>
+
+</div>
+{% endblock content %}

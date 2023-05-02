@@ -1,125 +1,226 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<title>CV Builder</title>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
-		<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.3/dist/jquery.slim.min.js"></script>
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-		<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-		<script src="https://jsuites.net/v4/jsuites.js"></script>
-		<link rel="stylesheet" href="https://jsuites.net/v4/jsuites.css" type="text/css" />
-		<style type="text/css">
+{% extends 'base-resume.html' %}
+{% block title %}Professional Summary{% endblock %}
+{% block content %}
+{% load static %}
 
-            .containerxx {
-            display: flex;
-            flex-direction: row;
-            }
+<div class="container">
 
 
-			.question {
-				width: 100%;
-				height: 100%;
-				border-radius: 10px;
-				padding: 50px;
-				text-align: center;
-				position: relative;
-				display: none;
-			}
-
-			.visible {
-				display: block;
-			}
-
-			.q-input,
-			.move {
-				margin: 10px;
-				border: none;
-				padding: 10px;
-			}
-
-			.move {
-				display: flex;
-				justify-content: space-between;
-			}
-
-			.move button {
-				padding: 5px;
-				font-size: 16px;
-				width: 60px;
-				border-radius: 5px;
-				border: none;
-				cursor: pointer;
-				transition: 0.4s;
-			}
-
-			.move button:hover {
-				box-shadow: -2px -2px 20px #fff;
-			}
-
-			.move button:focus {
-				outline: none;
-			}
-
-			/* Default styles for labels and inputs */
-			label,
-			input {
-				display: block;
-				margin-bottom: 10px;
-			}
-
-			/* Styles for mobile devices */
-			@media only screen and (max-width: 600px) {
-				input {
-					display: block;
-				}
-
-				label {
-					display: none;
-				}
-
-				input::placeholder {
-					font-size: 1.2em;
-				}
-			}
-
-			/* Styles for larger screens */
-			@media only screen and (min-width: 601px) {
-				input {
-					display: inline-block;
-					width: 50%;
-					margin-right: 10px;
-				}
-
-				label {
-					display: inline-block;
-					width: 40%;
-					margin-right: 10px;
-				}
-			}
-		</style>
-	</head>
-<body >
-    <div class="container">
-
-    <form method="post">
-        {% csrf_token %}
-                <div class="row">
-                    <div class="form-group">
-                        {{ form.professional_summary.label_tag }}
-                        {{ form.professional_summary }}
+<!-- ---------------- -->
+<div id="summary-information" class="question visible" style="display: block;">
+    <div>
+        <h1>Summary section</h1>
+    </div>
+    <div class="row">
+        <div class="col-md-7 summary-suggestions">
+            <label for="summary-suggestions-label" class="control-label">Search by job title for pre-written examples</label>
+            <div class="row">
+                <div class="col-10">
+                    <input type="search" name="summary-search-box" id="summary-search-box" class="form-control" placeholder="Title, industry, keyword">
+                    <ul id="search-suggestions"></ul>
+                </div>
+                <div class="col-2">
+                    <button type="button" id="btn-title-search" class="btn btn-primary" title="search"> Search</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-5">
+                    <div id="related-popular"></div>
+                </div>
+                <div class="col-7">
+                    <label for="summary-label" class="control-label">Showing results for : <p id="jobtitledisplay" style="font-weight: bold;"></p>
+                    </label>
+                    <div id="loading">Loading...</div>
+                    <div id="suggestions">
+                        <ul id="result-list"></ul>
                     </div>
                 </div>
-        <button type="submit">Save And Next</button>
-    </form>
+            </div>
+        </div>
+        <div class="col-md-5 skills">
+            <label for="summary-label" class="control-label">Briefly tell us about your background</label>
+            <div class="form-group">
+                <form method="post">
+                    {% csrf_token %}
+                            <div class="row">
+                                <div class="form-group">
+                                    {{ form.professional_summary }}
+                                </div>
+                            </div>
+                    <button type="submit" class="btn btn-danger">Save And Next</button>
+                </form>
+            </div>
+        </div>
     </div>
-</body>
-</html>
+    <!-- start button  -->
+    <div class="row">
+        <div class="col-6">
+            <a href="{% url 'create-basic' tracking %}" class="btn btn-outline-primary"> Back</a>
+
+        </div>
+        <div class="col-6">
+            <a href="{% url 'list-edu' tracking %}" class="btn btn-danger"> Next</a>
+        </div>
+    </div>
+    <!-- end button  -->
+</div>
+</div>    
+
+<!-- script for summary start -->
+<script id="for-summary-search-titles">
+    $(document).ready(function() {
+                $('#search-box').keyup(function() {
+                        var query = $('#search-box').val();
+                        if (query.length > 0) {
+                            $.ajax({
+                                    url: 'http://localhost/summary-job-titles.php',
+                                    type: 'POST',
+                                    dataType: 'json',
+                                    data: {
+                                        search_query: query
+                                    },
+                                    success: function(data) {
+                                        $('#search-suggestions').empty();
+                                        if (data.length > 0) {
+                                            $.each(data, function(index, value) {
+                                                    $('#search-suggestions').append(' < li > '+value.title+' < /li>');
+                                                    }); $('#search-suggestions').show();
+                                            }
+                                        }
+                                    });
+                            }
+                            else {
+                                $('#search-suggestions').hide();
+                            }
+                        }); $('#search-suggestions').on('click', 'li', function() {
+                        var suggestion = $(this).text();
+                        $('#search-box').val(suggestion);
+                        $('#search-suggestions').hide();
+                        // added start 
+                        var query = suggestion;
+                        if (query.length > 0) {
+                            $.ajax({
+                                url: 'http://localhost/summary-job-titles.php',
+                                type: 'POST',
+                                dataType: 'json',
+                                data: {
+                                    search_query: query
+                                },
+                                success: function(data) {
+                                    if (data[0].relatedJobTitles.length > 0) {
+                                        var relatedJobTitles = data[0].relatedJobTitles;
+                                        var relatedJobTitlesList = " < ul > ";
+                                        relatedJobTitles.forEach(function(title) {
+                                            relatedJobTitlesList += " < li style = 'font-size:0.875em' > "  + " < a href = '#' > " + title + " < /a>" + " < /li>";
+                                        });
+                                        relatedJobTitlesList += " < /ul>";
+                                        var html = " < p > < strong > Related job titles: < /strong> < /p>" + relatedJobTitlesList;
+                                        $("#related-popular").html(html);
+                                    } else {
+                                        $('#related-popular').empty();
+                                        if (data.length > 0) {
+                                            var popular = " < ol > ";
+                                            $.each(data, function(index, value) {
+                                                popular += " < li > " + value.title + " < /li>";
+                                            });
+                                            popular += " < /ol>";
+                                            var html = " < p > < strong > Popular job titles: < /strong> < /p>" +  " < a href = '#' > " + popular + " < /a>" ;
+                                            $("#related-popular").html(html);
+                                        }
+                                    }
+                                }
+                            });
+                            //adding event ha
+                            // add a click event handler to the links-container element
+                            $('#related-popular').on('click', 'a', function(event) {
+                                // prevent the default behavior of following the link
+                                event.preventDefault();
+                                // handle the click event here
+                                var searchValue = $(this).text();
+                                $("#search-box").val(searchValue);
+                                searchsummary();
+                            });
+                            //adding event ha
+                        } else {
+                            $('#search-suggestions').hide();
+                        }
+                        // added end 
+                    });
+                });
+</script>
+<script id="for-summary-search-summary">
+    const searchBox = document.getElementById("summary-search-box");
+    const searchBtn = document.getElementById("btn-title-search");
+    searchBox.addEventListener("keypress", function(event) {
+        if (event.key === "Enter") {
+            searchsummary();
+        }
+    });
+    searchBtn.addEventListener("click", searchsummary);
+
+    function searchsummary() {
+        const searchBtn = document.getElementById('btn-title-search');
+        const searchInput = document.getElementById('summary-search-box');
+        const resultsDiv = document.getElementById("suggestions");
+        const resultList = document.getElementById('result-list');
+        const loading = document.getElementById('loading');
+        const jobtitledisplay = document.getElementById("jobtitledisplay");
+        jobtitledisplay.textContent = searchBox.value;
+        const url = `http://localhost/job-summary-suggestions.php/?search_query=${searchInput.value}`;
+        loading.style.display = 'block';
+        fetch(url).then(response => response.json()).then(data => {
+            resultList.innerHTML = '';
+            data.result.forEach(result => {
+                const li = document.createElement('li');
+                const button = document.createElement('button');
+                button.classList.add("btn");
+                button.classList.add("btn-primary");
+                button.innerText = 'Add';
+                button.setAttribute("id", "addremovesummary");
+                let span = document.createElement('div');
+                span.innerHTML = result.text;
+                li.appendChild(button);
+                li.appendChild(span);
+                resultList.appendChild(li);
+                //add remove button
+                // Get the button and textarea elements
+                //const myButton = document.getElementById("myButton");
+                const myTextarea = document.getElementById("id_professional_summary");
+                // Add a click event listener to the button
+                button.addEventListener("click", function() {
+                    // Copy the text from the input element to the textarea
+                    const text = this.nextElementSibling.textContent.trim() + " ";
+                    const myInput = text;
+                    myTextarea.value += text;
+                    button.textContent = "REMOVE";
+                    // Toggle the button color between danger and primary
+                    if (button.classList.contains("btn-danger")) {
+                        button.classList.remove("btn-danger");
+                        button.classList.add("btn-primary");
+                        button.textContent = "ADD";
+                        const start = myTextarea.value.indexOf(myInput);
+                        const end = start + myInput.length;
+                        // Remove the copied text from the textarea
+                        myTextarea.value = myTextarea.value.substring(0, start) + myTextarea.value.substring(end);
+                        myTextarea.value = myTextarea.value.replace(myInput, "");
+                    } else {
+                        button.classList.remove("btn-primary");
+                        button.classList.add("btn-danger");
+                    }
+                });
+                //add remove button
+            });
+            loading.style.display = 'none';
+        }).catch(error => {
+            console.error(error);
+            loading.style.display = 'none';
+        });
+    }
+</script>
+<!-- script for summary end -->
+
+{% endblock content %}
+
+
+
 

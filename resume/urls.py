@@ -21,16 +21,7 @@ urlpatterns = [
 
 
 
-    # path('',views.home,name="resume-home"),
-    # path('',views.home,name="resume-home"),
-    # path('',views.home,name="resume-home"),
-    # path('',views.home,name="resume-home"),
-    # path('',views.home,name="resume-home"),
-    # path('',views.home,name="resume-home"),
-    # path('',views.home,name="resume-home"),
-    # path('',views.home,name="resume-home"),
-    # path('',views.home,name="resume-home"),
-    # path('',views.home,name="resume-home"),
+
 
 ]
 

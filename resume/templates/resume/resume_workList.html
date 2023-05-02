@@ -1,14 +1,33 @@
-<h2>Work Information</h2>
+{% extends 'base-resume.html' %}
+{% block title %}Work History{% endblock %}
+{% block content %}
+{% load static %}
 
-{% for obj in works %}
-    {{obj.id}}--{{ obj.job_title }}, {{ obj.employer }},{{ obj.start_date }}
-   <a href="{% url 'addeditwork' tracking obj.worktracking  %}"> Edit</a>
-   <a href="{% url 'deletework' tracking obj.worktracking  %}"> Delete</a>
+<div class="container">
+    <h2>Work History</h2>
 
-   <hr>
-{% endfor %}
+    {% for obj in works %}
+        {{obj.id}}--{{ obj.job_title }}, {{ obj.employer }},{{ obj.start_date }}
+       <a href="{% url 'addeditwork' tracking obj.worktracking  %}"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a>
+       <a href="{% url 'deletework' tracking obj.worktracking  %}" style='color:red'><i class='fa fa-trash-o' ></i> delete</a>
+    
+       <hr>
+    {% endfor %}
+    
+    <a href="{% url 'addeditwork' tracking newone  %}" class="btn btn-outline-primary"> + Add new one</a>
+    
+    <div class="row">
+        <div class="col-6">
+            <a href="{% url 'create-basic' tracking %}" class="btn btn-outline-primary"> Back</a>
+        </div>
+        <div class="col-6">
+            <a href="{% url 'list-edu' tracking %}" class="btn btn-danger"> Next</a>
+        </div>
+    </div>
+</div>    
 
-<a href="{% url 'addeditwork' tracking newone  %}"> Add new one</a>
+{% endblock content %}
 
-<a href="{% url 'create-basic' tracking %}"> Back</a>
-<a href="{% url 'list-edu' tracking %}"> Next</a>
+
+
+
