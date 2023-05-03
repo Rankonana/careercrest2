@@ -1,5 +1,5 @@
 {% extends 'base-resume.html' %}
-{% block title %}Add/edit work{% endblock %}
+{% block title %}Add/edit Own{% endblock %}
 {% block content %}
 {% load static %}
 
@@ -10,7 +10,7 @@
         {{form.as_p}}
         <button type="submit"  class="btn btn-success">Save</button>
     </form>
-    <a href="{% url 'list-work' tracking %}" class="btn btn-danger"> Cancel</a>
+    <a href="{% url 'list-yourown' tracking %}" class="btn btn-danger"> Cancel</a>
 </div>    
 
 {% endblock content %}

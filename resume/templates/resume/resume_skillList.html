@@ -1,0 +1,32 @@
+{% extends 'base-resume.html' %}
+{% block title %}Add/edit skills{% endblock %}
+{% block content %}
+{% load static %}
+
+<div class="container">
+    <h2>Skills</h2>
+
+    {% for obj in skills %}
+        {{obj.id}}--{{ obj.skill_name }}, {{ obj.proficiency }}
+       <a href="{% url 'addeditSkill' tracking obj.skilltracking  %}"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a>
+       <a href="{% url 'deleteskill' tracking obj.skilltracking  %}"style='color:red'><i class='fa fa-trash-o' ></i>  Delete</a>
+    
+       <hr>
+    {% endfor %}
+    
+    <a href="{% url 'addeditSkill' tracking newone  %}" class="btn btn-outline-primary"> + Add new one</a>
+
+    
+    <div class="row">
+        <div class="col-6">
+            <a href="{% url 'list-work' tracking %}" class="btn btn-outline-primary"> Back</a>
+        </div>
+        <div class="col-6">
+            <a href="{% url 'list-work' tracking %}" class="btn btn-danger"> Next</a>
+        </div>
+    </div>
+</div>    
+
+{% endblock content %}
+
+

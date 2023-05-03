@@ -1,0 +1,32 @@
+{% extends 'base-resume.html' %}
+{% block title %}Add/edit Your own{% endblock %}
+{% block content %}
+{% load static %}
+
+<div class="container">
+    <h2>Your own</h2>
+
+    {% for obj in yourowns %}
+        {{obj.id}}--{{ obj.yourown_name }}
+       <a href="{% url 'addeditYourown' tracking obj.yourowntracking  %}"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a>
+       <a href="{% url 'deleteyourown' tracking obj.yourowntracking  %}"style='color:red'><i class='fa fa-trash-o' ></i>  Delete</a>
+    
+       <hr>
+    {% endfor %}
+    
+    <a href="{% url 'addeditYourown' tracking newone  %}" class="btn btn-outline-primary"> + Add new one</a>
+
+    
+    <div class="row">
+        <div class="col-6">
+            <a href="{% url 'list-language' tracking %}" class="btn btn-outline-primary"> Back</a>
+        </div>
+        <div class="col-6">
+            <a href="{% url 'list-language' tracking %}" class="btn btn-danger"> Next</a>
+        </div>
+    </div>
+</div>    
+
+{% endblock content %}
+
+

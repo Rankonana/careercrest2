@@ -1,0 +1,32 @@
+{% extends 'base-resume.html' %}
+{% block title %}Add/edit Interest{% endblock %}
+{% block content %}
+{% load static %}
+
+<div class="container">
+    <h2>Interests</h2>
+
+    {% for obj in interests %}
+        {{obj.id}}--{{ obj.interest_name }}
+       <a href="{% url 'addeditInterest' tracking obj.interesttracking  %}"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a>
+       <a href="{% url 'deleteinterest' tracking obj.interesttracking  %}"style='color:red'><i class='fa fa-trash-o' ></i>  Delete</a>
+    
+       <hr>
+    {% endfor %}
+    
+    <a href="{% url 'addeditInterest' tracking newone  %}" class="btn btn-outline-primary"> + Add new one</a>
+
+    
+    <div class="row">
+        <div class="col-6">
+            <a href="{% url 'list-interest' tracking %}" class="btn btn-outline-primary"> Back</a>
+        </div>
+        <div class="col-6">
+            <a href="{% url 'list-interest' tracking %}" class="btn btn-danger"> Next</a>
+        </div>
+    </div>
+</div>    
+
+{% endblock content %}
+
+

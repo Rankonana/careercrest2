@@ -36,3 +36,38 @@ class EduForm(forms.Form):
     edu_description = forms.CharField(label='Description:',
                                            widget=forms.Textarea(attrs={'cols': 50, 'rows': 10})
                                            )
+class SkillForm(forms.Form):
+    skill_name = forms.CharField(label='skill name',max_length=100)
+    proficiency = forms.CharField(label='proficiency',max_length=100)
+
+class LanguageForm(forms.Form):
+    language_name = forms.CharField(label='language name',max_length=100)
+    proficiency = forms.CharField(label='proficiency',max_length=100)
+
+class InterestForm(forms.Form):
+    interest_name = forms.CharField(label='Interest name',max_length=100)
+
+class AccomplishmentForm(forms.Form):
+    accomplishments = forms.CharField(label='Accomplishment',max_length=100)
+    proficiency = forms.CharField(label='proficiency',max_length=100)
+
+class AffiliationForm(forms.Form):
+    affiliations = forms.CharField(label='Affiliations: ',max_length=100)
+
+class AddsForm(forms.Form):
+    additionalinformation = forms.CharField(label='Additional Information: ',max_length=100)
+
+class SoftwareForm(forms.Form):
+    software_name = forms.CharField(label='Software name',max_length=100)
+    proficiency = forms.CharField(label='proficiency',max_length=100)
+
+class CertificationForm(forms.Form):
+    certification_name = forms.CharField(label='Certification name',max_length=100)
+    certification_date =  forms.DateField(label='certification date')
+
+class YourownForm(forms.Form):
+    yourown_name = forms.CharField(label='Your own: ',max_length=100)
+
+class SoftwareForm(forms.Form):
+    software_name = forms.CharField(label='Software name',max_length=100)
+    proficiency = forms.CharField(label='proficiency',max_length=100)
