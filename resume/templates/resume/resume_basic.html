@@ -1,31 +1,158 @@
-{% extends 'base-resume.html' %}
+{% extends 'base-resume-create.html' %}
 {% block title %}Header{% endblock %}
 {% block content %}
 {% load static %}
-    <!-- <form method="post">
-        {% csrf_token %}
-                <div class="row">
-                    <div class="form-group">
-                        {{ form.title.label_tag }}
-                        {{ form.title }}
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group">
-                        {{ form.professional_summary.label_tag }}
-                        {{ form.professional_summary }}
-                    </div>
-                    
-                </div>
-        <button type="submit">Save And Next</button>
-    </form> -->
 <div class="container">
 
-	<form method="post">
-		{% csrf_token %}
-		{{ form.as_p }}
-		<button type="submit" class="btn btn-danger">Save And Next</button>
-	</form>
+    <form  method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="row">
+            <div class="col-md-2">
+                  
+                {% if image %}
+                <img src="{{ image.url }}" alt="Sample Image for Photo Upload" id="uploadimage" class="img-fluid">
+                {% else %}
+                <img src="http://127.0.0.1:8000/media/NoImage.jpg" alt="Sample Image for Photo Upload" id="uploadimage" class="img-fluid">
+                {% endif %}
+
+                    <div class="form-group">
+                        {{ form.image.label_tag }}
+                        {{ form.image }}
+                    </div>
+                    <button type="submit" class="btn btn-primary">Upload</button>
+
+            </div>
+            <div class="col-md-8">
+                    <div class="row">
+                        <div class="col-2">
+                            <div class="form-group">
+                                {{ form.title.label_tag }}
+                                {{ form.title }}
+                            </div>
+                        </div>
+                        <div class="col-5">
+                            <div class="form-group">
+                                {{ form.firstname.label_tag }}
+                                {{ form.firstname }}
+                            </div>
+                        </div>
+                        <div class="col-5">
+                            <div class="form-group">
+                                {{ form.lastname.label_tag }}
+                                {{ form.lastname }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                {{ form.profession.label_tag }}
+                                {{ form.profession }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                {{ form.city.label_tag }}
+                                {{ form.city }}
+                            </div>
+                        </div>
+                        <div class="col-6 col-xl-3">
+                            <div class="form-group">
+                                {{ form.country.label_tag }}
+                                {{ form.country }}
+                            </div>
+                        </div>
+                        <div class="col-6 col-xl-3">
+                            <div class="form-group">
+                                {{ form.postalcode.label_tag }}
+                                {{ form.postalcode }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                {{ form.phone.label_tag }}
+                                {{ form.phone }}
+                        </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                {{ form.email.label_tag }}
+                                {{ form.email }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="social-media">Social Media:</label>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="email">Social Link:</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% for obj in socials %}
+                    {{obj.id}}--{{ obj.name }}, {{ obj.url }}
+                   <a href="{% url 'addeditSocial' tracking obj.socialtracking  %}"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a>
+                   <a href="{% url 'deletesocial' tracking obj.socialtracking  %}"style='color:red'><i class='fa fa-trash-o' ></i>  Delete</a>
+                
+                   <hr>
+                    {% endfor %}
+
+                    <!-- Button to Open the Modal -->
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+    Open modal
+  </button>
+
+  <!-- The Modal -->
+  <div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Modal Heading</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+          Modal body..
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+                    
+                   
+                    <a href="{% url 'addeditSocial' tracking socialtracking  %}" class="btn btn-outline-primary"> + Add new one</a>
+
+            </div>
+            <div class="col-md-2">
+                <div class="col">
+                    <img src="http://127.0.0.1:8000/media/resume-preview.jpg" class="img-fluid" alt="Image">
+                </div>
+                <button type="button" class="btn btn-primary">Change Template</button>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-danger">Save And Next</button>
+
+    </form>
+        
+
 </div>
 {% endblock content %}
 

@@ -1,0 +1,39 @@
+{% extends 'base-resume.html' %}
+
+{% block content %}
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+<div class="container">
+
+{% if page == 'login' %}    
+<form  method="post">
+    {% csrf_token %}
+    <div class="form-group">
+        <input type="text" class="form-control" name="username" placeholder="username" required="required">
+    </div>
+    <div class="form-group">
+        <input type="password" class="form-control" name="password" placeholder="Password" required="required">
+    </div>
+    <input type="submit" class="btn btn-primary btn-block" value="Login">
+    <div class="text-center mt-2">
+        <p>Haven't signed up yet</p>
+        <a href="{% url 'register' %}"> Sign up !!</a>
+    </div>
+</form>
+{% else %}
+<form  method="post">
+    {% csrf_token %}
+    <p class="hint-text">Fill in this form to create your account!</p>
+    {{usercreattionform.as_p}}
+    <input type="submit" class="btn btn-primary btn-block" value="Sign up">
+</form>
+{% endif %}
+</div>
+
+{% endblock content %}

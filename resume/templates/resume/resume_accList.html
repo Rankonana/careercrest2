@@ -1,4 +1,4 @@
-{% extends 'base-resume.html' %}
+{% extends 'base-resume-create.html' %}
 {% block title %}Add/edit Interest{% endblock %}
 {% block content %}
 {% load static %}
@@ -7,7 +7,7 @@
     <h2>Accomplishments</h2>
 
     {% for obj in accomplishments %}
-        {{obj.id}}--{{ obj.accomplishments }}, {{ obj.proficiency }}
+        {{obj.id}}--{{ obj.accomplishments }}
        <a href="{% url 'addeditAccomplishment' tracking obj.accomplishmenttracking  %}"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a>
        <a href="{% url 'deleteaccomplishment' tracking obj.accomplishmenttracking  %}"style='color:red'><i class='fa fa-trash-o' ></i>  Delete</a>
     

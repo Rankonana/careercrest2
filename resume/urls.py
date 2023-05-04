@@ -7,9 +7,20 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('',views.home,name="resume-home"),
+    path('login/',views.loginPage,name="login"),
+    path('logout/',views.logoutUser,name="logout"),
+    path('register/',views.registerPage,name="register"),
+    path('account/',views.myAccount,name="account"),
+
+
     path('create-basic/<str:tracking>',views.createBasic,name="create-basic"),
 
     path('create-summary/<str:tracking>',views.createSummary,name="create-summary"),
+
+    path('list-social/<str:tracking>',views.listSocial,name="list-social"),
+    path('add-edit-social/<str:tracking>/<str:socialtracking>',views.addeditSocial,name="addeditSocial"),
+    path('delete-social/<str:tracking>/<str:socialtracking>',views.deleteSocial,name="deletesocial"),
+
 
     path('list-work/<str:tracking>',views.listWork,name="list-work"),
     path('add-edit-work/<str:tracking>/<str:worktracking>',views.addEditWork,name="addeditwork"),
@@ -22,6 +33,7 @@ urlpatterns = [
     path('list-skill/<str:tracking>',views.listSkill,name="list-skill"),
     path('add-edit-skill/<str:tracking>/<str:skilltracking>',views.addeditSkill,name="addeditSkill"),
     path('delete-skill/<str:tracking>/<str:skilltracking>',views.deleteSkill,name="deleteskill"),
+
 
     path('list-language/<str:tracking>',views.listLanguage,name="list-language"),
     path('add-edit-language/<str:tracking>/<str:languagetracking>',views.addeditLanguage,name="addeditLanguage"),

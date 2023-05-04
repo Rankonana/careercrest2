@@ -7,10 +7,10 @@ from django.db.models import Q
 import random
 import string
 from django.shortcuts import get_object_or_404
-
-
-
-
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib import messages
 
 # Create your views here.
 def generate_random_string(length=10):
@@ -20,37 +20,105 @@ def generate_random_string(length=10):
 
 def home(request):
     tracking = generate_random_string(20)
-    return render(request, 'resume/resume_home.html',{'tracking': tracking})
-    
+    context = {'tracking': tracking }
+    return render(request, 'resume/resume_home.html',context)
+
+def loginPage(request):
+    page = 'login'
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        try:
+            user  = User.objects.get(username=username)
+        except:
+            messages.error(request,'User does not exist')
+        user = authenticate(request,username=username,password=password)
+
+        if user is not None:
+            login(request,user)
+            return redirect('resume-home')
+        else:
+            messages.error(request,'Username or password is wrong')
+    tracking = generate_random_string(20)
+    context = {'page': page,'tracking': tracking}
+    return render(request, 'resume/login_register.html',context)
+
+
+def registerPage(request):
+    usercreattionform = UserCreationForm()
+    if request.method == 'POST':
+        usercreattionform =  UserCreationForm(request.POST)
+        if usercreattionform.is_valid():
+            user = usercreattionform.save(commit=False)
+            user.username = user.username.lower()
+            user.save()
+            login(request,user)
+            return redirect('resume-home')
+        else:
+            messages.error(request,'An error occured during registration')
+    tracking = generate_random_string(20)
+    context = {'usercreattionform': usercreattionform,'tracking': tracking}
+    return render(request, 'resume/login_register.html',context)
+
+
+def logoutUser(request):
+    logout(request)
+    return redirect('resume-home')
+
+def myAccount(request):
+    tracking = generate_random_string(20)
+    context = {'tracking': tracking}
+    return render(request, 'resume/my_account.html',context)
+
 def createBasic(request,tracking):
     form = ResumeForm()
+    xd = None
     if request.method == "POST":
-        form = ResumeForm(request.POST)
+        form = ResumeForm(request.POST,request.FILES)
         if form.is_valid():
             print(form.cleaned_data)
+            if not form.cleaned_data['image']:
+                defaults = {
+                    'user': request.user,
+                    'title': form.cleaned_data['title'],
+                    'firstname': form.cleaned_data['firstname'],
+                    'lastname': form.cleaned_data['lastname'],
+                    'profession': form.cleaned_data['profession'],
+                    'city': form.cleaned_data['city'],
+                    'country': form.cleaned_data['country'],
+                    'postalcode': form.cleaned_data['postalcode'],
+                    'phone': form.cleaned_data['phone'],
+                    'email': form.cleaned_data['email']
+                }
+            else:
+                defaults = {
+                    'user': request.user,
+                    'image': form.cleaned_data['image'],
+                    'title': form.cleaned_data['title'],
+                    'firstname': form.cleaned_data['firstname'],
+                    'lastname': form.cleaned_data['lastname'],
+                    'profession': form.cleaned_data['profession'],
+                    'city': form.cleaned_data['city'],
+                    'country': form.cleaned_data['country'],
+                    'postalcode': form.cleaned_data['postalcode'],
+                    'phone': form.cleaned_data['phone'],
+                    'email': form.cleaned_data['email']
+                }
             resume, created = Resume.objects.update_or_create(
-                            tracking = tracking,
-                            defaults={
-                                       'user': request.user,
-                                       'title' : form.cleaned_data['title'],
-                                       'lastname': form.cleaned_data['lastname'],
-                                       'profession': form.cleaned_data['profession'],
-                                       'city': form.cleaned_data['city'],
-                                       'country': form.cleaned_data['country'],
-                                       'postalcode': form.cleaned_data['postalcode'],
-                                       'phone': form.cleaned_data['phone'],
-                                       'email': form.cleaned_data['email']
-
-                                       },
-                            )
-            return redirect('list-work',tracking=tracking)
+                                        tracking=tracking,
+                                        defaults=defaults
+                                    )
+            return redirect('create-basic',tracking=tracking)
 
         else:
             print(form.errors)
     else:
         try:
             rm = get_object_or_404(Resume,tracking=tracking)
-            form_data = {'title': rm.title,'lastname': rm.lastname,
+            xd = rm.image
+            form_data = {'title': rm.title,
+                         'image': rm.image,
+                          'firstname': rm.firstname,
                           'lastname': rm.lastname,
                           'profession': rm.profession,
                           'city': rm.city,
@@ -63,8 +131,18 @@ def createBasic(request,tracking):
             form = ResumeForm(data=form_data)
         except:
             pass
-    context = {'form': form,'tracking':tracking }
+    socialtracking = generate_random_string(10)
+    socials  = None
+    try:
+        resume = Resume.objects.get(tracking=tracking)
+        socials = SocialLink.objects.filter(
+                Q(resume = resume)
+                )
+    except:
+        pass
+    context = {'form': form,'tracking':tracking,'image': xd,'socials':socials ,'socialtracking': socialtracking}
     return render(request, 'resume/resume_basic.html',context)
+
 
 def createSummary(request,tracking):
     form = ResumeForm()
@@ -92,6 +170,56 @@ def createSummary(request,tracking):
             pass
     context = {'form': form,'tracking':tracking }
     return render(request, 'resume/resume_summary.html',context)
+
+def listSocial(request,tracking):
+    try:
+        resume = Resume.objects.get(tracking=tracking)
+        socials = SocialLink.objects.filter(
+            Q(resume = resume)
+            )
+        if socials:
+            print("big e")
+        else:
+            socialtracking = generate_random_string(10)
+            return redirect('list-social',tracking,socialtracking)
+        context = {'socials': socials,'tracking': tracking,'socialtracking':socialtracking}
+    except:
+        newone = generate_random_string(10)
+        context = {'socials': socials,'tracking': tracking,'newone': newone}
+    return render(request, 'resume/resume_socialList.html',context)
+
+def addeditSocial(request,tracking,socialtracking):
+    form = SocialForm()
+    if request.method == 'POST':
+        form = SocialForm(request.POST)
+        if form.is_valid():
+            rm = Resume.objects.get(tracking=tracking)
+            social, created = SocialLink.objects.update_or_create(
+                            socialtracking = socialtracking,
+                            defaults={
+                                       'resume': rm,
+                                       'name' : form.cleaned_data['name'],
+                                       'url' : form.cleaned_data['url']
+                                       },
+                            )
+            return redirect('create-basic',tracking=tracking)
+    else:
+        try:
+            ed = get_object_or_404(SocialLink,socialtracking=socialtracking)
+            form_data = {'name': ed.name,
+                          'url': ed.url                          }
+            print(form_data)
+            form = SocialForm(data=form_data)
+        except:
+            pass
+    context = {'form': form,'tracking':tracking}
+    return render(request, 'resume/add_edit_Social.html',context)
+
+def deleteSocial(request,tracking,socialtracking):
+    sk = SocialLink.objects.get(socialtracking=socialtracking)
+    sk.delete()
+    return redirect('create-basic',tracking=tracking)
+
 
 def listWork(request,tracking):
     try:
@@ -383,8 +511,7 @@ def addeditAccomplishment(request,tracking,accomplishmenttracking):
                             accomplishmenttracking = accomplishmenttracking,
                             defaults={
                                        'resume': rm,
-                                       'accomplishments' : form.cleaned_data['accomplishments'],
-                                       'proficiency' : form.cleaned_data['proficiency']
+                                       'accomplishments' : form.cleaned_data['accomplishments']
 
                                        },
                             )
@@ -392,7 +519,7 @@ def addeditAccomplishment(request,tracking,accomplishmenttracking):
     else:
         try:
             ed = get_object_or_404(Accomplishments,accomplishmenttracking=accomplishmenttracking)
-            form_data = {'accomplishments': ed.accomplishments,'proficiency': ed.proficiency}
+            form_data = {'accomplishments': ed.accomplishments}
             print(form_data)
             form = AccomplishmentForm(data=form_data)
         except:

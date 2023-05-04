@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser, AnonymousUser
 from django.db import models
 
 # class CustomUser(AbstractUser):
@@ -8,8 +9,8 @@ from django.db import models
 class Resume(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=200,null=True,blank=True)
-    image = models.ImageField(null=True,blank=True)
-    # firstname = models.CharField(max_length=200,null=True,blank=True)
+    image = models.ImageField(default="NoImage.jpg",null=True,blank=True)
+    firstname = models.CharField(max_length=200,null=True,blank=True)
     lastname = models.CharField(max_length=200,null=True,blank=True)
     profession = models.CharField(max_length=200,null=True,blank=True)
     city = models.CharField(max_length=200,null=True,blank=True)
@@ -23,14 +24,11 @@ class Resume(models.Model):
     def __str__(self):
         return self.title
 
-SOCIAL_CHOICES = (
-    ('Twitter', 'LinkedIn'),
-    ('Github', 'Website'),
-    )
 class SocialLink(models.Model):
     resume = models.ForeignKey(Resume, on_delete=models.CASCADE, related_name='SocialLink')
-    name = models.CharField(max_length=20,choices=SOCIAL_CHOICES,default='Twitter')
+    name = models.CharField(max_length=200,null=True,blank=True)
     url = models.CharField(max_length=200,null=True,blank=True)
+    socialtracking = models.CharField(max_length=200,null=True,blank=True)
 
     def __str__(self):
         return self.name
@@ -83,11 +81,10 @@ class Summary(models.Model):
 class Accomplishments(models.Model):
     resume = models.ForeignKey(Resume, on_delete=models.CASCADE, related_name='accomplishment')
     accomplishments = models.CharField(max_length=200,null=True,blank=True)
-    proficiency = models.CharField(max_length=200,null=True,blank=True)
     accomplishmenttracking = models.CharField(max_length=200,null=True,blank=True)
 
     def __str__(self):
-        return self.accomplishments_name
+        return self.accomplishments
     
 class Affiliations(models.Model):
     resume = models.ForeignKey(Resume, on_delete=models.CASCADE, related_name='affiliation')

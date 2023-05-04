@@ -52,7 +52,13 @@ INSTALLED_APPS = [
     #Blog and Resume
     'blog.apps.BlogConfig',
     'resume.apps.ResumeConfig',
+
+    'crispy_forms',
+    'datetimepicker',
+
 ]
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 SITE_ID = 1
 
