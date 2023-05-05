@@ -1,4 +1,6 @@
 {% extends 'base-resume.html' %}
+{% block title %}Login/Register{% endblock %}
+
 {% load static %}
 {% load crispy_forms_tags %}
 
@@ -31,8 +33,8 @@
 {% else %}
 <form  method="post" class="form-group">
     {% csrf_token %}
-    <p class="hint-text">Fill in this form to create your account!</p>
-    {{ usercreattionform|crispy }}
+    <h1 class="hint-text">Fill in this form to create your account!</h1>
+    {{ form|crispy }}
 
     <input type="submit" class="btn btn-primary btn-block" value="Sign up">
 </form>

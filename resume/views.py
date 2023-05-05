@@ -45,11 +45,11 @@ def loginPage(request):
 
 
 def registerPage(request):
-    usercreattionform = UserCreationForm()
+    form = UserCreationForm()
     if request.method == 'POST':
-        usercreattionform =  UserCreationForm(request.POST)
-        if usercreattionform.is_valid():
-            user = usercreattionform.save(commit=False)
+        form =  UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
             user.username = user.username.lower()
             user.save()
             login(request,user)
@@ -57,7 +57,7 @@ def registerPage(request):
         else:
             messages.error(request,'An error occured during registration')
     tracking = generate_random_string(20)
-    context = {'usercreattionform': usercreattionform,'tracking': tracking}
+    context = {'form': form,'tracking': tracking}
     return render(request, 'resume/login_register.html',context)
 
 
@@ -75,7 +75,7 @@ def createBasic(request,tracking):
         print('good')
     else:
         print('not good')
-        u= User.objects.create_user(username='cdcd@gmail.com',password='Marea36*******',email='cdcd@gmail.com')
+        u= User.objects.create_user(username=tracking,password='Marea36*******',email='cdcd@gmail.com')
         u.save()
         login(request,u)
     form = ResumeForm()
