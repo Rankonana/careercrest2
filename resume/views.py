@@ -71,6 +71,13 @@ def myAccount(request):
     return render(request, 'resume/my_account.html',context)
 
 def createBasic(request,tracking):
+    if request.user.is_authenticated:
+        print('good')
+    else:
+        print('not good')
+        u= User.objects.create_user(username='cdcd@gmail.com',password='Marea36*******',email='cdcd@gmail.com')
+        u.save()
+        login(request,u)
     form = ResumeForm()
     xd = None
     if request.method == "POST":

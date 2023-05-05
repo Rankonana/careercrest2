@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'resume.apps.ResumeConfig',
 
     'crispy_forms',
+    'bootstrap4',
     'datetimepicker',
 
 ]

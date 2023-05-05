@@ -1,4 +1,6 @@
 {% extends 'base-resume.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
 
 {% block content %}
 {% if messages %}
@@ -27,10 +29,11 @@
     </div>
 </form>
 {% else %}
-<form  method="post">
+<form  method="post" class="form-group">
     {% csrf_token %}
     <p class="hint-text">Fill in this form to create your account!</p>
-    {{usercreattionform.as_p}}
+    {{ usercreattionform|crispy }}
+
     <input type="submit" class="btn btn-primary btn-block" value="Sign up">
 </form>
 {% endif %}
