@@ -91,7 +91,7 @@ class LanguageForm(forms.Form):
 
 class InterestForm(forms.Form):
     interest_name = forms.CharField(label='Interest',
-                    widget=forms.TextInput(attrs={'placeholder': 'Interest','class':'form-control'}),max_length=100)
+                    widget=forms.TextInput(attrs={'placeholder': 'Add your interest...','class':'form-control'}),max_length=100)
 
 class AccomplishmentForm(forms.Form):
     accomplishments = forms.CharField(label='Accomplishment',

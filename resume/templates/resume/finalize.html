@@ -273,9 +273,20 @@
             </div>
             <div class="row">
                 <ul id="list-interests-container"></ul>
+                
+                {% for obj in interests %}
+                    {{ obj.interest_name }}
+                    <a href="{% url 'addeditInterest' tracking obj.interesttracking  %}"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a>
+                    <a href="{% url 'deleteinterest' tracking obj.interesttracking  %}"style='color:red'><i class='fa fa-trash-o' ></i>  Delete</a>
+                    
+                    <hr>
+                {% endfor %}
+
             </div>
             <div class="row">
-                <a onclick="theaddmoreinterests()" class="btn btn-outline-primary"> + Add more Interests</a>
+                <!-- <a onclick="theaddmoreinterests()" class="btn btn-outline-primary"> + Add more Interests</a> -->
+                <a href="{% url 'addeditInterest' tracking newone  %}" class="btn btn-outline-primary"> + Add new one</a>
+
             </div>
             <button class="back-btn btn btn-primary">Back</button>
             <button class="next-btn btn btn-danger">Next</button>
@@ -286,7 +297,16 @@
             <div class="row">
                 <div class="col">
                     <div class="form-group">
-                        <textarea id="additional-info-description" name="additional-info-description" rows="6" cols="120" style="max-width:100%;" placeholder="Write your addtional information here"></textarea>
+                        <!-- <textarea id="additional-info-description" name="additional-info-description" rows="6" cols="120" style="max-width:100%;" placeholder="Write your addtional information here"></textarea> -->
+                        <form method="post" >
+                            {% csrf_token %}
+                                    <div class="row">
+                                        <div class="form-group">
+                                            {{ own_form.yourown_name }}
+                                        </div>
+                                    </div>
+                            <button type="submit" name="own_form_submit" class="btn btn-danger">Save And Next</button>
+                        </form>
                     </div>
                 </div>
             </div>

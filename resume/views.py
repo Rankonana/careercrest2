@@ -201,7 +201,7 @@ def listSocial(request,tracking):
     except:
         newone = generate_random_string(10)
         context = {'socials': socials,'tracking': tracking,'newone': newone}
-    return render(request, 'resume/resume_socialList.html',context)
+    return render(request, 'resume/resume_Listsocial.html',context)
 
 def addeditSocial(request,tracking,socialtracking):
     form = SocialForm()
@@ -247,7 +247,7 @@ def listWork(request,tracking):
         pass
     newone = generate_random_string(10)
     context = {'works': works,'tracking': tracking,'newone': newone}
-    return render(request, 'resume/resume_workList.html',context)
+    return render(request, 'resume/resume_Listwork.html',context)
 def addEditWork(request,tracking,worktracking):
     form = WorkForm()
     if request.method == 'POST':
@@ -366,7 +366,7 @@ def listSkill(request,tracking):
     except:
         newone = generate_random_string(10)
         context = {'skills': skills,'tracking': tracking,'newone': newone}
-    return render(request, 'resume/resume_skillList.html',context)
+    return render(request, 'resume/resume_Listskill.html',context)
 
 def addeditSkill(request,tracking,skilltracking):
     form = SkillForm()
@@ -416,7 +416,7 @@ def listLanguage(request,tracking):
     except:
         newone = generate_random_string(10)
         context = {'languages': languages,'tracking': tracking,'newone': newone}
-    return render(request, 'resume/resume_languageList.html',context)
+    return render(request, 'resume/resume_Listlanguage.html',context)
 
 def addeditLanguage(request,tracking,languagetracking):
     form = LanguageForm()
@@ -481,7 +481,7 @@ def addeditInterest(request,tracking,interesttracking):
                                        'interest_name' : form.cleaned_data['interest_name']
                                        },
                             )
-            return redirect('list-interest',tracking=tracking)
+            return redirect('finalize',tracking=tracking)
     else:
         try:
             ed = get_object_or_404(Interests,interesttracking=interesttracking)
@@ -496,7 +496,7 @@ def addeditInterest(request,tracking,interesttracking):
 def deleteInterest(request,tracking,interesttracking):
     sk = Interests.objects.get(interesttracking=interesttracking)
     sk.delete()
-    return redirect('list-interest',tracking=tracking)
+    return redirect('finalize',tracking=tracking)
 
 
 
@@ -662,7 +662,7 @@ def listSoftware(request,tracking):
     except:
         newone = generate_random_string(10)
         context = {'softwares': softwares,'tracking': tracking,'newone': newone}
-    return render(request, 'resume/resume_softwareList.html',context)
+    return render(request, 'resume/resume_Listsoftware.html',context)
 
 def addeditSoftware(request,tracking,softwaretracking):
     form = SoftwareForm()
@@ -762,7 +762,7 @@ def listYourown(request,tracking):
     except:
         newone = generate_random_string(10)
         context = {'yourowns': yourowns,'tracking': tracking,'newone': newone}
-    return render(request, 'resume/resume_ownList.html',context)
+    return render(request, 'resume/resume_Listown.html',context)
 
 def addeditYourown(request,tracking,yourowntracking):
     form = YourownForm()
@@ -798,6 +798,10 @@ def finalize(request,tracking):
     acc_form = AccomplishmentForm()
     aff_form = AffiliationForm()
     adds_form = AddsForm()
+    own_form = YourownForm()
+    
+    interests = None
+
 
     if request.method == 'POST':
         if 'acc_form_submit' in request.POST:
@@ -839,6 +843,19 @@ def finalize(request,tracking):
                                 )
             return redirect('finalize',tracking=tracking)
 
+        if 'own_form_submit' in request.POST:
+            form = YourownForm(request.POST)
+            if form.is_valid():
+                rm = Resume.objects.get(tracking=tracking)
+                yourown, created = YourOwn.objects.update_or_create(
+                                yourowntracking = tracking,
+                                defaults={
+                                        'resume': rm,
+                                        'yourown_name' : form.cleaned_data['yourown_name']
+                                        },
+                                )
+                return redirect('finalize',tracking=tracking)
+
 
     else:
         try:
@@ -861,5 +878,21 @@ def finalize(request,tracking):
             adds_form = AddsForm(data=adds_data)
         except:
             pass
-    context = {'tracking': tracking,'acc_form':  acc_form,'aff_form': aff_form,'adds_form': adds_form }
+
+        try:
+            ownjob = get_object_or_404(YourOwn,yourowntracking=tracking)
+            own_data = {'yourown_name': ownjob.yourown_name}
+            own_form = YourownForm(data=own_data)
+        except:
+            pass
+
+        try:
+            resume = Resume.objects.get(tracking=tracking)
+            interests = Interests.objects.filter(
+                Q(resume = resume)
+                )
+        except:
+            pass
+    newone = generate_random_string(10)
+    context = {'tracking': tracking,'acc_form':  acc_form,'aff_form': aff_form,'adds_form': adds_form,'own_form':own_form ,'interests': interests,'newone': newone}
     return render(request, 'resume/finalize.html',context)
