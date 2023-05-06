@@ -109,14 +109,14 @@
                     <div class="form-group">
                         <!-- <textarea id="summary-description-accomplishments" name="summary-description-accomplishments" rows="5" cols="120" style="max-width:100%;" placeholder="Type in your accomplishments here."></textarea> -->
                     
-                        <form method="post">
+                        <form method="post" >
                             {% csrf_token %}
                                     <div class="row">
                                         <div class="form-group">
-                                            {{ accform.accomplishments }}
+                                            {{ acc_form.accomplishments }}
                                         </div>
                                     </div>
-                            <button type="submit" class="btn btn-danger">Save And Next</button>
+                            <button type="submit" name="acc_form_submit" class="btn btn-danger">Save And Next</button>
                         </form>
                     </div>
                 </div>
@@ -158,7 +158,16 @@
                     <label for="summary-label" class="control-label">Nice! Now let's add your skills</label>
                     <div id="display-jog-title-employer-city"></div>
                     <div class="form-group">
-                        <textarea id="summary-description-affiliations" name="summary-description-affiliations" rows="5" cols="120" style="max-width:100%;" placeholder="Type in your skills here."></textarea>
+                        <!-- <textarea id="summary-description-affiliations" name="summary-description-affiliations" rows="5" cols="120" style="max-width:100%;" placeholder="Type in your skills here."></textarea> -->
+                        <form method="post" >
+                            {% csrf_token %}
+                                    <div class="row">
+                                        <div class="form-group">
+                                            {{ aff_form.affiliations }}
+                                        </div>
+                                    </div>
+                            <button type="submit" name="aff_form_submit" class="btn btn-danger">Save And Next</button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -170,7 +179,17 @@
             <div class="row">
                 <div class="col">
                     <div class="form-group">
-                        <textarea id="additional-info-description" name="additional-info-description" rows="6" cols="120" style="max-width:100%;" placeholder="Write your addtional information here"></textarea>
+                        <!-- <textarea id="additional-info-description" name="additional-info-description" rows="6" cols="120" style="max-width:100%;" placeholder="Write your addtional information here"></textarea> -->
+                    
+                        <form method="post" >
+                            {% csrf_token %}
+                                    <div class="row">
+                                        <div class="form-group">
+                                            {{ adds_form.additionalinformation }}
+                                        </div>
+                                    </div>
+                            <button type="submit" name="adds_form_submit" class="btn btn-danger">Save And Next</button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -433,6 +452,159 @@
 			}
 		</script>
 		<!-- script for accomplishments end -->
+
+        <!-- script for affiliations start -->
+		<script id="for-affiliations-job-titles">
+			$(document).ready(function() {
+						$('#search-box-affiliations').keyup(function() {
+								var query = $('#search-box-affiliations').val();
+								if (query.length > 0) {
+									$.ajax({
+											url: 'http://localhost/summary-job-titles.php',
+											type: 'POST',
+											dataType: 'json',
+											data: {
+												search_query: query
+											},
+											success: function(data) {
+												$('#search-suggestions-affiliations').empty();
+												if (data.length > 0) {
+													$.each(data, function(index, value) {
+															$('#search-suggestions-affiliations').append(' < li > '+value.title+' < /li>');
+															}); $('#search-suggestions-affiliations').show();
+													}
+												}
+											});
+									}
+									else {
+										$('#search-suggestions-affiliations').hide();
+									}
+								}); $('#search-suggestions-affiliations').on('click', 'li', function() {
+								var suggestion = $(this).text();
+								$('#search-box-affiliations').val(suggestion);
+								$('#search-suggestions-affiliations').hide();
+								// added start 
+								var query = suggestion;
+								if (query.length > 0) {
+									$.ajax({
+										url: 'http://localhost/summary-job-titles.php',
+										type: 'POST',
+										dataType: 'json',
+										data: {
+											search_query: query
+										},
+										success: function(data) {
+											if (data[0].relatedJobTitles.length > 0) {
+												var relatedJobTitles = data[0].relatedJobTitles;
+												var relatedJobTitlesList = " < ul > ";
+												relatedJobTitles.forEach(function(title) {
+													relatedJobTitlesList += " < li style = 'font-size:0.875em' > "  + " < a href = '#' > " + title + " < /a>" + " < /li>";
+												});
+												relatedJobTitlesList += " < /ul>";
+												var html = " < p > < strong > Related job titles: < /strong> < /p>" + relatedJobTitlesList;
+												$("#related-popular-affiliations").html(html);
+											} else {
+												$('#related-popular-affiliations').empty();
+												if (data.length > 0) {
+													var popular = " < ol > ";
+													$.each(data, function(index, value) {
+														popular += " < li > " + value.title + " < /li>";
+													});
+													popular += " < /ol>";
+													var html = " < p > < strong > Popular job titles: < /strong> < /p>" +  " < a href = '#' > " + popular + " < /a>" ;
+													$("#related-popular-affiliations").html(html);
+												}
+											}
+										}
+									});
+									//adding event ha
+									// add a click event handler to the links-container element
+									$('#related-popular-affiliations').on('click', 'a', function(event) {
+										// prevent the default behavior of following the link
+										event.preventDefault();
+										// handle the click event here
+										var searchValue = $(this).text();
+										$("#search-box-affiliations").val(searchValue);
+										searchsummary();
+									});
+									//adding event ha
+								} else {
+									$('#search-suggestions-affiliations').hide();
+								}
+								// added end 
+							});
+						});
+		</script>
+		<script id="for-affiliations-search-affiliations">
+			const searchBoxaffiliations = document.getElementById("search-box-affiliations");
+			const searchBtnaffiliations = document.getElementById("btn-title-search-affiliations");
+			searchBoxaffiliations.addEventListener("keypress", function(event) {
+				if (event.key === "Enter") {
+					searchsummaryaffiliations();
+				}
+			});
+			searchBtnaffiliations.addEventListener("click", searchsummaryaffiliations);
+
+			function searchsummaryaffiliations() {
+				const searchBtnaffiliations = document.getElementById('btn-title-search-affiliations');
+				const searchInputaffiliations = document.getElementById('search-box-affiliations');
+				const resultsDivaffiliations = document.getElementById("suggestions");
+				const resultListaffiliations = document.getElementById('result-list-affiliations');
+				const loadingaffiliations = document.getElementById('loading-affiliations');
+				const jobtitledisplayaffiliations = document.getElementById("jobtitledisplay-affiliations");
+				jobtitledisplayaffiliations.textContent = searchBoxaffiliations.value;
+				const urlaffiliations = `http://localhost/job-affiliations-suggestions.php/?search_query=${searchInputaffiliations.value}`;
+				loadingaffiliations.style.display = 'block';
+				fetch(urlaffiliations).then(response => response.json()).then(data => {
+					resultListaffiliations.innerHTML = '';
+					data.result.forEach(result => {
+						const liaffiliations = document.createElement('li');
+						const buttonaffiliations = document.createElement('button');
+						buttonaffiliations.classList.add("btn");
+						buttonaffiliations.classList.add("btn-primary");
+						buttonaffiliations.innerText = 'Add';
+						buttonaffiliations.setAttribute("id", "addremovesummary-affiliations");
+						let spanaffiliations = document.createElement('div');
+						spanaffiliations.innerHTML = result.text;
+						liaffiliations.appendChild(buttonaffiliations);
+						liaffiliations.appendChild(spanaffiliations);
+						resultListaffiliations.appendChild(liaffiliations);
+						//add remove button
+						// Get the button and textarea elements
+						//const myButton = document.getElementById("myButton");
+						const myTextareaaffiliations = document.getElementById("id_affiliations");
+						// Add a click event listener to the button
+						buttonaffiliations.addEventListener("click", function() {
+							// Copy the text from the input element to the textarea
+							const textaffiliations = this.nextElementSibling.textContent.trim();
+							const myInputaffiliations = textaffiliations;
+							myTextareaaffiliations.value += textaffiliations + " ";
+							buttonaffiliations.textContent = "REMOVE";
+							// Toggle the button color between danger and primary
+							if (buttonaffiliations.classList.contains("btn-danger")) {
+								buttonaffiliations.classList.remove("btn-danger");
+								buttonaffiliations.classList.add("btn-primary");
+								buttonaffiliations.textContent = "ADD";
+								const startaffiliations = myTextareaaffiliations.value.indexOf(myInputaffiliations);
+								const endaffiliations = startaffiliations + myInputaffiliations.length;
+								// Remove the copied text from the textarea
+								myTextareaaffiliations.value = myTextareaaffiliations.value.substring(0, startaffiliations) + myTextareaaffiliations.value.substring(endaffiliations);
+								myTextareaaffiliations.value = myTextareaaffiliations.value.replace(myInputaffiliations, "");
+							} else {
+								buttonaffiliations.classList.remove("btn-primary");
+								buttonaffiliations.classList.add("btn-danger");
+							}
+						});
+						//add remove button
+					});
+					loadingaffiliations.style.display = 'none';
+				}).catch(error => {
+					console.error(error);
+					loadingaffiliations.style.display = 'none';
+				});
+			}
+		</script>
+		<!-- script for affiliations end -->
     
 {% endblock content %}
 

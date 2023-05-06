@@ -795,27 +795,71 @@ def deleteYourown(request,tracking,yourowntracking):
     return redirect('list-yourown',tracking=tracking)
 
 def finalize(request,tracking):
-    accform = AccomplishmentForm()
-    if request.method == 'POST':
-        form = AccomplishmentForm(request.POST)
-        if form.is_valid():
-            rm = Resume.objects.get(tracking=tracking)
-            accomplishment, created = Accomplishments.objects.update_or_create(
-                            accomplishmenttracking = tracking,
-                            defaults={
-                                       'resume': rm,
-                                       'accomplishments' : form.cleaned_data['accomplishments']
+    acc_form = AccomplishmentForm()
+    aff_form = AffiliationForm()
+    adds_form = AddsForm()
 
-                                       },
+    if request.method == 'POST':
+        if 'acc_form_submit' in request.POST:
+            form = AccomplishmentForm(request.POST)
+            if form.is_valid():
+                rm = Resume.objects.get(tracking=tracking)
+                accomplishment, created = Accomplishments.objects.update_or_create(
+                                accomplishmenttracking = tracking,
+                                defaults={
+                                        'resume': rm,
+                                        'accomplishments' : form.cleaned_data['accomplishments']
+
+                                        },
+                                )
+                return redirect('finalize',tracking=tracking)
+        if 'aff_form_submit' in request.POST:
+            form = AffiliationForm(request.POST)
+            if form.is_valid():
+                rm = Resume.objects.get(tracking=tracking)
+                affiliation, created = Affiliations.objects.update_or_create(
+                                affiliationtracking = tracking,
+                                defaults={
+                                        'resume': rm,
+                                        'affiliations' : form.cleaned_data['affiliations']
+                                        },
                             )
             return redirect('finalize',tracking=tracking)
+        
+        if 'adds_form_submit' in request.POST:
+            form = AddsForm(request.POST)
+            if form.is_valid():
+                rm = Resume.objects.get(tracking=tracking)
+                add, created = AdditionalInformation.objects.update_or_create(
+                                additionalinfotracking = tracking,
+                                defaults={
+                                        'resume': rm,
+                                        'additionalinformation' : form.cleaned_data['additionalinformation']
+                                        },
+                                )
+            return redirect('finalize',tracking=tracking)
+
+
     else:
         try:
-            ed = get_object_or_404(Accomplishments,accomplishmenttracking=tracking)
-            form_data = {'accomplishments': ed.accomplishments}
-            print(form_data)
-            accform = AccomplishmentForm(data=form_data)
+            acc = get_object_or_404(Accomplishments,accomplishmenttracking=tracking)
+            form_data = {'accomplishments': acc.accomplishments}
+            acc_form = AccomplishmentForm(data=form_data)
         except:
             pass
-    context = {'tracking': tracking,'accform':  accform }
+
+        try:
+            aff = get_object_or_404(Affiliations,affiliationtracking=tracking)
+            aff_data = {'affiliations': aff.affiliations}
+            aff_form = AffiliationForm(data=aff_data)
+        except:
+            pass
+
+        try:
+            adob = get_object_or_404(AdditionalInformation,additionalinfotracking=tracking)
+            adds_data = {'additionalinformation': adob.additionalinformation}
+            adds_form = AddsForm(data=adds_data)
+        except:
+            pass
+    context = {'tracking': tracking,'acc_form':  acc_form,'aff_form': aff_form,'adds_form': adds_form }
     return render(request, 'resume/finalize.html',context)

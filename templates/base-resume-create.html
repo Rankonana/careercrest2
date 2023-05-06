@@ -356,6 +356,8 @@
 	 <script>
 		function savandget() {
 			// Get all form elements
+			// const formElements = document.querySelectorAll('input[type="text"], input[type="email"], input[type="number"], input[type="checkbox"],input[type="date"] ,input[type="radio"], select, textarea');
+
 			const formElements = document.querySelectorAll('input[type="checkbox"]');
 
 			// Loop through all form elements and add event listeners to save their values to localStorage
@@ -366,14 +368,26 @@
 			if (localStorage.getItem(element.name)) {
 				if (element.type === 'checkbox') {
 				element.checked = localStorage.getItem(element.name) === 'true';
-				} 
+				} else if (element.type === 'radio') {
+				if (element.value === localStorage.getItem(element.name)) {
+					element.checked = true;
+				}
+				} else {
+				element.value = localStorage.getItem(element.name);
+				}
 			}
 			
 			// Add an event listener to save the form element's value to localStorage when it changes
 			element.addEventListener('change', function() {
 				if (element.type === 'checkbox') {
 				localStorage.setItem(element.name, element.checked);
-				} 
+				} else if (element.type === 'radio') {
+				if (element.checked) {
+					localStorage.setItem(element.name, element.value);
+				}
+				} else {
+				localStorage.setItem(element.name, element.value);
+				}
 			});
 			}
 			funcheckbox();

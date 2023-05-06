@@ -102,7 +102,8 @@ class AccomplishmentForm(forms.Form):
 
 class AffiliationForm(forms.Form):
     affiliations = forms.CharField(label='Affiliations: ',
-                    widget=forms.TextInput(attrs={'placeholder': 'Add your Affiliations here...','class':'form-control'}),max_length=100)
+                    widget=forms.Textarea(attrs={'cols': 100, 'rows': 13,'placeholder': 'Add your Affiliations here...','class':'form-control'}),max_length=100)
+    
 
 class AddsForm(forms.Form):
     additionalinformation = forms.CharField(label='Additional Information: ',
