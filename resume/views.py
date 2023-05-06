@@ -307,7 +307,7 @@ def listEdu(request,tracking):
     except:
         newone = generate_random_string(10)
         context = {'educations': educations,'tracking': tracking,'newone': newone}
-    return render(request, 'resume/resume_eduList.html',context)
+    return render(request, 'resume/resume_Listedu.html',context)
 def addEditEdu(request,tracking,edutracking):
     form = EduForm()
     if request.method == 'POST':
@@ -466,7 +466,7 @@ def listInterest(request,tracking):
     except:
         newone = generate_random_string(10)
         context = {'interests': interests,'tracking': tracking,'newone': newone}
-    return render(request, 'resume/resume_interestList.html',context)
+    return render(request, 'resume/resume_Listinterest.html',context)
 
 def addeditInterest(request,tracking,interesttracking):
     form = InterestForm()
@@ -516,7 +516,7 @@ def listAccomplishment(request,tracking):
     except:
         newone = generate_random_string(10)
         context = {'accomplishments': accomplishments,'tracking': tracking,'newone': newone}
-    return render(request, 'resume/resume_accList.html',context)
+    return render(request, 'resume/resume_Listacc.html',context)
 
 def addeditAccomplishment(request,tracking,accomplishmenttracking):
     form = AccomplishmentForm()
@@ -566,7 +566,7 @@ def listAffiliation(request,tracking):
     except:
         newone = generate_random_string(10)
         context = {'affiliations': affiliations,'tracking': tracking,'newone': newone}
-    return render(request, 'resume/resume_afiList.html',context)
+    return render(request, 'resume/resume_Listafi.html',context)
 
 def addeditAffiliation(request,tracking,affiliationtracking):
     form = AffiliationForm()
@@ -614,7 +614,7 @@ def listAdd(request,tracking):
     except:
         newone = generate_random_string(10)
         context = {'adds': adds,'tracking': tracking,'newone': newone}
-    return render(request, 'resume/resume_addsList.html',context)
+    return render(request, 'resume/resume_Listadds.html',context)
 
 def addeditAdd(request,tracking,additionalinfotracking):
     form = AddsForm()
@@ -678,7 +678,7 @@ def addeditSoftware(request,tracking,softwaretracking):
                                        'proficiency' : form.cleaned_data['proficiency']
                                        },
                             )
-            return redirect('list-software',tracking=tracking)
+            return redirect('finalize',tracking=tracking)
     else:
         try:
             ed = get_object_or_404(Software,softwaretracking=softwaretracking)
@@ -694,7 +694,7 @@ def addeditSoftware(request,tracking,softwaretracking):
 def deleteSoftware(request,tracking,softwaretracking):
     sk = Software.objects.get(softwaretracking=softwaretracking)
     sk.delete()
-    return redirect('list-software',tracking=tracking)
+    return redirect('finalize',tracking=tracking)
 
 def listCertification(request,tracking):
     certifications = None
@@ -712,7 +712,7 @@ def listCertification(request,tracking):
     except:
         newone = generate_random_string(10)
         context = {'certifications': certifications,'tracking': tracking,'newone': newone}
-    return render(request, 'resume/resume_certList.html',context)
+    return render(request, 'resume/resume_Listcert.html',context)
 
 def addeditCertification(request,tracking,certificationtracking):
     form = CertificationForm()
@@ -801,6 +801,8 @@ def finalize(request,tracking):
     own_form = YourownForm()
     
     interests = None
+    softwares = None
+
 
 
     if request.method == 'POST':
@@ -893,6 +895,13 @@ def finalize(request,tracking):
                 )
         except:
             pass
+        try:
+            resume = Resume.objects.get(tracking=tracking)
+            softwares = Software.objects.filter(
+                Q(resume = resume)
+                )
+        except:
+            pass
     newone = generate_random_string(10)
-    context = {'tracking': tracking,'acc_form':  acc_form,'aff_form': aff_form,'adds_form': adds_form,'own_form':own_form ,'interests': interests,'newone': newone}
+    context = {'tracking': tracking,'acc_form':  acc_form,'aff_form': aff_form,'adds_form': adds_form,'own_form':own_form ,'interests': interests,'newone': newone,'softwares': softwares}
     return render(request, 'resume/finalize.html',context)

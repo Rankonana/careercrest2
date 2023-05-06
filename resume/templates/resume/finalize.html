@@ -202,10 +202,19 @@
                 <label for="summary-label" class="control-label">What software skills do you have?</label>
             </div>
             <div class="row">
-                <ul id="list-software-container"></ul>
+                <!-- <ul id="list-software-container"></ul> -->
+                {% for obj in softwares %}
+                    {{ obj.software_name }}--{{ obj.proficiency }}
+                    <a href="{% url 'addeditSoftware' tracking obj.softwaretracking  %}"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a>
+                    <a href="{% url 'deletesoftware' tracking obj.softwaretracking  %}"style='color:red'><i class='fa fa-trash-o' ></i>  Delete</a>
+                    
+                    <hr>
+                {% endfor %}
             </div>
             <div class="row">
-                <a onclick="theaddmoreSoftwareSkills()" class="btn btn-outline-primary"> + Add Software Skill</a>
+                <!-- <a onclick="theaddmoreSoftwareSkills()" class="btn btn-outline-primary"> + Add Software Skill</a> -->
+                <a href="{% url 'addeditSoftware' tracking newone  %}" class="btn btn-outline-primary"> + Add new one</a>
+
             </div>
             <button class="back-btn btn btn-primary">Back</button>
             <button class="next-btn btn btn-danger">Next</button>
