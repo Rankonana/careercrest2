@@ -27,6 +27,10 @@ class ResumeForm(forms.Form):
                                            widget=forms.Textarea(attrs={'cols': 50, 'rows': 10,'placeholder': 'Write your summary here...','class':'form-control'}),required=False
                                            )
 
+class ImageForm(forms.Form):
+    image = forms.ImageField(required=False)
+
+
 class SocialForm(forms.Form):
     name = forms.CharField(label='Site name',
                     widget=forms.TextInput(attrs={'placeholder': 'name','class':'form-control'}),max_length=100)
@@ -40,27 +44,39 @@ class WorkForm(forms.Form):
     employer = forms.CharField(label='Employer',
                     widget=forms.TextInput(attrs={'placeholder': 'Employer','class':'form-control'}),max_length=100)
     city = forms.CharField(label='City',
-                    widget=forms.TextInput(attrs={'placeholder': 'City','class':'form-control'}),max_length=100)
+                    widget=forms.TextInput(attrs={'placeholder': 'City','class':'form-control'}),
+                    max_length=100)
     country = forms.CharField(label='Country',
                     widget=forms.TextInput(attrs={'placeholder': 'Country','class':'form-control'}),max_length=100)
     start_date = forms.DateField(label='Start date',
-                    widget=forms.TextInput(attrs={'placeholder': 'Start date'}))
+                    widget=forms.DateInput(attrs={'type': 'date','class': 'form-control'}))
     end_date = forms.DateField(label='End date',
-                    widget=forms.TextInput(attrs={'placeholder': 'End date'}))
+                    widget=forms.DateInput(attrs={'type': 'date','class': 'form-control'}))
     job_description = forms.CharField(label='Job description:',
-                                           widget=forms.Textarea(attrs={'cols': 50, 'rows': 10,'placeholder': 'Type in your achievements and responsibilities here.'})
+                                           widget=forms.Textarea(attrs={'cols': 50, 'rows': 10,'class': 'form-control','placeholder': 'Type in your achievements and responsibilities here.'})
                                            )
 
 class EduForm(forms.Form):
-    schoolname = forms.CharField(label='School Name',max_length=100)
-    schoollocation = forms.CharField(label='School Location',max_length=100)
-    degree = forms.CharField(label='Degree',max_length=100)
-    fieldofstudy = forms.CharField(label='Field of Study',max_length=100)
-    start_date = forms.DateField(label='Start date')
-    end_date = forms.DateField(label='End date')
+    schoolname = forms.CharField(label='School Name',
+                    widget=forms.TextInput(attrs={'placeholder': 'School Name','class':'form-control'}),
+                    max_length=100)
+    schoollocation = forms.CharField(label='School Location',
+                    widget=forms.TextInput(attrs={'placeholder': 'School Location','class':'form-control'}),
+                    max_length=100)
+    degree = forms.CharField(label='Qualification',
+                    widget=forms.TextInput(attrs={'placeholder': 'Qualification','class':'form-control'}),
+                    max_length=100)
+    fieldofstudy = forms.CharField(label='Field of Study',
+                    widget=forms.TextInput(attrs={'placeholder': 'Field of Study','class':'form-control'}),
+                    max_length=100)
+    start_date = forms.DateField(label='Start date',
+                    widget=forms.DateInput(attrs={'type': 'date','class': 'form-control'}))
+    end_date = forms.DateField(label='End date',
+                    widget=forms.DateInput(attrs={'type': 'date','class': 'form-control'}))
     edu_description = forms.CharField(label='Description:',
-                                           widget=forms.Textarea(attrs={'cols': 50, 'rows': 10})
+                                           widget=forms.Textarea(attrs={'cols': 50, 'rows': 10,'class': 'form-control','placeholder': 'Enter description here...'})
                                            )
+    
 class SkillForm(forms.Form):
     skill_name = forms.CharField(label='Skill',
                     widget=forms.TextInput(attrs={'placeholder': 'Skill','class':'form-control'}),max_length=100)
@@ -79,7 +95,9 @@ class InterestForm(forms.Form):
 
 class AccomplishmentForm(forms.Form):
     accomplishments = forms.CharField(label='Accomplishment',
-                                      widget=forms.Textarea(attrs={'cols': 100, 'rows': 13,'placeholder': 'Write about your accomplishments here.','class':'form-control'}),
+                                      widget=forms.Textarea(attrs={'cols': 100, 'rows': 13,
+                                                                   'placeholder': 'Write about your accomplishments here.',
+                                                                   'class':'form-control'}),
                                       required=False,max_length=100)
 
 class AffiliationForm(forms.Form):
@@ -100,8 +118,8 @@ class SoftwareForm(forms.Form):
 class CertificationForm(forms.Form):
     certification_name = forms.CharField(label='Certification',
                     widget=forms.TextInput(attrs={'placeholder': 'Certification','class':'form-control'}),max_length=100)
-    certification_date = forms.DateField(label='Certification date',
-                    widget=forms.TextInput(attrs={'placeholder': 'Certification date','class':'form-control'}),initial=datetime.date.today)
+    certification_date = forms.DateField(label='End date',
+                    widget=forms.DateInput(attrs={'type': 'date','class':'form-control'}))
 
 class YourownForm(forms.Form):
     yourown_name = forms.CharField(label='Your own: ',

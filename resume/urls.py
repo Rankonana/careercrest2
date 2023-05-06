@@ -14,6 +14,8 @@ urlpatterns = [
 
 
     path('create-basic/<str:tracking>',views.createBasic,name="create-basic"),
+    # path('create-image/<str:tracking>',views.createImage,name="create-image"),
+
 
     path('create-summary/<str:tracking>',views.createSummary,name="create-summary"),
 
@@ -66,6 +68,8 @@ urlpatterns = [
     path('list-yourown/<str:tracking>',views.listYourown,name="list-yourown"),
     path('add-edit-yourown/<str:tracking>/<str:yourowntracking>',views.addeditYourown,name="addeditYourown"),
     path('delete-yourown/<str:tracking>/<str:yourowntracking>',views.deleteYourown,name="deleteyourown"),
+
+    path('finalize/<str:tracking>',views.finalize,name="finalize"),
 
 
 ]

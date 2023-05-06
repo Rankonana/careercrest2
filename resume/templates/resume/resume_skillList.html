@@ -1,5 +1,5 @@
 {% extends 'base-resume-create.html' %}
-{% block title %}Add/edit skills{% endblock %}
+{% block title %}Skills{% endblock %}
 {% block content %}
 {% load static %}
 
@@ -19,10 +19,10 @@
     
     <div class="row">
         <div class="col-6">
-            <a href="{% url 'list-work' tracking %}" class="btn btn-outline-primary"> Back</a>
+            <a href="{% url 'list-edu' tracking %}" class="btn btn-outline-primary"> Back</a>
         </div>
         <div class="col-6">
-            <a href="{% url 'list-work' tracking %}" class="btn btn-danger"> Next</a>
+            <a href="{% url 'create-summary' tracking %}" class="btn btn-danger"> Next</a>
         </div>
     </div>
 </div>    

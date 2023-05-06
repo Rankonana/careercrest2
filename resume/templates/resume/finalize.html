@@ -1,0 +1,441 @@
+{% extends 'base-resume-create.html' %}
+{% block title %}finalize{% endblock %}
+{% block content %}
+{% load static %}
+
+<div class="container" >
+    
+    <div id="finalize-div" style="display: block;">
+        <div id="finalize" class="question visible">
+            <h1>Do you have anything else to add? </h1>
+            <p> These sections are optional.</p>
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <form class="form-check-inline">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox"  name="chk-finalize" id="chk-finalize" value="finalize" onchange="funcheckbox();" checked="checked" style="display:none;">
+                                    <label class="form-check-label"  for="chk-finalize" style="display:none;">finalize</label>
+                                    
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" name="chk-accomplishments" id="chk-accomplishments" value="accomplishments" onchange="funcheckbox();">
+                                    <label class="form-check-label" for="chk-accomplishments">Accomplishments</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" name="chk-affiliations" id="chk-affiliations" value="affiliations" onchange="funcheckbox();">
+                                    <label class="form-check-label"for="chk-affiliations">Affiliations</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" name="chk-additional-info" id="chk-additional-info" value="additional-info" onchange="funcheckbox();">
+                                    <label class="form-check-label"for="chk-additional-info">Additional Information</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" name="chk-software" id="chk-software" value="software" onchange="funcheckbox();">
+                                    <label class="form-check-label"for="chk-software">Software</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" name="chk-languages" id="chk-languages" value="languages" onchange="funcheckbox();">
+                                    <label class="form-check-label"for="chk-languages">Languages</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" name="chk-certifications" id="chk-certifications" value="certifications" onchange="funcheckbox();">
+                                    <label class="form-check-label"for="chk-certifications">Certifications</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" name="chk-interests" id="chk-interests" value="interests" onchange="funcheckbox();">
+                                    <label class="form-check-label"for="chk-interests">Interests</label>
+                                </div>
+                            
+                              </form>
+                            
+
+                        </div>
+                        <div class="col-md-6">
+                           
+
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="chk-yourown" name="chk-yourown" value="yourown" onchange="funcheckbox();">
+                                <label class="form-check-label" for="chk-yourown">Your Own</label>
+                                <input type="text" class="form-control" id="yourowntextbox" name="yourowntextbox" placeholder="e.g. Hobbies">
+                              </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 resume-thumbnail ">
+                    <div class="col">
+                        <img src="http://localhost/images/resume-preview.jpg" alt="Image">
+                    </div>
+                    <button type="button" class="btn btn-primary">Change Template</button>
+                </div>
+            </div>
+            <a href="{% url 'create-summary' tracking %}" class="btn btn-primary"> Back</a>
+            <button class="next-btn btn btn-danger"  >Next</button>
+        </div>
+        <div id="accomplishments" class="question">
+            <h1> Accomplishments </h1>
+            <!-- copied from summary  start -->
+            <div class="row">
+                <div class="col-md-7 summary-suggestions">
+                    <label for="summary-suggestions-label" class="control-label">Search by job title for pre-written examples</label>
+                    <div class="row">
+                        <div class="col-10">
+                            <input type="search" name="search-box-accomplishments" id="search-box-accomplishments" class="form-control" placeholder="Title, industry, keyword">
+                            <ul id="search-suggestions-accomplishments"></ul>
+                        </div>
+                        <div class="col-2">
+                            <button type="button" id="btn-title-search-accomplishments" class="btn btn-primary" title="search"> Search</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5">
+                            <div id="related-popular-accomplishments"></div>
+                        </div>
+                        <div class="col-7">
+                            <label for="summary-label" class="control-label">Showing results for : <p id="jobtitledisplay-accomplishments" style="font-weight: bold;"></p>
+                            </label>
+                            <div id="loading-accomplishments" style="display: none;">Loading...</div>
+                            <div id="suggestions-accomplishments">
+                                <ul id="result-list-accomplishments">
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5 skills">
+                    <label for="summary-label" class="control-label">Nice! Now let's add your accomplishments</label>
+                    <div id="display-jog-title-employer-city"></div>
+                    <div class="form-group">
+                        <!-- <textarea id="summary-description-accomplishments" name="summary-description-accomplishments" rows="5" cols="120" style="max-width:100%;" placeholder="Type in your accomplishments here."></textarea> -->
+                    
+                        <form method="post">
+                            {% csrf_token %}
+                                    <div class="row">
+                                        <div class="form-group">
+                                            {{ accform.accomplishments }}
+                                        </div>
+                                    </div>
+                            <button type="submit" class="btn btn-danger">Save And Next</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- copied from summary end -->
+            <button class="back-btn btn btn-primary">Back</button>
+            <button class="next-btn btn btn-danger">Next</button>
+        </div>
+        <div id="affiliations" class="question">
+            <h1> Affiliations </h1>
+            <!-- copied from summary  start -->
+            <div class="row">
+                <div class="col-md-7 summary-suggestions">
+                    <label for="summary-suggestions-label" class="control-label">Search by job title for pre-written examples</label>
+                    <div class="row">
+                        <div class="col-10">
+                            <input type="search" name="search-box-affiliations" id="search-box-affiliations" class="form-control" placeholder="Title, industry, keyword">
+                            <ul id="search-suggestions-affiliations"></ul>
+                        </div>
+                        <div class="col-2">
+                            <button type="button" id="btn-title-search-affiliations" class="btn btn-primary" title="search"> Search</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5">
+                            <div id="related-popular-affiliations"></div>
+                        </div>
+                        <div class="col-7">
+                            <label for="summary-label" class="control-label">Showing results for : <p id="jobtitledisplay-affiliations" style="font-weight: bold;"></p>
+                            </label>
+                            <div id="loading-affiliations">Loading...</div>
+                            <div id="suggestions-affiliations">
+                                <ul id="result-list-affiliations"></ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5 skills">
+                    <label for="summary-label" class="control-label">Nice! Now let's add your skills</label>
+                    <div id="display-jog-title-employer-city"></div>
+                    <div class="form-group">
+                        <textarea id="summary-description-affiliations" name="summary-description-affiliations" rows="5" cols="120" style="max-width:100%;" placeholder="Type in your skills here."></textarea>
+                    </div>
+                </div>
+            </div>
+            <button class="back-btn btn btn-primary">Back</button>
+            <button class="next-btn btn btn-danger">Next</button>
+        </div>
+        <div id="additional-info" class="question">
+            <h1> Additional Information </h1>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <textarea id="additional-info-description" name="additional-info-description" rows="6" cols="120" style="max-width:100%;" placeholder="Write your addtional information here"></textarea>
+                    </div>
+                </div>
+            </div>
+            <button class="back-btn btn btn-primary">Back</button>
+            <button class="next-btn btn btn-danger">Next</button>
+        </div>
+        <div id="software" class="question">
+            <h1> Software </h1>
+            <div class="row">
+                <label for="summary-label" class="control-label">What software skills do you have?</label>
+            </div>
+            <div class="row">
+                <ul id="list-software-container"></ul>
+            </div>
+            <div class="row">
+                <a onclick="theaddmoreSoftwareSkills()" class="btn btn-outline-primary"> + Add Software Skill</a>
+            </div>
+            <button class="back-btn btn btn-primary">Back</button>
+            <button class="next-btn btn btn-danger">Next</button>
+        </div>
+        <div id="languages" class="question">
+            <h1> Languages </h1>
+            <div class="row">
+                <label for="summary-label" class="control-label">What languages do you know?</label>
+            </div>
+            <div class="row">
+                <ul id="list-languages-container"></ul>
+            </div>
+            <div class="row">
+                <a onclick="theaddmorelanguages()" class="btn btn-outline-primary"> + Add a language</a>
+            </div>
+            <button class="back-btn btn btn-primary">Back</button>
+            <button class="next-btn btn btn-danger">Next</button>
+        </div>
+        <div id="certifications" class="question">
+            <h1>Certifications </h1>
+            <!-- copied from summary  start -->
+            <div class="row">
+                <div class="col-md-7 summary-suggestions">
+                    <label for="summary-suggestions-label" class="control-label">Search by job title for pre-written examples</label>
+                    <div class="row">
+                        <div class="col-10">
+                            <input type="search" name="search-box-certifications" id="search-box-certifications" class="form-control" placeholder="Title, industry, keyword">
+                            <ul id="search-suggestions-certifications"></ul>
+                        </div>
+                        <div class="col-2">
+                            <button type="button" id="btn-title-search-certifications" class="btn btn-primary" title="search"> Search</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5">
+                            <div id="related-popular-certifications"></div>
+                        </div>
+                        <div class="col-7">
+                            <label for="summary-label" class="control-label">Showing results for : <p id="jobtitledisplay-certifications" style="font-weight: bold;"></p>
+                            </label>
+                            <div id="loading-certifications">Loading...</div>
+                            <div id="suggestions-certifications">
+                                <ul id="result-list-certifications"></ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5 certifications">
+                    <label for="summary-label" class="control-label">What certifications would you like to highlight?</label>
+                    <div id="display-jog-title-employer-city"></div>
+                    <ul id="list-certifications-container"></ul>
+                    <div>
+                        <a onclick="theaddmorecertifications()" class="btn btn-outline-primary"> + Add More certifications</a>
+                    </div>
+                </div>
+                <!-- copied from summary end -->
+            </div>
+            <button class="back-btn btn btn-primary">Back</button>
+            <button class="next-btn btn btn-danger">Next</button>
+        </div>
+        <div id="interests" class="question">
+            <h1> Interests </h1>
+            <div class="row">
+                <label for="summary-label" class="control-label">What interests do you know?</label>
+            </div>
+            <div class="row">
+                <ul id="list-interests-container"></ul>
+            </div>
+            <div class="row">
+                <a onclick="theaddmoreinterests()" class="btn btn-outline-primary"> + Add more Interests</a>
+            </div>
+            <button class="back-btn btn btn-primary">Back</button>
+            <button class="next-btn btn btn-danger">Next</button>
+        </div>
+        <div id="yourown" class="question">
+            <h1> Add for: <div id="yourownname"></div>
+            </h1>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <textarea id="additional-info-description" name="additional-info-description" rows="6" cols="120" style="max-width:100%;" placeholder="Write your addtional information here"></textarea>
+                    </div>
+                </div>
+            </div>
+            <!-- start button -->
+            <button class="back-btn btn btn-primary">Back</button>
+
+            <!-- end button  -->
+        </div>
+    </div>
+
+
+</div>
+
+		<!-- script for accomplishments start -->
+		<script id="for-accomplishments-job-titles">
+			$(document).ready(function() {
+						$('#search-box-accomplishments').keyup(function() {
+								var query = $('#search-box-accomplishments').val();
+								if (query.length > 0) {
+									$.ajax({
+											url: 'http://localhost/summary-job-titles.php',
+											type: 'POST',
+											dataType: 'json',
+											data: {
+												search_query: query
+											},
+											success: function(data) {
+												$('#search-suggestions-accomplishments').empty();
+												if (data.length > 0) {
+													$.each(data, function(index, value) {
+															$('#search-suggestions-accomplishments').append(' < li > '+value.title+' < /li>');
+															}); $('#search-suggestions-accomplishments').show();
+													}
+												}
+											});
+									}
+									else {
+										$('#search-suggestions-accomplishments').hide();
+									}
+								}); $('#search-suggestions-accomplishments').on('click', 'li', function() {
+								var suggestion = $(this).text();
+								$('#search-box-accomplishments').val(suggestion);
+								$('#search-suggestions-accomplishments').hide();
+								// added start 
+								var query = suggestion;
+								if (query.length > 0) {
+									$.ajax({
+										url: 'http://localhost/summary-job-titles.php',
+										type: 'POST',
+										dataType: 'json',
+										data: {
+											search_query: query
+										},
+										success: function(data) {
+											if (data[0].relatedJobTitles.length > 0) {
+												var relatedJobTitles = data[0].relatedJobTitles;
+												var relatedJobTitlesList = " < ul > ";
+												relatedJobTitles.forEach(function(title) {
+													relatedJobTitlesList += " < li style = 'font-size:0.875em' > "  + " < a href = '#' > " + title + " < /a>" + " < /li>";
+												});
+												relatedJobTitlesList += " < /ul>";
+												var html = " < p > < strong > Related job titles: < /strong> < /p>" + relatedJobTitlesList;
+												$("#related-popular-accomplishments").html(html);
+											} else {
+												$('#related-popular-accomplishments').empty();
+												if (data.length > 0) {
+													var popular = " < ol > ";
+													$.each(data, function(index, value) {
+														popular += " < li > " + value.title + " < /li>";
+													});
+													popular += " < /ol>";
+													var html = " < p > < strong > Popular job titles: < /strong> < /p>" +  " < a href = '#' > " + popular + " < /a>" ;
+													$("#related-popular-accomplishments").html(html);
+												}
+											}
+										}
+									});
+									//adding event ha
+									// add a click event handler to the links-container element
+									$('#related-popular-accomplishments').on('click', 'a', function(event) {
+										// prevent the default behavior of following the link
+										event.preventDefault();
+										// handle the click event here
+										var searchValue = $(this).text();
+										$("#search-box-accomplishments").val(searchValue);
+										searchsummary();
+									});
+									//adding event ha
+								} else {
+									$('#search-suggestions-accomplishments').hide();
+								}
+								// added end 
+							});
+						});
+		</script>
+		<script id="for-accomplishments-search-accomplishments">
+			const searchBoxaccomplishments = document.getElementById("search-box-accomplishments");
+			const searchBtnaccomplishments = document.getElementById("btn-title-search-accomplishments");
+			searchBoxaccomplishments.addEventListener("keypress", function(event) {
+				if (event.key === "Enter") {
+					searchsummaryaccomplishments();
+				}
+			});
+			searchBtnaccomplishments.addEventListener("click", searchsummaryaccomplishments);
+
+			function searchsummaryaccomplishments() {
+				const searchBtnaccomplishments = document.getElementById('btn-title-search-accomplishments');
+				const searchInputaccomplishments = document.getElementById('search-box-accomplishments');
+				const resultsDivaccomplishments = document.getElementById("suggestions");
+				const resultListaccomplishments = document.getElementById('result-list-accomplishments');
+				const loadingaccomplishments = document.getElementById('loading-accomplishments');
+				const jobtitledisplayaccomplishments = document.getElementById("jobtitledisplay-accomplishments");
+				jobtitledisplayaccomplishments.textContent = searchBoxaccomplishments.value;
+				const urlaccomplishments = `http://localhost/job-accomplishments-suggestions.php/?search_query=${searchInputaccomplishments.value}`;
+				loadingaccomplishments.style.display = 'block';
+				fetch(urlaccomplishments).then(response => response.json()).then(data => {
+					resultListaccomplishments.innerHTML = '';
+					data.result.forEach(result => {
+						const liaccomplishments = document.createElement('li');
+						const buttonaccomplishments = document.createElement('button');
+						buttonaccomplishments.classList.add("btn");
+						buttonaccomplishments.classList.add("btn-primary");
+						buttonaccomplishments.innerText = 'Add';
+						buttonaccomplishments.setAttribute("id", "addremovesummary-accomplishments");
+						let spanaccomplishments = document.createElement('div');
+						spanaccomplishments.innerHTML = result.text;
+						liaccomplishments.appendChild(buttonaccomplishments);
+						liaccomplishments.appendChild(spanaccomplishments);
+						resultListaccomplishments.appendChild(liaccomplishments);
+						//add remove button
+						// Get the button and textarea elements
+						//const myButton = document.getElementById("myButton");
+						const myTextareaaccomplishments = document.getElementById("id_accomplishments");
+						// Add a click event listener to the button
+						buttonaccomplishments.addEventListener("click", function() {
+							// Copy the text from the input element to the textarea
+							const textaccomplishments = this.nextElementSibling.textContent.trim();
+							const myInputaccomplishments = textaccomplishments;
+							myTextareaaccomplishments.value += textaccomplishments + " ";
+							buttonaccomplishments.textContent = "REMOVE";
+							// Toggle the button color between danger and primary
+							if (buttonaccomplishments.classList.contains("btn-danger")) {
+								buttonaccomplishments.classList.remove("btn-danger");
+								buttonaccomplishments.classList.add("btn-primary");
+								buttonaccomplishments.textContent = "ADD";
+								const startaccomplishments = myTextareaaccomplishments.value.indexOf(myInputaccomplishments);
+								const endaccomplishments = startaccomplishments + myInputaccomplishments.length;
+								// Remove the copied text from the textarea
+								myTextareaaccomplishments.value = myTextareaaccomplishments.value.substring(0, startaccomplishments) + myTextareaaccomplishments.value.substring(endaccomplishments);
+								myTextareaaccomplishments.value = myTextareaaccomplishments.value.replace(myInputaccomplishments, "");
+							} else {
+								buttonaccomplishments.classList.remove("btn-primary");
+								buttonaccomplishments.classList.add("btn-danger");
+							}
+						});
+						//add remove button
+					});
+					loadingaccomplishments.style.display = 'none';
+				}).catch(error => {
+					console.error(error);
+					loadingaccomplishments.style.display = 'none';
+				});
+			}
+		</script>
+		<!-- script for accomplishments end -->
+    
+{% endblock content %}
+
+
+
+

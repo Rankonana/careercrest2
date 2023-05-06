@@ -5,65 +5,59 @@
 
 <div class="container">
 
-
-<!-- ---------------- -->
-<div id="summary-information" class="question visible" style="display: block;">
-    <div>
         <h1>Summary section</h1>
-    </div>
-    <div class="row">
-        <div class="col-md-7 summary-suggestions">
-            <label for="summary-suggestions-label" class="control-label">Search by job title for pre-written examples</label>
-            <div class="row">
-                <div class="col-10">
-                    <input type="search" name="summary-search-box" id="summary-search-box" class="form-control" placeholder="Title, industry, keyword">
-                    <ul id="search-suggestions"></ul>
+        <div class="row">
+            <div class="col-md-7 summary-suggestions">
+                <label for="summary-suggestions-label" class="control-label">Search by job title for pre-written examples</label>
+                <div class="row">
+                    <div class="col-10">
+                        <input type="search" name="summary-search-box" id="summary-search-box" class="form-control" placeholder="Title, industry, keyword">
+                        <ul id="search-suggestions"></ul>
+                    </div>
+                    <div class="col-2">
+                        <button type="button" id="btn-title-search" class="btn btn-primary" title="search"> Search</button>
+                    </div>
                 </div>
-                <div class="col-2">
-                    <button type="button" id="btn-title-search" class="btn btn-primary" title="search"> Search</button>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-5">
-                    <div id="related-popular"></div>
-                </div>
-                <div class="col-7">
-                    <label for="summary-label" class="control-label">Showing results for : <p id="jobtitledisplay" style="font-weight: bold;"></p>
-                    </label>
-                    <div id="loading">Loading...</div>
-                    <div id="suggestions">
-                        <ul id="result-list"></ul>
+                <div class="row">
+                    <div class="col-5">
+                        <div id="related-popular"></div>
+                    </div>
+                    <div class="col-7">
+                        <label for="summary-label" class="control-label">Showing results for : <p id="jobtitledisplay" style="font-weight: bold;"></p>
+                        </label>
+                        <div id="loading">Loading...</div>
+                        <div id="suggestions">
+                            <ul id="result-list"></ul>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-5 skills">
-            <label for="summary-label" class="control-label">Briefly tell us about your background</label>
-            <div class="form-group">
-                <form method="post">
-                    {% csrf_token %}
-                            <div class="row">
-                                <div class="form-group">
-                                    {{ form.professional_summary }}
+            <div class="col-md-5 skills">
+                <label for="summary-label" class="control-label">Briefly tell us about your background</label>
+                <div class="form-group">
+                    <form method="post">
+                        {% csrf_token %}
+                                <div class="row">
+                                    <div class="form-group">
+                                        {{ form.professional_summary }}
+                                    </div>
                                 </div>
-                            </div>
-                    <button type="submit" class="btn btn-danger">Save And Next</button>
-                </form>
+                        <button type="submit" class="btn btn-danger">Save And Next</button>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
-    <!-- start button  -->
-    <div class="row">
-        <div class="col-6">
-            <a href="{% url 'create-basic' tracking %}" class="btn btn-outline-primary"> Back</a>
+        <!-- start button  -->
+        <div class="row">
+            <div class="col-6">
+                <a href="{% url 'list-skill' tracking %}" class="btn btn-outline-primary"> Back</a>
 
+            </div>
+            <div class="col-6">
+                <a href="{% url 'finalize' tracking %}" class="btn btn-danger"> Next</a>
+            </div>
         </div>
-        <div class="col-6">
-            <a href="{% url 'list-edu' tracking %}" class="btn btn-danger"> Next</a>
-        </div>
-    </div>
-    <!-- end button  -->
-</div>
+        <!-- end button  -->
 </div>    
 
 <!-- script for summary start -->

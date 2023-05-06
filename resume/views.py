@@ -82,6 +82,7 @@ def createBasic(request,tracking):
     xd = None
     if request.method == "POST":
         form = ResumeForm(request.POST,request.FILES)
+        print(form)
         if form.is_valid():
             print(form.cleaned_data)
             if not form.cleaned_data['image']:
@@ -97,6 +98,12 @@ def createBasic(request,tracking):
                     'phone': form.cleaned_data['phone'],
                     'email': form.cleaned_data['email']
                 }
+                resume, created = Resume.objects.update_or_create(
+                                        tracking=tracking,
+                                        defaults=defaults
+                                    )
+                return redirect('list-work',tracking=tracking)
+
             else:
                 defaults = {
                     'user': request.user,
@@ -149,6 +156,7 @@ def createBasic(request,tracking):
         pass
     context = {'form': form,'tracking':tracking,'image': xd,'socials':socials ,'socialtracking': socialtracking}
     return render(request, 'resume/resume_basic.html',context)
+
 
 
 def createSummary(request,tracking):
@@ -229,20 +237,16 @@ def deleteSocial(request,tracking,socialtracking):
 
 
 def listWork(request,tracking):
+    works = None
     try:
         resume = Resume.objects.get(tracking=tracking)
         works = WorkExperience.objects.filter(
             Q(resume = resume)
             )
-        if works:
-            print("big e")
-        else:
-            worktracking = generate_random_string(10)
-            return redirect('addeditwork',tracking,worktracking)
-        context = {'works': works,'tracking': tracking,'worktracking':worktracking}
     except:
-        newone = generate_random_string(10)
-        context = {'works': works,'tracking': tracking,'newone': newone}
+        pass
+    newone = generate_random_string(10)
+    context = {'works': works,'tracking': tracking,'newone': newone}
     return render(request, 'resume/resume_workList.html',context)
 def addEditWork(request,tracking,worktracking):
     form = WorkForm()
@@ -280,6 +284,7 @@ def addEditWork(request,tracking,worktracking):
             pass
     context = {'form': form,'tracking': tracking}
     return render(request, 'resume/add_edit_work.html',context)
+
 def deleteWork(request,tracking,worktracking):
     wk = WorkExperience.objects.get(worktracking=worktracking)
     wk.delete()
@@ -287,6 +292,7 @@ def deleteWork(request,tracking,worktracking):
 
 
 def listEdu(request,tracking):
+    educations = None
     try:
         resume = Resume.objects.get(tracking=tracking)
         educations = Education.objects.filter(
@@ -345,6 +351,7 @@ def deleteEdu(request,tracking,edutracking):
     return redirect('list-edu',tracking=tracking)
 
 def listSkill(request,tracking):
+    skills = None
     try:
         resume = Resume.objects.get(tracking=tracking)
         skills = Skill.objects.filter(
@@ -394,6 +401,7 @@ def deleteSkill(request,tracking,skilltracking):
     return redirect('list-skill',tracking=tracking)
 
 def listLanguage(request,tracking):
+    languages = None
     try:
         resume = Resume.objects.get(tracking=tracking)
         languages = Languages.objects.filter(
@@ -443,6 +451,7 @@ def deleteLanguage(request,tracking,languagetracking):
     return redirect('list-language',tracking=tracking)
 
 def listInterest(request,tracking):
+    interests = None
     try:
         resume = Resume.objects.get(tracking=tracking)
         interests = Interests.objects.filter(
@@ -492,6 +501,7 @@ def deleteInterest(request,tracking,interesttracking):
 
 
 def listAccomplishment(request,tracking):
+    accomplishments = None
     try:
         resume = Resume.objects.get(tracking=tracking)
         accomplishments = Accomplishments.objects.filter(
@@ -541,6 +551,7 @@ def deleteAccomplishment(request,tracking,accomplishmenttracking):
     return redirect('list-accomplishment',tracking=tracking)
 
 def listAffiliation(request,tracking):
+    affiliations = None
     try:
         resume = Resume.objects.get(tracking=tracking)
         affiliations = Affiliations.objects.filter(
@@ -588,6 +599,7 @@ def deleteAffiliation(request,tracking,affiliationtracking):
     return redirect('list-affiliation',tracking=tracking)
 
 def listAdd(request,tracking):
+    adds =None
     try:
         resume = Resume.objects.get(tracking=tracking)
         adds = AdditionalInformation.objects.filter(
@@ -635,6 +647,7 @@ def deleteAdd(request,tracking,additionalinfotracking):
     return redirect('list-add',tracking=tracking)
 
 def listSoftware(request,tracking):
+    softwares = None
     try:
         resume = Resume.objects.get(tracking=tracking)
         softwares = Software.objects.filter(
@@ -684,6 +697,7 @@ def deleteSoftware(request,tracking,softwaretracking):
     return redirect('list-software',tracking=tracking)
 
 def listCertification(request,tracking):
+    certifications = None
     try:
         resume = Resume.objects.get(tracking=tracking)
         certifications = Certifications.objects.filter(
@@ -733,6 +747,7 @@ def deleteCertification(request,tracking,certificationtracking):
     return redirect('list-cert',tracking=tracking)
 
 def listYourown(request,tracking):
+    yourowns = None
     try:
         resume = Resume.objects.get(tracking=tracking)
         yourowns = YourOwn.objects.filter(
@@ -778,3 +793,29 @@ def deleteYourown(request,tracking,yourowntracking):
     sk = YourOwn.objects.get(yourowntracking=yourowntracking)
     sk.delete()
     return redirect('list-yourown',tracking=tracking)
+
+def finalize(request,tracking):
+    accform = AccomplishmentForm()
+    if request.method == 'POST':
+        form = AccomplishmentForm(request.POST)
+        if form.is_valid():
+            rm = Resume.objects.get(tracking=tracking)
+            accomplishment, created = Accomplishments.objects.update_or_create(
+                            accomplishmenttracking = tracking,
+                            defaults={
+                                       'resume': rm,
+                                       'accomplishments' : form.cleaned_data['accomplishments']
+
+                                       },
+                            )
+            return redirect('finalize',tracking=tracking)
+    else:
+        try:
+            ed = get_object_or_404(Accomplishments,accomplishmenttracking=tracking)
+            form_data = {'accomplishments': ed.accomplishments}
+            print(form_data)
+            accform = AccomplishmentForm(data=form_data)
+        except:
+            pass
+    context = {'tracking': tracking,'accform':  accform }
+    return render(request, 'resume/finalize.html',context)
