@@ -661,14 +661,14 @@
 			}
         </script>
 
-    <script>
-    window.addEventListener('DOMContentLoaded', () => {
- 
-      ratingfunction()
-    });
-  
+        <script>
+            window.addEventListener('DOMContentLoaded', () => {
+        
+            ratingfunction()
+            });
+    
 
-  </script>
+        </script>
 
   <!-- software start  -->
 
@@ -684,6 +684,9 @@
     function renderRow(software) {
         // Create a new row element
         var row = document.createElement('tr');
+        var td1 = document.createElement('td');
+        var td2 = document.createElement('td');
+
 
         // Create two new input elements for the software name and proficiency
         var nameInput = document.createElement('input');
@@ -694,8 +697,12 @@
         proficiencyInput.value = software.proficiency;
 
         // Append the input elements to the row
-        row.appendChild(nameInput);
-        row.appendChild(proficiencyInput);
+        td1.appendChild(nameInput);
+        td2.appendChild(proficiencyInput);
+
+        row.appendChild(td1);
+        row.appendChild(td2);
+
 
         // Add an event listener to the input elements to update the software data on change
         nameInput.addEventListener('change', function() {
