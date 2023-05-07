@@ -731,23 +731,14 @@
 
         nameInput.type = 'text';
         nameInput.value = software.software_name;
-        var proficiencyInput = document.createElement('input');
-        proficiencyInput.type = 'range'; // Change to range input
-        proficiencyInput.min = 0; // Set minimum value
-        proficiencyInput.max = 100; // Set maximum value
-        proficiencyInput.value = software.proficiency;
-        // Add a label to display the selected value
-        var proficiencyLabel = document.createElement('label');
-        proficiencyLabel.textContent = software.proficiency;
-        proficiencyLabel.setAttribute('for', 'proficiency');
-        proficiencyLabel.setAttribute('class', 'rating');
+        var proficiencyInput = software.proficiency;
+
 
         var thediv = document.createElement('jsuites-rating');
         thediv.setAttribute('value',software.proficiency);
         thediv.setAttribute('tooltip','Ugly, Bad, Average, Good, Outstanding');
 
         thediv.addEventListener('onchange', function(e) {
-            console.log(this.value);
             updateSoftware(software, nameInput.value, this.value);
 
         });
@@ -755,7 +746,6 @@
 
         // Append the input elements to the row
         td1.appendChild(nameInput);
-       // td2.appendChild(proficiencyInput);
         td2.appendChild(thediv);
         
         row.appendChild(td1);
@@ -763,7 +753,7 @@
 
         // Add an event listener to the input elements to update the software data on change
         nameInput.addEventListener('change', function() {
-            updateSoftware(software, nameInput.value, proficiencyInput.value);
+            updateSoftware(software, nameInput.value, proficiencyInput);
         });
 
         // Add the row to the table body
