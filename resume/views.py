@@ -432,7 +432,7 @@ def addeditLanguage(request,tracking,languagetracking):
                                        'proficiency' : form.cleaned_data['proficiency']
                                        },
                             )
-            return redirect('list-language',tracking=tracking)
+            return redirect('finalize',tracking=tracking)
     else:
         try:
             ed = get_object_or_404(Languages,languagetracking=languagetracking)

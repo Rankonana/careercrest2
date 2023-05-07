@@ -5,9 +5,8 @@
 
 {% block head %}
 
-
-<style>
-        #software-table {
+<!-- <style>
+    #software-table {
     border-collapse: collapse;
     width: 100%;
     }
@@ -40,9 +39,10 @@
     background-color: #e6f7ff;
     }
 
-    
 
-</style>
+
+</style> -->
+
 {% endblock head %}
     <meta name="csrf-token" content="{{ csrf_token }}">
 
@@ -271,10 +271,21 @@
                 <label for="summary-label" class="control-label">What languages do you know?</label>
             </div>
             <div class="row">
-                <ul id="list-languages-container"></ul>
+                <table id="language-table">
+                    <thead>
+                        <tr>
+                            <th>Language</th>
+                            <th>Proficiency</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
             </div>
             <div class="row">
-                <a onclick="theaddmorelanguages()" class="btn btn-outline-primary"> + Add a language</a>
+                <!-- <a onclick="theaddmorelanguages()" class="btn btn-outline-primary"> + Add a language</a> -->
+                <a href="{% url 'addeditLanguage' tracking newone  %}" class="btn btn-outline-primary"> + Add new one</a>
+
             </div>
             <button class="back-btn btn btn-primary">Back</button>
             <button class="next-btn btn btn-danger">Next</button>
@@ -710,86 +721,224 @@
         </script>
 
   <!-- software start  -->
+    <script>
+        // Get the CSRF token from the HTML meta tag
+        var csrfToken = document.querySelector('[name=csrf-token]').content;
+
+        // Get the table body element
+        var tableBody = document.querySelector('#software-table tbody');
+
+        // Function to render a row in the table
+        function renderRow(software) {
+            // Create a new row element
+            var row = document.createElement('tr');
+            var td1 = document.createElement('td');
+            var td2 = document.createElement('td');
+
+            // Create two new input elements for the software name and proficiency
+            var nameInput = document.createElement('input');
+
+            
+
+            nameInput.type = 'text';
+            nameInput.value = software.software_name;
+            var proficiencyInput = software.proficiency;
 
 
-  <script>
-    // Get the CSRF token from the HTML meta tag
-    var csrfToken = document.querySelector('[name=csrf-token]').content;
+            var thediv = document.createElement('jsuites-rating');
+            thediv.setAttribute('value',software.proficiency);
+            thediv.setAttribute('tooltip','Ugly, Bad, Average, Good, Outstanding');
 
-    // Get the table body element
-    var tableBody = document.querySelector('#software-table tbody');
+            thediv.addEventListener('onchange', function(e) {
+                updateSoftware(software, nameInput.value, this.value);
 
-    // Function to render a row in the table
-    function renderRow(software) {
-        // Create a new row element
-        var row = document.createElement('tr');
-        var td1 = document.createElement('td');
-        var td2 = document.createElement('td');
+            });
 
-        // Create two new input elements for the software name and proficiency
-        var nameInput = document.createElement('input');
+        
+            const id = software.id; // Replace with the actual ID of the software to be deleted
+            const deletelink = document.createElement('a');
+            deletelink.href = `http://127.0.0.1:8000/api/delete-software/${id}`;
+            deletelink.innerHTML = 'Delete software';
+            deletelink.addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent the link from navigating to the URL
+
+            const xhr = new XMLHttpRequest();
+            xhr.open('DELETE', deletelink.href);
+            xhr.setRequestHeader('X-CSRFToken', csrfToken);
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                console.log('Software deleted successfully!');
+                location.reload();
+                } else {
+                console.error('An error occurred while deleting the software:', xhr.statusText);
+                }
+            };
+            xhr.onerror = function() {
+                console.error('An error occurred while deleting the software:', xhr.statusText);
+            };
+            xhr.send();
+            });
+
 
         
 
-        nameInput.type = 'text';
-        nameInput.value = software.software_name;
-        var proficiencyInput = software.proficiency;
+            // Append the input elements to the row
+            td1.appendChild(nameInput);
+            td2.appendChild(thediv);
+            td1.appendChild(deletelink);
+
+            
+            row.appendChild(td1);
+            row.appendChild(td2);
 
 
-        var thediv = document.createElement('jsuites-rating');
-        thediv.setAttribute('value',software.proficiency);
-        thediv.setAttribute('tooltip','Ugly, Bad, Average, Good, Outstanding');
+            // Add an event listener to the input elements to update the software data on change
+            nameInput.addEventListener('change', function() {
+                updateSoftware(software, nameInput.value, proficiencyInput);
+            });
 
-        thediv.addEventListener('onchange', function(e) {
-            updateSoftware(software, nameInput.value, this.value);
-
-        });
-        
-
-        // Append the input elements to the row
-        td1.appendChild(nameInput);
-        td2.appendChild(thediv);
-        
-        row.appendChild(td1);
-        row.appendChild(td2);
-
-        // Add an event listener to the input elements to update the software data on change
-        nameInput.addEventListener('change', function() {
-            updateSoftware(software, nameInput.value, proficiencyInput);
-        });
-
-        // Add the row to the table body
-        tableBody.appendChild(row);
-    }
-
-    // Function to update a software with new data
-    function updateSoftware(software, name, proficiency) {
-        // Create a new PUT request with the updated data
-        var xhr = new XMLHttpRequest();
-        xhr.open('PUT', '/api/add-edit-software/');
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.setRequestHeader('X-CSRFToken', csrfToken);
-        xhr.onload = function() {
-            if (xhr.status === 200) {
-                console.log('Software updated:');
-            } else {
-                console.error('Error updating software:');
+                // Add the row to the table body
+                tableBody.appendChild(row);
             }
-        };
-        xhr.send(JSON.stringify({
-            'softwaretracking': software.softwaretracking,
-            'resume': software.resume,
-            'software_name': name,
-            'proficiency': proficiency
-        }));
-    }
 
-    // Fetch the list of software from the API and render the table rows
-    fetch('/api/softwares/')
-        .then(response => response.json())
-        .then(data => data.forEach(renderRow));
-</script>
+        // Function to update a software with new data
+        function updateSoftware(software, name, proficiency) {
+            // Create a new PUT request with the updated data
+            var xhr = new XMLHttpRequest();
+            xhr.open('PUT', '/api/add-edit-software/');
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.setRequestHeader('X-CSRFToken', csrfToken);
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                console.log('Software updated:');
+                } else {
+                    console.error('Error updating software:');
+                }
+            };
+            xhr.send(JSON.stringify({
+                'softwaretracking': software.softwaretracking,
+                'resume': software.resume,
+                'software_name': name,
+                'proficiency': proficiency
+            }));
+        }
+
+        // Fetch the list of software from the API and render the table rows
+        fetch('/api/softwares/')
+            .then(response => response.json())
+            .then(data => data.forEach(renderRow));
+    </script>
   <!-- software end -->
+
+    <!-- language start  -->
+    <script>
+        // Get the CSRF token from the HTML meta tag
+        var csrfTokenl = document.querySelector('[name=csrf-token]').content;
+
+        // Get the table body element
+        var tableBodyl = document.querySelector('#language-table tbody');
+
+        // Function to render a row in the table
+        function renderRowl(language) {
+            // Create a new row element
+            var rowl = document.createElement('tr');
+            var td1l = document.createElement('td');
+            var td2l = document.createElement('td');
+
+            // Create two new input elements for the language name and proficiency
+            var nameInputl = document.createElement('input');
+
+            
+
+            nameInputl.type = 'text';
+            nameInputl.value = language.language_name;
+            var proficiencyInputl = language.proficiency;
+
+
+            var thedivl = document.createElement('jsuites-rating');
+            thedivl.setAttribute('value',language.proficiency);
+            thedivl.setAttribute('tooltip','Ugly, Bad, Average, Good, Outstanding');
+
+            thedivl.addEventListener('onchange', function(e) {
+                updateLanguage(language, nameInputl.value, this.value);
+
+            });
+
+        
+            const idl = language.id; // Replace with the actual ID of the language to be deleted
+            const deletelinkl = document.createElement('a');
+            deletelinkl.href = `http://127.0.0.1:8000/api/delete-language/${idl}`;
+            deletelinkl.innerHTML = 'Delete language';
+            deletelinkl.addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent the link from navigating to the URL
+
+            const xhrl = new XMLHttpRequest();
+            xhrl.open('DELETE', deletelinkl.href);
+            xhrl.setRequestHeader('X-CSRFToken', csrfToken);
+            xhrl.onload = function() {
+                if (xhrl.status === 200) {
+                console.log('Language deleted successfully!');
+                location.reload();
+                } else {
+                console.error('An error occurred while deleting the language:', xhrl.statusText);
+                }
+            };
+            xhrl.onerror = function() {
+                console.error('An error occurred while deleting the language:', xhrl.statusText);
+            };
+            xhrl.send();
+            });
+
+
+        
+
+            // Append the input elements to the row
+            td1l.appendChild(nameInputl);
+            td2l.appendChild(thedivl);
+            td1l.appendChild(deletelinkl);
+
+            
+            rowl.appendChild(td1l);
+            rowl.appendChild(td2l);
+
+
+            // Add an event listener to the input elements to update the language data on change
+            nameInputl.addEventListener('change', function() {
+                updateLanguage(language, nameInputl.value, proficiencyInputl);
+            });
+
+                // Add the row to the table body
+                tableBodyl.appendChild(rowl);
+            }
+
+        // Function to update a language with new data
+        function updateLanguage(language, name, proficiency) {
+            // Create a new PUT request with the updated data
+            var xhrl = new XMLHttpRequest();
+            xhrl.open('PUT', '/api/add-edit-language/');
+            xhrl.setRequestHeader('Content-Type', 'application/json');
+            xhrl.setRequestHeader('X-CSRFToken', csrfToken);
+            xhrl.onload = function() {
+                if (xhrl.status === 200) {
+                console.log('Language updated:');
+                } else {
+                    console.error('Error updating language:');
+                }
+            };
+            xhrl.send(JSON.stringify({
+                'languagetracking': language.languagetracking,
+                'resume': language.resume,
+                'language_name': name,
+                'proficiency': proficiency
+            }));
+        }
+
+        // Fetch the list of language from the API and render the table rows
+        fetch('/api/languages/')
+            .then(response => response.json())
+            .then(data => data.forEach(renderRowl));
+    </script>
+  <!-- language end -->
     
 {% endblock content %}
 
