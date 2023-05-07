@@ -203,13 +203,21 @@
             </div>
             <div class="row">
                 <!-- <ul id="list-software-container"></ul> -->
-                {% for obj in softwares %}
-                    {{ obj.software_name }}--{{ obj.proficiency }}
-                    <a href="{% url 'addeditSoftware' tracking obj.softwaretracking  %}"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a>
-                    <a href="{% url 'deletesoftware' tracking obj.softwaretracking  %}"style='color:red'><i class='fa fa-trash-o' ></i>  Delete</a>
-                    
-                    <hr>
-                {% endfor %}
+                <ul>
+                    {% for obj in softwares %}
+                    <li>
+                        
+                        
+                        <div class="rating">{{ obj.proficiency }}</div>
+                        {{ obj.software_name }}
+                        
+                        <a href="{% url 'addeditSoftware' tracking obj.softwaretracking  %}"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a>
+                        <a href="{% url 'deletesoftware' tracking obj.softwaretracking  %}"style='color:red'><i class='fa fa-trash-o' ></i>  Delete</a>
+                        
+                        <hr>
+                    </li>
+                    {% endfor %}
+                </ul>
             </div>
             <div class="row">
                 <!-- <a onclick="theaddmoreSoftwareSkills()" class="btn btn-outline-primary"> + Add Software Skill</a> -->
@@ -634,6 +642,34 @@
 			}
 		</script>
 		<!-- script for affiliations end -->
+
+        <script>
+            function ratingfunction() {
+				// https://jsuites.net/v4/rating
+				const ratingElements = document.querySelectorAll('.rating');
+				// Loop through each red element
+				for (let i = 0; i < ratingElements.length; i++) {
+					const ratingElement = ratingElements[i];
+                    const ratingvalue = ratingElement.textContent
+                    
+					// Check if the red element also has class "bold"				
+                    var myRating = jSuites.rating(ratingElement, {
+                        value: parseInt(ratingvalue),
+                        tooltip: ['Very bad', 'Bad', 'Average', 'Good', 'Very good'],
+                    });
+					
+				}
+			}
+        </script>
+
+    <script>
+    window.addEventListener('DOMContentLoaded', () => {
+ 
+      ratingfunction()
+    });
+  
+
+  </script>
     
 {% endblock content %}
 

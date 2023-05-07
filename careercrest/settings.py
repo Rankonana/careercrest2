@@ -57,6 +57,12 @@ INSTALLED_APPS = [
     'crispy_forms', # add this
     'crispy_bootstrap5', # add this
 
+    'rest_framework',
+
+    'corsheaders',
+
+
+
 ]
 
 SITE_ID = 1
@@ -65,6 +71,10 @@ SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    
+    "corsheaders.middleware.CorsMiddleware",
+
+
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -268,3 +278,5 @@ CKEDITOR_CONFIGS = {
         ]),
     }
 }
+
+CORS_ALLOW_ALL_ORIGINS = True

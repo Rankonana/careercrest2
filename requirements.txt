@@ -1,3 +1,7 @@
 django
 django-crispy-forms
 django-sekizai
+djangorestframework
+markdown
+django-filter
+django-cors-headers
