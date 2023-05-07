@@ -114,7 +114,7 @@ class SoftwareForm(forms.Form):
     software_name = forms.CharField(label='Software',
                     widget=forms.TextInput(attrs={'placeholder': 'Software','class':'form-control'}),max_length=100)
     proficiency = forms.CharField(label='proficiency',
-                    widget=forms.TextInput(attrs={'placeholder': 'Proficiency','class':'form-control'}),max_length=100)
+                    widget=forms.TextInput(attrs={'placeholder': 'Proficiency','class':'form-control hidden'}),max_length=100)
 
 class CertificationForm(forms.Form):
     certification_name = forms.CharField(label='Certification',

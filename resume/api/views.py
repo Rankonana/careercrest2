@@ -1,6 +1,6 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from resume.models import Software
+from resume.models import Software, Resume
 from .serializers import SoftwareSerializer
 from rest_framework import status
 
@@ -34,7 +34,11 @@ def software_detail(request):
         software = None
 
     if request.method == 'POST':
-        serializer = SoftwareSerializer(data=request.data)
+        
+        resumeid = Resume.objects.get(tracking =request.data.get('resume') )
+        data = request.data.copy()
+        data['resume'] = resumeid.pk
+        serializer = SoftwareSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
