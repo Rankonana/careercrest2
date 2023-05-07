@@ -12,3 +12,8 @@ class LanguageSerializer(ModelSerializer):
     class Meta:
         model = Languages
         fields = '__all__'
+
+class CertificationSerializer(ModelSerializer):
+    class Meta:
+        model = Certifications
+        fields = '__all__'

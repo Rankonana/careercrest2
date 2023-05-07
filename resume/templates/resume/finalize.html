@@ -322,7 +322,18 @@
                 <div class="col-md-5 certifications">
                     <label for="summary-label" class="control-label">What certifications would you like to highlight?</label>
                     <div id="display-jog-title-employer-city"></div>
-                    <ul id="list-certifications-container"></ul>
+                    <ul id="list-certifications-container">
+                        {% for certification in certifications %}
+
+                        <div class="containerxx" id="{{certification.certificationtracking}}">
+
+                            <input type="date" id="certification_date" name="certification_date" class="form-control" value="{{ certification.certification_date|date:'Y-m-d' }}">
+                            <input type="text" id="certification_name" name="certification_name" class="form-control" value="{{ certification.certification_name}}">                                         
+                            <button class="btn-danger">X</button>
+
+                        </div>
+                    {% endfor %}
+                    </ul>
                     <div>
                         <a onclick="theaddmorecertifications()" class="btn btn-outline-primary"> + Add More certifications</a>
                     </div>
@@ -939,6 +950,270 @@
             .then(data => data.forEach(renderRowl));
     </script>
   <!-- language end -->
+
+  <!-- script for certifications start -->
+    <script id="for-certifications-job-titles">
+        $(document).ready(function() {
+                $('#search-box-certifications').keyup(function() {
+                        var query = $('#search-box-certifications').val();
+                        if (query.length > 0) {
+                            $.ajax({
+                                    url: 'http://localhost/summary-job-titles.php',
+                                    type: 'POST',
+                                    dataType: 'json',
+                                    data: {
+                                        search_query: query
+                                    },
+                                    success: function(data) {
+                                        $('#search-suggestions-certifications').empty();
+                                        if (data.length > 0) {
+                                            $.each(data, function(index, value) {
+                                                    $('#search-suggestions-certifications').append(' < li > '+value.title+' < /li>');
+                                                    }); $('#search-suggestions-certifications').show();
+                                            }
+                                        }
+                                    });
+                            }
+                            else {
+                                $('#search-suggestions-certifications').hide();
+                            }
+                        }); $('#search-suggestions-certifications').on('click', 'li', function() {
+                        var suggestion = $(this).text();
+                        $('#search-box-certifications').val(suggestion);
+                        $('#search-suggestions-certifications').hide();
+                        // added start 
+                        var query = suggestion;
+                        if (query.length > 0) {
+                            $.ajax({
+                                url: 'http://localhost/summary-job-titles.php',
+                                type: 'POST',
+                                dataType: 'json',
+                                data: {
+                                    search_query: query
+                                },
+                                success: function(data) {
+                                    if (data[0].relatedJobTitles.length > 0) {
+                                        var relatedJobTitles = data[0].relatedJobTitles;
+                                        var relatedJobTitlesList = " < ul > ";
+                                        relatedJobTitles.forEach(function(title) {
+                                            relatedJobTitlesList += " < li style = 'font-size:0.875em' > "  + " < a href = '#' > " + title + " < /a>" + " < /li>";
+                                        });
+                                        relatedJobTitlesList += " < /ul>";
+                                        var html = " < p > < strong > Related job titles: < /strong> < /p>" + relatedJobTitlesList;
+                                        $("#related-popular-certifications").html(html);
+                                    } else {
+                                        $('#related-popular-certifications').empty();
+                                        if (data.length > 0) {
+                                            var popular = " < ol > ";
+                                            $.each(data, function(index, value) {
+                                                popular += " < li > " + value.title + " < /li>";
+                                            });
+                                            popular += " < /ol>";
+                                            var html = " < p > < strong > Popular job titles: < /strong> < /p>" +  " < a href = '#' > " + popular + " < /a>" ;
+                                            $("#related-popular-certifications").html(html);
+                                        }
+                                    }
+                                }
+                            });
+                            //adding event ha
+                            // add a click event handler to the links-container element
+                            $('#related-popular-certifications').on('click', 'a', function(event) {
+                                // prevent the default behavior of following the link
+                                event.preventDefault();
+                                // handle the click event here
+                                var searchValue = $(this).text();
+                                $("#search-box-certifications").val(searchValue);
+                                searchsummary();
+                            });
+                            //adding event ha
+                        } else {
+                            $('#search-suggestions-certifications').hide();
+                        }
+                        // added end 
+                    });
+                });
+    </script>
+    <script id="for-certifications-search-certifications">
+        const searchBoxcertifications = document.getElementById("search-box-certifications");
+        const searchBtncertifications = document.getElementById("btn-title-search-certifications");
+        searchBoxcertifications.addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                searchsummarycertifications();
+            }
+        });
+        searchBtncertifications.addEventListener("click", searchsummarycertifications);
+
+        function searchsummarycertifications() {
+            const searchBtncertifications = document.getElementById('btn-title-search-certifications');
+            const searchInputcertifications = document.getElementById('search-box-certifications');
+            const resultsDivcertifications = document.getElementById("suggestions");
+            const resultListcertifications = document.getElementById('result-list-certifications');
+            const loadingcertifications = document.getElementById('loading-certifications');
+            const jobtitledisplaycertifications = document.getElementById("jobtitledisplay-certifications");
+            jobtitledisplaycertifications.textContent = searchBoxcertifications.value;
+            const urlcertifications = `http://localhost/job-certifications-suggestions.php/?search_query=${searchInputcertifications.value}`;
+            loadingcertifications.style.display = 'block';
+            fetch(urlcertifications).then(response => response.json()).then(data => {
+                resultListcertifications.innerHTML = '';
+                data.result.forEach(result => {
+                    const licertifications = document.createElement('li');
+                    const buttoncertifications = document.createElement('button');
+                    buttoncertifications.classList.add("btn");
+                    buttoncertifications.classList.add("btn-primary");
+                    buttoncertifications.innerText = 'Add';
+                    buttoncertifications.setAttribute("id", "addremovesummary-certifications");
+                    let spancertifications = document.createElement('div');
+                    spancertifications.innerHTML = result.text;
+                    licertifications.appendChild(buttoncertifications);
+                    licertifications.appendChild(spancertifications);
+                    resultListcertifications.appendChild(licertifications);
+                    //add remove button
+                    // Get the button and textarea elements
+                    //const myButton = document.getElementById("myButton");
+                    // Add a click event listener to the button
+                    buttoncertifications.addEventListener("click", function() {
+                        // Copy the text from the input element to the textarea
+                        const textcertifications = this.nextElementSibling.textContent.trim();
+                        const myInputcertifications = textcertifications;
+                        buttoncertifications.textContent = "REMOVE";
+                        //added certifications start
+                        const listContainer = document.getElementById('list-certifications-container');
+                        const listItem = document.createElement('div');
+                        listItem.classList.add('containerxx');
+                        listItem.setAttribute("id", Math.random().toString(36).substr(2, 9));
+
+
+                        const textxxx = this.nextElementSibling.textContent.trim();
+                        const listItems = listContainer.querySelectorAll('div');
+                        const numberOfItems = listItems.length;
+                        var dateInput = document.createElement("input");
+                        dateInput.setAttribute("type", "date");
+                        dateInput.setAttribute('id', 'certification-date-element-' + numberOfItems);
+                        dateInput.setAttribute('name', 'certification-date-element-' + numberOfItems);
+
+                        const textBox = document.createElement('input');
+                        textBox.type = 'text';
+                        textBox.setAttribute('id', 'certification-textbox-' + numberOfItems);
+                        textBox.setAttribute('name', 'certification-textbox-' + numberOfItems);
+
+                        textBox.classList.add("certification-textbox");
+                        textBox.value = textxxx;
+                        // Create a delete button
+                        const deleteButton = document.createElement('button');
+                        deleteButton.textContent = 'X';
+                        deleteButton.classList.add("btn-danger");
+                        // Add the rating element, textbox, and delete button to the list item
+                        listItem.appendChild(dateInput);
+                        listItem.appendChild(textBox);
+                        listItem.appendChild(deleteButton);
+                        // Add the list item to the container
+                        listContainer.appendChild(listItem);
+                        deletecertifications();
+                        // Get all the delete buttons
+                        var deleteButtons = document.querySelectorAll("#list-container button");
+                        // Loop through the delete buttons and attach a click event listener
+                        deleteButtons.forEach(function(button) {
+                            button.addEventListener("click", function() {
+                                // Get the parent list item of the clicked button and remove it
+                                var listItem = button.parentNode;
+                                console.log(listItem);
+                                listItem.remove();
+                            });
+                        });
+                        // Toggle the button color between danger and primary
+                        if (buttoncertifications.classList.contains("btn-danger")) {
+                            buttoncertifications.classList.remove("btn-danger");
+                            buttoncertifications.classList.add("btn-primary");
+                            buttoncertifications.textContent = "ADD";
+                            // Get the word to match
+                            var wordToMatch = myInputcertifications;
+                            // Find the textbox that has a value matching the word
+                            //var textbox = document.querySelector('.certification-textbox');
+                            // const searchStr = wordToMatch;
+                            var textbox = document.querySelector(`input[type="text"].certification-textbox[value*="${wordToMatch}"]`);
+                            console.log("start ");
+                            var textboxes = document.querySelectorAll(`input[type="text"].certification-textbox`);
+                            for (var i = 0; i < textboxes.length; i++) {
+                                if (textboxes[i].value.includes(wordToMatch)) {
+                                    var textbox = textboxes[i];
+                                    var listItemx = textbox.parentNode;
+                                    listItem.remove(listItemx)
+                                    listItemx.remove();
+                                    console.log("from :" + listItemx);
+                                    console.log("textbox removed");
+                                    // Your code here
+                                }
+                            }
+                            console.log("end ");
+                        } else {
+                            buttoncertifications.classList.remove("btn-primary");
+                            buttoncertifications.classList.add("btn-danger");
+                        }
+                        //added certifications end
+                    });
+                    //add remove button
+                });
+                loadingcertifications.style.display = 'none';
+            }).catch(error => {
+                console.error(error);
+                loadingcertifications.style.display = 'none';
+            });
+        }
+
+        function theaddmorecertifications() {
+            const listContainer = document.getElementById('list-certifications-container');
+            const listItem = document.createElement('div');
+            listItem.classList.add("containerxx");
+            
+            listItem.setAttribute("id", Math.random().toString(36).substr(2, 9));
+
+            // Get the pathname of the current URL
+            var pathname = window.location.pathname;
+            // Extract the string after the last slash
+            var resumetracking = pathname.substring(pathname.lastIndexOf('/') + 1);
+            // Log the extracted string to the console
+            console.log("resumetracking : " + resumetracking);
+
+            
+            const textxxx = "";
+            const listItems = listContainer.querySelectorAll('div');
+            const numberOfItems = listItems.length;
+            var dateInput = document.createElement("input");
+            dateInput.setAttribute("type", "date");
+            dateInput.setAttribute('id', 'date-element-' + numberOfItems);
+            const textBox = document.createElement('input');
+            textBox.type = 'text';
+            textBox.setAttribute('id', 'certification-textbox-' + numberOfItems);
+            textBox.setAttribute('name', 'certification-textbox-' + numberOfItems);
+            textBox.classList.add("certification-textbox");
+            textBox.value = textxxx;
+            // Create a delete button
+            const deleteButton = document.createElement('button');
+            deleteButton.textContent = 'X';
+            deleteButton.classList.add("btn-danger");
+            // Add the rating element, textbox, and delete button to the list item
+            listItem.appendChild(dateInput);
+            listItem.appendChild(textBox);
+            listItem.appendChild(deleteButton);
+            // Add the list item to the container
+            listContainer.appendChild(listItem);
+            // Get all the delete buttons
+            deletecertifications();
+        }
+
+        function deletecertifications() {
+            var deleteButtons = document.querySelectorAll("#list-certifications-container button");
+            // Loop through the delete buttons and attach a click event listener
+            deleteButtons.forEach(function(button) {
+                button.addEventListener("click", function() {
+                    // Get the parent list item of the clicked button and remove it
+                    var listItem = button.parentNode;
+                    listItem.remove();
+                });
+            });
+        }
+    </script>
+<!-- script for certifications end -->
     
 {% endblock content %}
 

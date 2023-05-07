@@ -4,7 +4,7 @@
 {% load static %}
 
 <div class="container">
-    <h2>Certifications</h2>
+    <!-- <h2>Certifications</h2>
 
     {% for obj in certifications %}
         {{obj.id}}--{{ obj.certification_name }}, {{ obj.certification_date }}
@@ -12,7 +12,29 @@
        <a href="{% url 'deletecert' tracking obj.certificationtracking  %}"style='color:red'><i class='fa fa-trash-o' ></i>  Delete</a>
     
        <hr>
-    {% endfor %}
+    {% endfor %} -->
+
+    <h1>Certifications</h1>
+    <div class="row">
+        {% for certification in certifications %}
+        <div class="col-sm-6 col-md-4 col-lg-3">
+            <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">
+                    {{ certification.certification_name }}
+                    <a href="{% url 'addeditCert' tracking certification.certificationtracking  %}"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a>
+                    <a href="{% url 'deletecert' tracking certification.certificationtracking  %}"style='color:red'><i class='fa fa-trash-o' ></i>  Delete</a>
+
+                </h5>
+                <div class="form-group">
+                <label for="certification_date">Certification Date:</label>
+                <input type="date" id="certification_date" name="certification_date" class="form-control" value="{{ certification.certification_date|date:'Y-m-d' }}">
+            </div>
+            </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
     
     <a href="{% url 'addeditCert' tracking newone  %}" class="btn btn-outline-primary"> + Add new one</a>
 

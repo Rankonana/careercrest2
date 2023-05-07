@@ -84,11 +84,10 @@ def language_detail(request):
     except Languages.DoesNotExist:
         language = None
 
-    if request.method == 'POST':
-        
-        resumeid = Resume.objects.get(tracking =request.data.get('resume') )
-        data = request.data.copy()
-        data['resume'] = resumeid.pk
+    resumeid = Resume.objects.get(tracking =request.data.get('resume') )
+    data = request.data.copy()
+    data['resume'] = resumeid.pk
+    if request.method == 'POST':       
         serializer = LanguageSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
@@ -98,7 +97,7 @@ def language_detail(request):
     elif request.method == 'PUT':
         if language is None:
             return Response(status=status.HTTP_404_NOT_FOUND)
-        serializer = LanguageSerializer(language, data=request.data)
+        serializer = LanguageSerializer(language, data=data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -108,4 +107,54 @@ def language_detail(request):
 def deleteLanguage(request,pk):
     language = Languages.objects.get(id=pk)
     language.delete()
+    return Response(status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+def getCertifications(request):
+    certifications = Certifications.objects.all()
+    serializer = CertificationSerializer(certifications, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def getCertification(request,pk):
+    certification = Certifications.objects.get(id=pk)
+    serializer = CertificationSerializer(certification, many=False)
+    return Response(serializer.data)
+
+@api_view(['POST', 'PUT'])
+def certification_detail(request):
+    try:
+        print("reached")
+        print(request.data)
+        certification = Certifications.objects.get(certificationtracking=request.data.get('certificationtracking'))
+        print("exist")
+    except Certifications.DoesNotExist:
+        certification = None
+
+    resumeid = Resume.objects.get(tracking =request.data.get('resume') )
+    data = request.data.copy()
+    data['resume'] = resumeid.pk
+    if request.method == 'POST':
+        
+
+        serializer = CertificationSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    elif request.method == 'PUT':
+        if certification is None:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        serializer = CertificationSerializer(certification, data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+@api_view(['DELETE'])
+def deleteCertification(request,pk):
+    certification = Certifications.objects.get(id=pk)
+    certification.delete()
     return Response(status=status.HTTP_200_OK)

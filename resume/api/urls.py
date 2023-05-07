@@ -13,6 +13,11 @@ urlpatterns = [
     path('add-edit-language/', views.language_detail),
     path('delete-language/<str:pk>/', views.deleteLanguage),
 
+    path('certifications/', views.getCertifications),
+    path('certifications/<str:pk>/', views.getCertification),
+    path('add-edit-certification/', views.certification_detail),
+    path('delete-certification/<str:pk>/', views.deleteCertification),
+
 
 
 ]

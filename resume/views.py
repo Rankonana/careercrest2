@@ -802,6 +802,8 @@ def finalize(request,tracking):
     
     interests = None
     softwares = None
+    certifications = None
+
 
 
 
@@ -902,6 +904,22 @@ def finalize(request,tracking):
                 )
         except:
             pass
+
+
+        try:
+            resume = Resume.objects.get(tracking=tracking)
+            certifications = Certifications.objects.filter(
+                Q(resume = resume)
+                )
+        except:
+            pass
+
     newone = generate_random_string(10)
-    context = {'tracking': tracking,'acc_form':  acc_form,'aff_form': aff_form,'adds_form': adds_form,'own_form':own_form ,'interests': interests,'newone': newone,'softwares': softwares}
+    certificationtracking = generate_random_string(10)
+
+    context = {'tracking': tracking,'acc_form':  acc_form,'aff_form': aff_form,
+               'adds_form': adds_form,'own_form':own_form ,'interests': interests,
+               'newone': newone,'softwares': softwares,
+               'certifications': certifications,
+               'certificationtracking':certificationtracking}
     return render(request, 'resume/finalize.html',context)
