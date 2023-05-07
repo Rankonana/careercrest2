@@ -3,6 +3,9 @@
 {% block content %}
 {% load static %}
 
+<meta name="csrf-token" content="{{ csrf_token }}">
+
+
 <div class="container" >
     
     <div id="finalize-div" style="display: block;">
@@ -202,22 +205,16 @@
                 <label for="summary-label" class="control-label">What software skills do you have?</label>
             </div>
             <div class="row">
-                <!-- <ul id="list-software-container"></ul> -->
-                <ul>
-                    {% for obj in softwares %}
-                    <li>
-                        
-                        
-                        <div class="rating">{{ obj.proficiency }}</div>
-                        {{ obj.software_name }}
-                        
-                        <a href="{% url 'addeditSoftware' tracking obj.softwaretracking  %}"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a>
-                        <a href="{% url 'deletesoftware' tracking obj.softwaretracking  %}"style='color:red'><i class='fa fa-trash-o' ></i>  Delete</a>
-                        
-                        <hr>
-                    </li>
-                    {% endfor %}
-                </ul>
+                <table id="software-table">
+                    <thead>
+                        <tr>
+                            <th>Software Name</th>
+                            <th>Proficiency</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
             </div>
             <div class="row">
                 <!-- <a onclick="theaddmoreSoftwareSkills()" class="btn btn-outline-primary"> + Add Software Skill</a> -->
@@ -670,6 +667,74 @@
   
 
   </script>
+
+  <!-- software start  -->
+
+
+<script>
+    // Get the CSRF token from the HTML meta tag
+    var csrfToken = document.querySelector('[name=csrf-token]').content;
+
+    // Get the table body element
+    var tableBody = document.querySelector('#software-table tbody');
+
+    // Function to render a row in the table
+    function renderRow(software) {
+        // Create a new row element
+        var row = document.createElement('tr');
+
+        // Create two new input elements for the software name and proficiency
+        var nameInput = document.createElement('input');
+        nameInput.type = 'text';
+        nameInput.value = software.software_name;
+        var proficiencyInput = document.createElement('input');
+        proficiencyInput.type = 'text';
+        proficiencyInput.value = software.proficiency;
+
+        // Append the input elements to the row
+        row.appendChild(nameInput);
+        row.appendChild(proficiencyInput);
+
+        // Add an event listener to the input elements to update the software data on change
+        nameInput.addEventListener('change', function() {
+            updateSoftware(software, nameInput.value, proficiencyInput.value);
+        });
+        proficiencyInput.addEventListener('change', function() {
+            updateSoftware(software, nameInput.value, proficiencyInput.value);
+        });
+
+        // Add the row to the table body
+        tableBody.appendChild(row);
+    }
+
+    // Function to update a software with new data
+    function updateSoftware(software, name, proficiency) {
+        // Create a new PUT request with the updated data
+        var xhr = new XMLHttpRequest();
+        xhr.open('PUT', 'http://127.0.0.1:8000/api/add-edit-software/');
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.setRequestHeader('X-CSRFToken', csrfToken);
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                console.log('Software updated:', xhr.responseText);
+            } else {
+                console.error('Error updating software:', xhr.responseText);
+            }
+        };
+        xhr.send(JSON.stringify({
+            'softwaretracking': software.softwaretracking,
+            'resume': software.resume,
+            'software_name': name,
+            'proficiency': proficiency
+        }));
+    }
+
+    // Fetch the list of software from the API and render the table rows
+    fetch('http://127.0.0.1:8000/api/softwares/')
+        .then(response => response.json())
+        .then(data => data.forEach(renderRow));
+</script>
+  <!-- software end -->
     
 {% endblock content %}
 

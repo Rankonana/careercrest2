@@ -27,16 +27,16 @@ def getSoftware(request,pk):
     return Response(serializer.data)
 
 @api_view(['POST', 'PUT'])
-def software_detail(request,softwaretracking):
+def software_detail(request):
     try:
-        software = Software.objects.get(softwaretracking=softwaretracking)
+        software = Software.objects.get(softwaretracking=request.data.get('softwaretracking'))
     except Software.DoesNotExist:
         software = None
 
     if request.method == 'POST':
         serializer = SoftwareSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save(softwaretracking=softwaretracking)
+            serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
