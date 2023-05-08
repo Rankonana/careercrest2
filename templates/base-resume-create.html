@@ -403,14 +403,24 @@
 	</script>
 	<script>
 		function funcheckbox() {
-			var checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
-			var values = [];
-			checkboxes.forEach(function(checkbox) {
-				values.push(checkbox.value);
-				const div = document.getElementById(checkbox.value);
-				div.classList.add('visit')
-				func();
-			});
+		var checkedboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+		var cvalues = [];
+		checkedboxes.forEach(function(checkbox) {
+			cvalues.push(checkbox.value);
+			const div = document.getElementById(checkbox.value);
+			div.classList.add('visit');
+			func();
+		});
+
+		// Get all unchecked checkboxes
+		var uncheckedboxes = document.querySelectorAll('input[type="checkbox"]:not(:checked)');
+		uncheckedboxes.forEach(function(checkbox) {
+			// Get the <div> element associated with the unchecked checkbox
+			const div = document.getElementById(checkbox.value);
+			// Remove the 'visit' class from the <div> element
+			div.classList.remove('visit');
+			func();
+		});
 		}
 
 		function func() {

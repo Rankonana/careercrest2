@@ -703,33 +703,6 @@
 		</script>
 		<!-- script for affiliations end -->
 
-        <script>
-            function ratingfunction() {
-				// https://jsuites.net/v4/rating
-				const ratingElements = document.querySelectorAll('.rating');
-				// Loop through each red element
-				for (let i = 0; i < ratingElements.length; i++) {
-					const ratingElement = ratingElements[i];
-                    const ratingvalue = ratingElement.textContent
-                    
-					// Check if the red element also has class "bold"				
-                    var myRating = jSuites.rating(ratingElement, {
-                        value: parseInt(ratingvalue),
-                        tooltip: ['Very bad', 'Bad', 'Average', 'Good', 'Very good'],
-                    });
-					
-				}
-			}
-        </script>
-
-        <script>
-            window.addEventListener('DOMContentLoaded', () => {
-        
-            ratingfunction()
-            });
-    
-
-        </script>
 
   <!-- software start  -->
     <script>
@@ -753,6 +726,7 @@
 
             nameInput.type = 'text';
             nameInput.value = software.software_name;
+
             var proficiencyInput = software.proficiency;
 
 
@@ -1140,11 +1114,13 @@
             var dateInput = document.createElement("input");
             dateInput.setAttribute("type", "date");
             dateInput.setAttribute('id', 'date-element-' + numberOfItems);
+            dateInput.classList.add("form-control");
+
             const textBox = document.createElement('input');
             textBox.type = 'text';
             textBox.setAttribute('id', 'certification-textbox-' + numberOfItems);
             textBox.setAttribute('name', 'certification-textbox-' + numberOfItems);
-            textBox.classList.add("certification-textbox");
+            textBox.classList.add("form-control");
             textBox.value = textxxx;
             // Create a delete button
             const deleteButton = document.createElement('button');

@@ -298,15 +298,10 @@ def listEdu(request,tracking):
         educations = Education.objects.filter(
             Q(resume = resume)
             )
-        if educations:
-            print("big e")
-        else:
-            edutracking = generate_random_string(10)
-            return redirect('addeditedu',tracking,edutracking)
-        context = {'educations': educations,'tracking': tracking,'edutracking':edutracking}
     except:
-        newone = generate_random_string(10)
-        context = {'educations': educations,'tracking': tracking,'newone': newone}
+        pass
+    newone = generate_random_string(10)
+    context = {'educations': educations,'tracking': tracking,'newone': newone}
     return render(request, 'resume/resume_Listedu.html',context)
 def addEditEdu(request,tracking,edutracking):
     form = EduForm()

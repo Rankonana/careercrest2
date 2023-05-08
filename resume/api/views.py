@@ -11,7 +11,7 @@ def getRoutes(request):
         'GET /api/'
         'GET /api/softwares',
         'GET /api/softwares/1',
-        'DELETE /api/delete-software/1'
+        'DELETE /api/delete-software/1',
 
         'GET /api/languages',
         'GET /api/languages/1',
