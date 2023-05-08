@@ -1167,12 +1167,7 @@
             
             listItem.setAttribute("id", Math.random().toString(36).substr(2, 9));
 
-            // Get the pathname of the current URL
-            var pathname = window.location.pathname;
-            // Extract the string after the last slash
-            var resumetracking = pathname.substring(pathname.lastIndexOf('/') + 1);
-            // Log the extracted string to the console
-            console.log("resumetracking : " + resumetracking);
+           
 
             
             const textxxx = "";
@@ -1212,6 +1207,61 @@
                 });
             });
         }
+    </script>
+
+    <script>
+        function addEditCertification(certificationtracking) {
+        // Get the certification date and name input values
+        var dateValue = document.getElementById(certificationtracking).querySelector('input[type="date"]').value;
+        var nameValue = document.getElementById(certificationtracking).querySelector('input[type="text"]').value;
+
+        // Create a data object with the input values and the resume value
+         // Get the pathname of the current URL
+         var pathname = window.location.pathname;
+        // Extract the string after the last slash
+        var resumetracking = pathname.substring(pathname.lastIndexOf('/') + 1);
+        // Log the extracted string to the console
+        console.log("resumetracking : " + resumetracking);
+            
+        // Send a POST request to the API endpoint
+        var xhrcer = new XMLHttpRequest();
+        xhrcer.open("PUT", "http://127.0.0.1:8000/api/add-edit-certification/", true);
+        xhrcer.setRequestHeader("Content-Type", "application/json");
+        xhrcer.setRequestHeader('X-CSRFToken', csrfToken);
+
+        xhrcer.onreadystatechange = function() {
+            if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+            console.log("Certification data sent successfully!");
+            }
+        };
+
+        var data = JSON.stringify({
+            certification_name: nameValue,
+            certification_date: dateValue,
+            certificationtracking: certificationtracking,
+            resume: resumetracking
+        });
+
+        xhrcer.send(data);
+
+        }
+
+        // Add event listeners to the date and name inputs
+        var certifications = document.querySelectorAll('#list-certifications-container .containerxx');
+        certifications.forEach(function(certification) {
+        var certificationtracking = certification.id;
+        var dateInput = certification.querySelector('input[type="date"]');
+        var nameInput = certification.querySelector('input[type="text"]');
+
+        dateInput.addEventListener('change', function() {
+            addEditCertification(certificationtracking);
+        });
+
+        nameInput.addEventListener('input', function() {
+            addEditCertification(certificationtracking);
+        });
+        });
+
     </script>
 <!-- script for certifications end -->
     
