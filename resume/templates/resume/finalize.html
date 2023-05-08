@@ -1072,40 +1072,42 @@
                     //const myButton = document.getElementById("myButton");
                     // Add a click event listener to the button
                     buttoncertifications.addEventListener("click", function() {
-                        const textxxx = this.nextElementSibling.textContent.trim();
+                        var textxxx = this.nextElementSibling.textContent.trim();
 
-                        theaddmorecertifications(textxxx.text);
+                        buttoncertifications.textContent = "REMOVE";
 
-                        // Toggle the button color between danger and primary
+
                         if (buttoncertifications.classList.contains("btn-danger")) {
                             buttoncertifications.classList.remove("btn-danger");
                             buttoncertifications.classList.add("btn-primary");
                             buttoncertifications.textContent = "ADD";
-                            // Get the word to match
-                            var wordToMatch = myInputcertifications;
-                            // Find the textbox that has a value matching the word
-                            //var textbox = document.querySelector('.certification-textbox');
-                            // const searchStr = wordToMatch;
-                            var textbox = document.querySelector(`input[type="text"].certification-textbox[value*="${wordToMatch}"]`);
-                            console.log("start ");
-                            var textboxes = document.querySelectorAll(`input[type="text"].certification-textbox`);
-                            for (var i = 0; i < textboxes.length; i++) {
-                                if (textboxes[i].value.includes(wordToMatch)) {
-                                    var textbox = textboxes[i];
-                                    var listItemx = textbox.parentNode;
-                                    listItem.remove(listItemx)
-                                    listItemx.remove();
-                                    console.log("from :" + listItemx);
-                                    console.log("textbox removed");
-                                    // Your code here
-                                }
+
+                                  // Get all the <div> elements inside the <ul> list
+                            const divs = document.querySelectorAll('#list-certifications-container > div');
+
+                            // Loop through each <div> element
+                            divs.forEach(function(div) {
+
+                            // Get the value of the textbox inside the <div> element
+                            const value = div.querySelector('input[type="text"]').value;
+
+                            // Check if the value contains the word "facebook"
+                            if (value.includes(textxxx)) {
+
+                                // If it does, remove the <div> element from the <ul> list
+                                div.remove();
+                                console.log('removed')
                             }
-                            console.log("end ");
-                        } else {
+                            });
+						} else {
                             buttoncertifications.classList.remove("btn-primary");
                             buttoncertifications.classList.add("btn-danger");
-                        }
-                        //added certifications end
+                            theaddmorecertifications(textxxx);
+							}
+
+
+
+                   
                     });
                     //add remove button
                 });
@@ -1129,12 +1131,10 @@
              var pathnameaddmore = window.location.pathname;
             // Extract the string after the last slash
             var resumetrackingaddmore = pathnameaddmore.substring(pathnameaddmore.lastIndexOf('/') + 1);
-            // Log the extracted string to the console
-            console.log("resumetracking : " + resumetrackingaddmore);
            
 
             
-            const textxxx = "";
+            const textxxx = certname;
             const listItems = listContainer.querySelectorAll('div');
             const numberOfItems = listItems.length;
             var dateInput = document.createElement("input");
@@ -1164,8 +1164,9 @@
                     }
                 };
 
+                console.log('check certname : ' + certname)
                 var dataaddmore = JSON.stringify({
-                    certification_name: "",
+                    certification_name: textxxx,
                     certificationtracking: certificationtrackingaddmore,
                     resume: resumetrackingaddmore
                 });
@@ -1219,8 +1220,6 @@
          var pathname = window.location.pathname;
         // Extract the string after the last slash
         var resumetracking = pathname.substring(pathname.lastIndexOf('/') + 1);
-        // Log the extracted string to the console
-        console.log("resumetracking : " + resumetracking);
             
         // Send a PUT request to the API endpoint
         var xhrcer = new XMLHttpRequest();
