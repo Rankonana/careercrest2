@@ -335,7 +335,7 @@
                     {% endfor %}
                     </ul>
                     <div>
-                        <a onclick="theaddmorecertifications()" class="btn btn-outline-primary"> + Add More certifications</a>
+                        <a onclick="theaddmorecertifications('')" class="btn btn-outline-primary"> + Add More certifications</a>
                     </div>
                 </div>
                 <!-- copied from summary end -->
@@ -1072,96 +1072,10 @@
                     //const myButton = document.getElementById("myButton");
                     // Add a click event listener to the button
                     buttoncertifications.addEventListener("click", function() {
-                        // Copy the text from the input element to the textarea
-                        const textcertifications = this.nextElementSibling.textContent.trim();
-                        const myInputcertifications = textcertifications;
-                        buttoncertifications.textContent = "REMOVE";
-                        //added certifications start
-                        const listContainer = document.getElementById('list-certifications-container');
-                        const listItem = document.createElement('div');
-                        listItem.classList.add('containerxx');
-                        var certificationtrackingadd = Math.random().toString(36).substr(2, 9);
-                        listItem.setAttribute("id", certificationtrackingadd);
-
-
                         const textxxx = this.nextElementSibling.textContent.trim();
-                        const listItems = listContainer.querySelectorAll('div');
-                        const numberOfItems = listItems.length;
-                        var dateInputb = document.createElement("input");
-                        dateInputb.setAttribute("type", "date");
-                        dateInputb.setAttribute('id', 'certification-date-element-' + numberOfItems);
-                        dateInputb.setAttribute('name', 'certification-date-element-' + numberOfItems);
 
-                        const textBoxb = document.createElement('input');
-                        textBoxb.type = 'text';
-                        textBoxb.setAttribute('id', 'certification-textbox-' + numberOfItems);
-                        textBoxb.setAttribute('name', 'certification-textbox-' + numberOfItems);
+                        theaddmorecertifications(textxxx.text);
 
-                        textBoxb.classList.add("certification-textbox");
-                        textBoxb.value = textxxx;
-                        // Create a delete button
-                        const deleteButton = document.createElement('button');
-                        deleteButton.textContent = 'X';
-                        deleteButton.classList.add("btn-danger");
-                        // Add the rating element, textbox, and delete button to the list item
-                        listItem.appendChild(dateInputb);
-                        listItem.appendChild(textBoxb);
-                        listItem.appendChild(deleteButton);
-                        // Add the list item to the container
-                        listContainer.appendChild(listItem);
-                        deletecertifications();
-                        // Get all the delete buttons
-                        var deleteButtons = document.querySelectorAll("#list-container button");
-                        // Loop through the delete buttons and attach a click event listener
-                        deleteButtons.forEach(function(button) {
-                            button.addEventListener("click", function() {
-                                // Get the parent list item of the clicked button and remove it
-                                var listItem = button.parentNode;
-                                console.log(listItem);
-                                listItem.remove();
-                            });
-                        });
-
-                        // Get the pathname of the current URL
-                        var pathnameadd = window.location.pathname;
-                        // Extract the string after the last slash
-                        var resumetrackingadd = pathnameadd.substring(pathnameadd.lastIndexOf('/') + 1);
-                        // Log the extracted string to the console
-                        console.log("resumetracking : " + resumetrackingadd);
-            
-                        //add to database
-                        // Send a POST request to the API endpoint
-                        var xhraddcert = new XMLHttpRequest();
-                            xhraddcert.open("POST", "http://127.0.0.1:8000/api/add-edit-certification/", true);
-                            xhraddcert.setRequestHeader("Content-Type", "application/json");
-                            xhraddcert.setRequestHeader('X-CSRFToken', csrfToken);
-
-                            xhraddcert.onreadystatechange = function() {
-                                if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-                                console.log("Certification data sent successfully!");
-                                }
-                            };
-
-                            var dataadd = JSON.stringify({
-                                certification_name: textxxx,
-                                certificationtracking: certificationtrackingadd,
-                                resume: resumetrackingadd
-                            });
-
-                            xhraddcert.send(dataadd);
-                        //
-
-                        // start event
-
-                        dateInputb.addEventListener('change', function() {
-                            addEditCertification(resumetrackingadd);
-                        });
-
-                        textBoxb.addEventListener('input', function() {
-                            addEditCertification(resumetrackingadd);
-                        });
-
-                        // end event
                         // Toggle the button color between danger and primary
                         if (buttoncertifications.classList.contains("btn-danger")) {
                             buttoncertifications.classList.remove("btn-danger");
@@ -1202,7 +1116,7 @@
             });
         }
 
-        function theaddmorecertifications() {
+        function theaddmorecertifications(certname) {
             const listContainer = document.getElementById('list-certifications-container');
             const listItem = document.createElement('div');
             listItem.classList.add("containerxx");
