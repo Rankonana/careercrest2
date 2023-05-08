@@ -1080,31 +1080,32 @@
                         const listContainer = document.getElementById('list-certifications-container');
                         const listItem = document.createElement('div');
                         listItem.classList.add('containerxx');
-                        listItem.setAttribute("id", Math.random().toString(36).substr(2, 9));
+                        var certificationtrackingadd = Math.random().toString(36).substr(2, 9);
+                        listItem.setAttribute("id", certificationtrackingadd);
 
 
                         const textxxx = this.nextElementSibling.textContent.trim();
                         const listItems = listContainer.querySelectorAll('div');
                         const numberOfItems = listItems.length;
-                        var dateInput = document.createElement("input");
-                        dateInput.setAttribute("type", "date");
-                        dateInput.setAttribute('id', 'certification-date-element-' + numberOfItems);
-                        dateInput.setAttribute('name', 'certification-date-element-' + numberOfItems);
+                        var dateInputb = document.createElement("input");
+                        dateInputb.setAttribute("type", "date");
+                        dateInputb.setAttribute('id', 'certification-date-element-' + numberOfItems);
+                        dateInputb.setAttribute('name', 'certification-date-element-' + numberOfItems);
 
-                        const textBox = document.createElement('input');
-                        textBox.type = 'text';
-                        textBox.setAttribute('id', 'certification-textbox-' + numberOfItems);
-                        textBox.setAttribute('name', 'certification-textbox-' + numberOfItems);
+                        const textBoxb = document.createElement('input');
+                        textBoxb.type = 'text';
+                        textBoxb.setAttribute('id', 'certification-textbox-' + numberOfItems);
+                        textBoxb.setAttribute('name', 'certification-textbox-' + numberOfItems);
 
-                        textBox.classList.add("certification-textbox");
-                        textBox.value = textxxx;
+                        textBoxb.classList.add("certification-textbox");
+                        textBoxb.value = textxxx;
                         // Create a delete button
                         const deleteButton = document.createElement('button');
                         deleteButton.textContent = 'X';
                         deleteButton.classList.add("btn-danger");
                         // Add the rating element, textbox, and delete button to the list item
-                        listItem.appendChild(dateInput);
-                        listItem.appendChild(textBox);
+                        listItem.appendChild(dateInputb);
+                        listItem.appendChild(textBoxb);
                         listItem.appendChild(deleteButton);
                         // Add the list item to the container
                         listContainer.appendChild(listItem);
@@ -1120,6 +1121,47 @@
                                 listItem.remove();
                             });
                         });
+
+                        // Get the pathname of the current URL
+                        var pathnameadd = window.location.pathname;
+                        // Extract the string after the last slash
+                        var resumetrackingadd = pathnameadd.substring(pathnameadd.lastIndexOf('/') + 1);
+                        // Log the extracted string to the console
+                        console.log("resumetracking : " + resumetrackingadd);
+            
+                        //add to database
+                        // Send a POST request to the API endpoint
+                        var xhraddcert = new XMLHttpRequest();
+                            xhraddcert.open("POST", "http://127.0.0.1:8000/api/add-edit-certification/", true);
+                            xhraddcert.setRequestHeader("Content-Type", "application/json");
+                            xhraddcert.setRequestHeader('X-CSRFToken', csrfToken);
+
+                            xhraddcert.onreadystatechange = function() {
+                                if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                                console.log("Certification data sent successfully!");
+                                }
+                            };
+
+                            var dataadd = JSON.stringify({
+                                certification_name: textxxx,
+                                certificationtracking: certificationtrackingadd,
+                                resume: resumetrackingadd
+                            });
+
+                            xhraddcert.send(dataadd);
+                        //
+
+                        // start event
+
+                        dateInputb.addEventListener('change', function() {
+                            addEditCertification(resumetrackingadd);
+                        });
+
+                        textBoxb.addEventListener('input', function() {
+                            addEditCertification(resumetrackingadd);
+                        });
+
+                        // end event
                         // Toggle the button color between danger and primary
                         if (buttoncertifications.classList.contains("btn-danger")) {
                             buttoncertifications.classList.remove("btn-danger");
@@ -1164,9 +1206,17 @@
             const listContainer = document.getElementById('list-certifications-container');
             const listItem = document.createElement('div');
             listItem.classList.add("containerxx");
-            
-            listItem.setAttribute("id", Math.random().toString(36).substr(2, 9));
+            var certificationtrackingaddmore = Math.random().toString(36).substr(2, 9);
 
+
+            listItem.setAttribute("id", certificationtrackingaddmore);
+
+             // Get the pathname of the current URL
+             var pathnameaddmore = window.location.pathname;
+            // Extract the string after the last slash
+            var resumetrackingaddmore = pathnameaddmore.substring(pathnameaddmore.lastIndexOf('/') + 1);
+            // Log the extracted string to the console
+            console.log("resumetracking : " + resumetrackingaddmore);
            
 
             
@@ -1186,6 +1236,41 @@
             const deleteButton = document.createElement('button');
             deleteButton.textContent = 'X';
             deleteButton.classList.add("btn-danger");
+
+            //add to database
+            // Send a POST request to the API endpoint
+            var xhraddcertmore = new XMLHttpRequest();
+                xhraddcertmore.open("POST", "http://127.0.0.1:8000/api/add-edit-certification/", true);
+                xhraddcertmore.setRequestHeader("Content-Type", "application/json");
+                xhraddcertmore.setRequestHeader('X-CSRFToken', csrfToken);
+
+                xhraddcertmore.onreadystatechange = function() {
+                    if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                    console.log("Certification data sent successfully!");
+                    }
+                };
+
+                var dataaddmore = JSON.stringify({
+                    certification_name: "",
+                    certificationtracking: certificationtrackingaddmore,
+                    resume: resumetrackingaddmore
+                });
+
+                xhraddcertmore.send(dataaddmore);
+            //
+
+            // start event
+
+            dateInput.addEventListener('change', function() {
+                addEditCertification(certificationtrackingaddmore);
+            });
+
+            textBox.addEventListener('input', function() {
+                addEditCertification(certificationtrackingaddmore);
+            });
+
+            // end event
+
             // Add the rating element, textbox, and delete button to the list item
             listItem.appendChild(dateInput);
             listItem.appendChild(textBox);
@@ -1223,7 +1308,7 @@
         // Log the extracted string to the console
         console.log("resumetracking : " + resumetracking);
             
-        // Send a POST request to the API endpoint
+        // Send a PUT request to the API endpoint
         var xhrcer = new XMLHttpRequest();
         xhrcer.open("PUT", "http://127.0.0.1:8000/api/add-edit-certification/", true);
         xhrcer.setRequestHeader("Content-Type", "application/json");

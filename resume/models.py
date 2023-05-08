@@ -123,11 +123,11 @@ class Languages(models.Model):
 class Certifications(models.Model):
     resume = models.ForeignKey(Resume, on_delete=models.CASCADE,related_name='certification')
     certification_name = models.CharField(max_length=200,null=True,blank=True)
-    certification_date = models.DateField()
+    certification_date = models.DateField(max_length=200,null=True,blank=True)
     certificationtracking = models.CharField(max_length=200,null=True,blank=True)
 
     def __str__(self):
-        return self.certification_name
+        return self.certificationtracking
 
 class Interests(models.Model):
     resume = models.ForeignKey(Resume, on_delete=models.CASCADE,related_name='interest')
