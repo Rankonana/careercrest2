@@ -7,10 +7,24 @@
 
     <form method="post">
         {% csrf_token %}
-        {{form.as_p}}
+        {{form.language_name.label_tag}}
+        {{form.language_name}}
+
+        {{form.proficiency.label_tag}}
+        {{form.proficiency.as_hidden}}
+
+
+        <jsuites-rating value="0" tooltip="Ugly, Bad, Average, Good, Outstanding"></jsuites-rating>
+
         <button type="submit"  class="btn btn-success">Save</button>
     </form>
     <a href="{% url 'list-skill' tracking %}" class="btn btn-danger"> Cancel</a>
-</div>    
+</div>
+
+<script>
+    document.querySelector('jsuites-rating').addEventListener('onchange', function(e) {
+        document.getElementById('id_proficiency').value = this.value;
+    });
+    </script>
 
 {% endblock content %}

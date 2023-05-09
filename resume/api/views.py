@@ -84,10 +84,11 @@ def language_detail(request):
     except Languages.DoesNotExist:
         language = None
 
-    resumeid = Resume.objects.get(tracking =request.data.get('resume') )
-    data = request.data.copy()
-    data['resume'] = resumeid.pk
-    if request.method == 'POST':       
+
+    if request.method == 'POST':
+        resumeid = Resume.objects.get(tracking =request.data.get('resume') )
+        data = request.data.copy()
+        data['resume'] = resumeid.pk
         serializer = LanguageSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
@@ -97,7 +98,7 @@ def language_detail(request):
     elif request.method == 'PUT':
         if language is None:
             return Response(status=status.HTTP_404_NOT_FOUND)
-        serializer = LanguageSerializer(language, data=data)
+        serializer = LanguageSerializer(language, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)

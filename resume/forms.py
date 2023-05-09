@@ -2,8 +2,8 @@ from django import forms
 import datetime
 
 class ResumeForm(forms.Form):
-    title = forms.CharField(label='Title', max_length=100,required=False,
-                    widget=forms.TextInput(attrs={'placeholder': 'Title','class':'form-control'}))
+    title = forms.CharField(label='Title',
+                    widget=forms.TextInput(attrs={'placeholder': 'Title','class':'form-control'}), max_length=100,required=True)
     image = forms.ImageField(required=False)
     firstname = forms.CharField(label='First name',
                     widget=forms.TextInput(attrs={'placeholder': 'First name','class':'form-control'}), max_length=100,required=True)

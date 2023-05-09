@@ -72,25 +72,21 @@ def myAccount(request):
 
 def createBasic(request,tracking):
     form = ResumeForm()
+    username = None
     xd = None
     if request.method == "POST":
         form = ResumeForm(request.POST,request.FILES)
         if form.is_valid():
-            if request.user.is_authenticated:
-                print(" you are logged in good")
+
+            if request.session.has_key('username'):
+                username = request.session['username']
             else:
-                if(User.objects.filter(username=form.cleaned_data['email']).exists()):
-                    pass
-                else:
-                    u= User.objects.create_user(username=form.cleaned_data['email'],password='Marea36*******',email=form.cleaned_data['email'])
-                    u.first_name= form.cleaned_data['firstname']
-                    u.last_name = form.cleaned_data['lastname']
-                    u.save()
-                    login(request,u)
-            print(form.cleaned_data)
+                request.session['username'] = form.cleaned_data['email']
+                username = request.session['username']
+
             if not form.cleaned_data['image']:
                 defaults = {
-                    'user': request.user,
+                    'user': username,
                     'title': form.cleaned_data['title'],
                     'firstname': form.cleaned_data['firstname'],
                     'lastname': form.cleaned_data['lastname'],
@@ -109,7 +105,7 @@ def createBasic(request,tracking):
 
             else:
                 defaults = {
-                    'user': request.user,
+                    'user': username,
                     'image': form.cleaned_data['image'],
                     'title': form.cleaned_data['title'],
                     'firstname': form.cleaned_data['firstname'],
@@ -130,6 +126,11 @@ def createBasic(request,tracking):
         else:
             print(form.errors)
     else:
+        # if request.user.is_authenticated:
+        #     # print(request.user.get get_email())
+        #     print("email : " + str(request.user.email))
+        # else:
+        #     print("empty email : ")
         try:
             rm = get_object_or_404(Resume,tracking=tracking)
             xd = rm.image
@@ -171,7 +172,7 @@ def createSummary(request,tracking):
             resume, created = Resume.objects.update_or_create(
                             tracking = tracking,
                             defaults={
-                                       'user': request.user,
+                                       'user': request.session['username'],
                                        'professional_summary' : form.cleaned_data['professional_summary']
                                        },
                             )
@@ -240,6 +241,7 @@ def deleteSocial(request,tracking,socialtracking):
 
 
 def listWork(request,tracking):
+    print(request.session['username'])
     works = None
     try:
         resume = Resume.objects.get(tracking=tracking)

@@ -7,7 +7,7 @@ from django.db import models
 #     pass
 
 class Resume(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.CharField(max_length=200,null=False,blank=False)
     title = models.CharField(max_length=200,null=True,blank=True)
     image = models.ImageField(default="NoImage.jpg",null=True,blank=True)
     firstname = models.CharField(max_length=200,null=True,blank=True)
@@ -22,7 +22,7 @@ class Resume(models.Model):
     tracking = models.CharField(max_length=200,null=True,blank=True)
 
     def __str__(self):
-        return self.title
+        return self.title + " "+ self.firstname + " "+ self.lastname + " "+  self.email + " "+ self.tracking
 
 class SocialLink(models.Model):
     resume = models.ForeignKey(Resume, on_delete=models.CASCADE, related_name='SocialLink')
