@@ -287,7 +287,7 @@
 					
 					{% if request.user.is_authenticated %}
 					<div class="nav-item dropdown">
-                        <a href="#" class="nav-link btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">{{request.user}}</a>
+                        <a href="#" class="nav-link btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">{{request.user.get_short_name}}</a>
                         <div class="dropdown-menu rounded-0 m-0">
 							
 							<a href="{% url 'account' %}"  class="nav-item nav-link">Documents</a>

@@ -6,10 +6,10 @@ class ResumeForm(forms.Form):
                     widget=forms.TextInput(attrs={'placeholder': 'Title','class':'form-control'}))
     image = forms.ImageField(required=False)
     firstname = forms.CharField(label='First name',
-                    widget=forms.TextInput(attrs={'placeholder': 'First name','class':'form-control'}), max_length=100,required=False)
+                    widget=forms.TextInput(attrs={'placeholder': 'First name','class':'form-control'}), max_length=100,required=True)
 
     lastname = forms.CharField(label='Last name',
-                    widget=forms.TextInput(attrs={'placeholder': 'Last name','class':'form-control'}), max_length=100,required=False)
+                    widget=forms.TextInput(attrs={'placeholder': 'Last name','class':'form-control'}), max_length=100,required=True)
     
     profession = forms.CharField(label='Profession',
                     widget=forms.TextInput(attrs={'placeholder': 'Profession','class':'form-control'}), max_length=100,required=False)
@@ -22,7 +22,7 @@ class ResumeForm(forms.Form):
     phone = forms.CharField(label='Phone',
                     widget=forms.TextInput(attrs={'placeholder': 'Phone','class':'form-control'}), max_length=100,required=False)
     email = forms.EmailField(label='E-mail',
-                    widget=forms.TextInput(attrs={'placeholder': 'E-mail','class':'form-control'}), max_length=100,required=False)
+                    widget=forms.TextInput(attrs={'placeholder': 'E-mail','class':'form-control'}), max_length=100,required=True)
     professional_summary = forms.CharField(label='Professional Summary:',
                                            widget=forms.Textarea(attrs={'cols': 50, 'rows': 10,'placeholder': 'Write your summary here...','class':'form-control'}),required=False
                                            )

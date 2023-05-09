@@ -71,19 +71,22 @@ def myAccount(request):
     return render(request, 'resume/my_account.html',context)
 
 def createBasic(request,tracking):
-    if request.user.is_authenticated:
-        print('good')
-    else:
-        print('not good')
-        u= User.objects.create_user(username=tracking,password='Marea36*******',email='cdcd@gmail.com')
-        u.save()
-        login(request,u)
     form = ResumeForm()
     xd = None
     if request.method == "POST":
         form = ResumeForm(request.POST,request.FILES)
-        print(form)
         if form.is_valid():
+            if request.user.is_authenticated:
+                print(" you are logged in good")
+            else:
+                if(User.objects.filter(username=form.cleaned_data['email']).exists()):
+                    pass
+                else:
+                    u= User.objects.create_user(username=form.cleaned_data['email'],password='Marea36*******',email=form.cleaned_data['email'])
+                    u.first_name= form.cleaned_data['firstname']
+                    u.last_name = form.cleaned_data['lastname']
+                    u.save()
+                    login(request,u)
             print(form.cleaned_data)
             if not form.cleaned_data['image']:
                 defaults = {
