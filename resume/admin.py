@@ -2,11 +2,12 @@ from django.contrib import admin
 
 # Register your models here.
 
-from .models import Resume,Education,WorkExperience,Skill
-from .models import Summary,Accomplishments,Affiliations,AdditionalInformation,Software,Languages, Certifications, Interests,YourOwn
+from .models import *
 
 
 admin.site.register(Resume)
+admin.site.register(SocialLinks)
+
 admin.site.register(Education)
 admin.site.register(WorkExperience)
 admin.site.register(Skill)

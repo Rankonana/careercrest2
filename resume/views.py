@@ -153,7 +153,7 @@ def createBasic(request,tracking):
     socials  = None
     try:
         resume = Resume.objects.get(tracking=tracking)
-        socials = SocialLink.objects.filter(
+        socials = SocialLinks.objects.filter(
                 Q(resume = resume)
                 )
     except:
@@ -193,7 +193,7 @@ def createSummary(request,tracking):
 def listSocial(request,tracking):
     try:
         resume = Resume.objects.get(tracking=tracking)
-        socials = SocialLink.objects.filter(
+        socials = SocialLinks.objects.filter(
             Q(resume = resume)
             )
         if socials:
@@ -213,7 +213,7 @@ def addeditSocial(request,tracking,socialtracking):
         form = SocialForm(request.POST)
         if form.is_valid():
             rm = Resume.objects.get(tracking=tracking)
-            social, created = SocialLink.objects.update_or_create(
+            social, created = SocialLinks.objects.update_or_create(
                             socialtracking = socialtracking,
                             defaults={
                                        'resume': rm,
@@ -224,7 +224,7 @@ def addeditSocial(request,tracking,socialtracking):
             return redirect('create-basic',tracking=tracking)
     else:
         try:
-            ed = get_object_or_404(SocialLink,socialtracking=socialtracking)
+            ed = get_object_or_404(SocialLinks,socialtracking=socialtracking)
             form_data = {'name': ed.name,
                           'url': ed.url                          }
             print(form_data)
@@ -235,7 +235,7 @@ def addeditSocial(request,tracking,socialtracking):
     return render(request, 'resume/add_edit_Social.html',context)
 
 def deleteSocial(request,tracking,socialtracking):
-    sk = SocialLink.objects.get(socialtracking=socialtracking)
+    sk = SocialLinks.objects.get(socialtracking=socialtracking)
     sk.delete()
     return redirect('create-basic',tracking=tracking)
 

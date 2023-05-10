@@ -24,8 +24,8 @@ class Resume(models.Model):
     def __str__(self):
         return self.tracking
 
-class SocialLink(models.Model):
-    resume = models.ForeignKey(Resume, on_delete=models.CASCADE, related_name='SocialLink')
+class SocialLinks(models.Model):
+    resume = models.ForeignKey(Resume, on_delete=models.CASCADE, related_name='SocialLinks')
     name = models.CharField(max_length=200,null=True,blank=True)
     url = models.CharField(max_length=200,null=True,blank=True)
     socialtracking = models.CharField(max_length=200,null=True,blank=True)

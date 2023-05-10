@@ -22,6 +22,11 @@ urlpatterns = [
     path('image-delete/<str:tracking>/', views.deleteImage),
     path('add-edit-image/<str:tracking>/', views.add_or_update_image),
 
+    path('socials/', views.getSocialLinks),
+    path('socials/<str:pk>/', views.getSocialLink),
+    path('add-edit-social/', views.socialLink_detail),
+    path('delete-social/<str:pk>/', views.deleteSocialLink),
+
 
 
 
