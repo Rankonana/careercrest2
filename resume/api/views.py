@@ -193,19 +193,22 @@ def deleteImage(request, tracking):
 @api_view(['POST', 'PUT'])
 @parser_classes((MultiPartParser, FormParser))
 def add_or_update_image(request, tracking):
+    # try:
+    #     resume = Resume.objects.get(tracking=tracking)
+    # except Resume.DoesNotExist:
+    #     raise Http404
     try:
-        resume = Resume.objects.get(tracking=tracking)
-        print(resume)
+        resume,success = Resume.objects.get_or_create(tracking=tracking)
     except Resume.DoesNotExist:
         raise Http404
     
     serializer = ImageSerializer(resume, data=request.data, partial=request.method == 'PUT')
     if serializer.is_valid():
         serializer.save()
-        print(resume)
         return Response(serializer.data, status=status.HTTP_200_OK)
     else:
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 

@@ -21,4 +21,5 @@ class CertificationSerializer(ModelSerializer):
 class ImageSerializer(ModelSerializer):
     class Meta:
         model = Resume
-        fields = ['image','tracking']
+        fields = ['image']
+        partial = True

@@ -22,7 +22,7 @@ class Resume(models.Model):
     tracking = models.CharField(max_length=200,null=False,blank=False)
 
     def __str__(self):
-        return self.title + " "+ self.firstname + " "+ self.lastname + " "+  self.email + " "+ self.tracking
+        return self.tracking
 
 class SocialLink(models.Model):
     resume = models.ForeignKey(Resume, on_delete=models.CASCADE, related_name='SocialLink')
