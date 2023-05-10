@@ -17,3 +17,8 @@ class CertificationSerializer(ModelSerializer):
     class Meta:
         model = Certifications
         fields = '__all__'
+
+class ImageSerializer(ModelSerializer):
+    class Meta:
+        model = Resume
+        fields = ['image','tracking']

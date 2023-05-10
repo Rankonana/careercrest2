@@ -18,6 +18,13 @@ urlpatterns = [
     path('add-edit-certification/', views.certification_detail),
     path('delete-certification/<str:pk>/', views.deleteCertification),
 
+    path('image/<str:tracking>/', views.getImage),
+    path('image-delete/<str:tracking>/', views.deleteImage),
+    path('add-edit-image/<str:tracking>/', views.add_or_update_image),
+
+
+
+
 
 
 ]

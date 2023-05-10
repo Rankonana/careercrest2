@@ -2,28 +2,91 @@
 {% block title %}Heading{% endblock %}
 {% block content %}
 {% load static %}
+{% block head %}
+<style>
+
+</style>
+{% endblock head %}
 <div class="container">
 
-    <form  method="post" enctype="multipart/form-data">
-        {% csrf_token %}
+    
 
         <div class="row">
             <div class="col-md-2">
+                  <div class="row">
+                    {% if image %}
+                    <img src="{{ image.url }}" alt="Sample Image for Photo Upload" id="uploadimage" class="img-fluid">
+                    {% else %}
+                    <img src="http://127.0.0.1:8000/media/NoImage.jpg" alt="Sample Image for Photo Upload" id="uploadimage" class="img-fluid">
+                    {% endif %}
+                </div>
                   
-                {% if image %}
-                <img src="{{ image.url }}" alt="Sample Image for Photo Upload" id="uploadimage" class="img-fluid">
-                {% else %}
-                <img src="http://127.0.0.1:8000/media/NoImage.jpg" alt="Sample Image for Photo Upload" id="uploadimage" class="img-fluid">
-                {% endif %}
+                    
+                      <!-- Button to Open the Modal -->
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                        Open modal
+                    </button>
 
-                    <div class="form-group">
-                        {{ form.image.label_tag }}
-                        {{ form.image }}
+                    <!-- The Modal -->
+                    <div class="modal fade" id="myModal">
+                        <div class="modal-dialog">
+                        <div class="modal-content">
+                        
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                            <h4 class="modal-title">Photo upload</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            
+                            <!-- Modal body -->
+                            <div class="modal-body">
+                                
+                                <div class="row">
+                                    <div class="col-6">
+                                        <img src="{{ image.url }}" alt="Sample Image for Photo Upload" id="modalimg" class="img-fluid">
+
+
+                                        <form id="image-form">
+                                            <label for="image-file" class="btn btn-primary">Upload
+                                                <input type="file" id="image-file" name="image"  style="width: 0px;height: 0px;overflow: hidden;">
+                                            </label>
+                                          </form>
+
+                                    </div>
+
+                                    <div class="col-6">
+                                        <div>
+                                            <p>Make sure to check the application requirements before adding a photo. Some employers won’t consider resume with photos.</p>
+                                            <p>Want to add a photo?</p>
+                                        </div>
+                                        <ul class="list-square px-0">
+                                            <li>• Choose a recent color photo in a JPEG, PNG, or GIF format, that’s less than 10MB.</li>
+                                            <li>• Crop your photo so it only shows your head and shoulders.</li>
+                                            <li>• If you already uploaded a photo, uploading another will replace it.</li>
+                                        </ul>
+                                    </div>
+
+                                </div>
+                                    
+                            </div>
+                            
+                            <!-- Modal footer -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                                <button type="button" class="btn btn-primary" >Save</button>
+                            </div>
+                            
+                        </div>
+                        </div>
                     </div>
-                    <button type="submit" class="btn btn-primary">Upload</button>
+                    
+
 
             </div>
+            
             <div class="col-md-8">
+                <form  method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
                     <div class="row">
                         <div class="col-2">
                             <div class="form-group">
@@ -107,40 +170,16 @@
                    <hr>
                     {% endfor %}
 
-                    <!-- Button to Open the Modal -->
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-                        Open modal
-                    </button>
+                    
 
-                    <!-- The Modal -->
-                    <div class="modal fade" id="myModal">
-                        <div class="modal-dialog">
-                        <div class="modal-content">
-                        
-                            <!-- Modal Header -->
-                            <div class="modal-header">
-                            <h4 class="modal-title">Modal Heading</h4>
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            </div>
-                            
-                            <!-- Modal body -->
-                            <div class="modal-body">
-                            Modal body..
-                            </div>
-                            
-                            <!-- Modal footer -->
-                            <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                            </div>
-                            
-                        </div>
-                        </div>
-                    </div>
                     
                    
                     <a href="{% url 'addeditSocial' tracking socialtracking  %}" class="btn btn-outline-primary"> + Add new one</a>
+                    <button type="submit" class="btn btn-primary">Save Data</button>
 
+                </form>
             </div>
+            
             <div class="col-md-2">
                 <div class="col">
                     <img src="http://127.0.0.1:8000/media/resume-preview.jpg" class="img-fluid" alt="Image">
@@ -150,9 +189,52 @@
         </div>
         <button type="submit" class="btn btn-danger">Save And Next</button>
 
-    </form>
-        
+    
+
+
+    
+      
+      
 
 </div>
+
+<script>
+    const fileInput = document.querySelector('#image-file');
+    fileInput.addEventListener('change', () => {
+      const formData = new FormData();
+      formData.append('image', fileInput.files[0]);
+      formData.append('tracking', '1ojxwYDfGd4vAIqPIfCDxm');
+
+
+      const url = 'http://127.0.0.1:8000/api/add-edit-image/1ojxwYDfGd4vAIqPIfCDxm/';
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', url);
+      xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
+      xhr.send(formData);
+      xhr.onload = () => {
+        if (xhr.status === 200) {
+          console.log(xhr.response);
+
+          const imageUrl = JSON.parse(xhr.response).image;
+          const preview = document.getElementById('uploadimage');
+          const modalimg = document.getElementById('modalimg');
+
+          preview.src =  imageUrl;
+          modalimg.src =  imageUrl;
+
+    
+        } else {
+          console.error(xhr.statusText);
+        }
+      };
+    });
+
+    // Get CSRF token from cookies
+    function getCookie(name) {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${name}=`);
+      if (parts.length === 2) return parts.pop().split(';').shift();
+    }
+</script>
 {% endblock content %}
 
