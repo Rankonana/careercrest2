@@ -8,6 +8,7 @@
 </style>
 {% endblock head %}
 <div class="container">
+    <meta name="csrf-token" content="{{ csrf_token }}">
 
     
 
@@ -85,7 +86,7 @@
             </div>
             
             <div class="col-md-8">
-                <form  method="post" enctype="multipart/form-data">
+                <form id="myResumeForm"  method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="row">
                         <div class="col-2">
@@ -152,7 +153,7 @@
                     
 
                 
-                    <button type="submit" class="btn btn-primary">Save Data</button>
+                    <!-- <button type="submit" class="btn btn-primary">Save Data</button> -->
 
                 </form>
                 <div class="row">
@@ -181,7 +182,7 @@
                 <button type="button" class="btn btn-primary">Change Template</button>
             </div>
         </div>
-        <button type="submit" class="btn btn-danger">Save And Next</button>
+        <button id="basicnext" onclick="submitbasicform();" class="btn btn-danger">Save And Next</button>
 
     
 
@@ -191,6 +192,15 @@
       
 
 </div>
+
+<script>
+
+function submitbasicform() {
+    var form = document.getElementById('myResumeForm');
+    form.submit();
+    }
+
+</script>
 
 <script>
     const fileInput = document.querySelector('#image-file');
@@ -231,6 +241,8 @@
 </script>
 
 <script>
+    var csrfToken = document.querySelector('[name=csrf-token]').content;
+
     // Fetch data from API endpoint
     fetch('/api/socials/')
         .then(response => response.json())
@@ -246,9 +258,6 @@
                 colname.setAttribute("class","col-6")
                 const formname = document.createElement('div');
                 formname.setAttribute("class","form-group")
-                var socialnameInput = document.createElement('input');
-                socialnameInput.type = 'text';
-                socialnameInput.setAttribute("class","form-control")
 
                 // Get the select element
                 var select = document.createElement("select");
@@ -275,23 +284,45 @@
 
 
                 const colurl = document.createElement('div');
-                colurl.setAttribute("class","col-6")
+                colurl.setAttribute("class","col-5")
                 const formgurl= document.createElement('div');
                 formgurl.setAttribute("class","form-group")
                 var socialurlInput = document.createElement('input');
                 socialurlInput.type = 'text';
                 socialurlInput.setAttribute("class","form-control")
 
+                const deletelink = document.createElement('a');
+                deletelink.href = `http://127.0.0.1:8000/api/delete-social/${social.id}`;
+                deletelink.innerHTML = 'Delete social';
+                deletelink.addEventListener('click', function(event) {
+                event.preventDefault(); // Prevent the link from navigating to the URL
+
+                alert(getCookie('csrftoken'));
+                const xhr = new XMLHttpRequest();
+                xhr.open('DELETE', deletelink.href);
+                xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
+                xhr.onload = function() {
+                    if (xhr.status === 200) {
+                    console.log('Software deleted successfully!');
+                    location.reload();
+                    } else {
+                    console.error('An error occurred while deleting the software:', xhr.statusText);
+                    }
+                };
+                xhr.onerror = function() {
+                    console.error('An error occurred while deleting the software:', xhr.statusText);
+                };
+                xhr.send();
+                });
+
 
                 // Create a new cell for the name
-                socialnameInput.value = social.name;
-                console.log(social.name)
+                select.value = social.name;
+
 
                 // Create a new cell for the URL
                 socialurlInput.value = social.url;
 
-                // select.options[0].selected = true;
-                select.value = social.name;
 
 
                 formname.appendChild(select);
@@ -299,6 +330,8 @@
 
                 formgurl.appendChild(socialurlInput);
                 colurl.appendChild(formgurl);
+                colurl.appendChild(deletelink);
+
 
                 divouter.appendChild(colname)
                 divouter.appendChild(colurl)
