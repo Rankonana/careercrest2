@@ -47,7 +47,7 @@
                                         <img src="{{ image.url }}" alt="Sample Image for Photo Upload" id="modalimg" class="img-fluid">
 
 
-                                        <form id="image-form">
+                                        <form id="image-form" enctype="multipart/form-data">
                                             <label for="image-file" class="btn btn-primary">Upload
                                                 <input type="file" id="image-file" name="image"  style="width: 0px;height: 0px;overflow: hidden;">
                                             </label>
@@ -205,13 +205,18 @@
 <script>
     const fileInput = document.querySelector('#image-file');
     fileInput.addEventListener('change', () => {
+
+      var imgpathname = window.location.pathname;
+      var imgresumetracking = imgpathname.substring(imgpathname.lastIndexOf('/') + 1);
+      url = `http://127.0.0.1:8000/api/add-edit-image/${imgresumetracking}`;
+
       const formData = new FormData();
       formData.append('image', fileInput.files[0]);
+      formData.append('resume', imgresumetracking);
 
 
-      const url = 'http://127.0.0.1:8000/api/add-edit-image/1ojxwYDfGd4vAIqPIfCDxm/';
       const xhr = new XMLHttpRequest();
-      xhr.open('POST', url);
+      xhr.open('POST', url + "/");
       xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
       xhr.send(formData);
       xhr.onload = () => {

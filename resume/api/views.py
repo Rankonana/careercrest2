@@ -8,7 +8,7 @@ from rest_framework.decorators import api_view, parser_classes
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
 from rest_framework import status
-from .serializers import ImageSerializer
+from .serializers import *
 
 
 @api_view(['GET'])
@@ -58,7 +58,10 @@ def software_detail(request):
     elif request.method == 'PUT':
         if software is None:
             return Response(status=status.HTTP_404_NOT_FOUND)
-        serializer = SoftwareSerializer(software, data=request.data)
+        resumeid = Resume.objects.get(tracking =request.data.get('resume') )
+        data = request.data.copy()
+        data['resume'] = resumeid.pk
+        serializer = SoftwareSerializer(software, data=data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -192,23 +195,42 @@ def deleteImage(request, tracking):
     
 @api_view(['POST', 'PUT'])
 @parser_classes((MultiPartParser, FormParser))
-def add_or_update_image(request, tracking):
-    # try:
-    #     resume = Resume.objects.get(tracking=tracking)
-    # except Resume.DoesNotExist:
-    #     raise Http404
+def add_or_update_image(request):
     try:
-        resume,success = Resume.objects.get_or_create(tracking=tracking)
+        resume = Resume.objects.get(tracking=request.data['tracking'])
     except Resume.DoesNotExist:
-        raise Http404
-    
-    serializer = ImageSerializer(resume, data=request.data, partial=request.method == 'PUT')
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    else:
+        resume = None
+
+    if request.method == 'POST':
+        if not resume:
+            serializer = ResumeSerializer(data=request.data)
+            if serializer.is_valid():
+                resume = serializer.save()
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        image = request.data.get('image')
+        if image:
+            resume.image = image
+            resume.save()
+            return Response(ResumeSerializer(resume).data)
+
+    elif request.method == 'PUT':
+        if not resume:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        serializer = ResumeSerializer(resume, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
+    
 @api_view(['GET'])
 def getSocialLinks(request):
     socialLinks = SocialLinks.objects.all()

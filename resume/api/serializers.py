@@ -24,6 +24,12 @@ class ImageSerializer(ModelSerializer):
         fields = ['image']
         partial = True
 
+class ResumeSerializer(ModelSerializer):
+    class Meta:
+        model = Resume
+        fields = '__all__'
+
+
 class SocialLinkSerializer(ModelSerializer):
     class Meta:
         model = SocialLinks
