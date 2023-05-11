@@ -195,7 +195,7 @@ def deleteImage(request, tracking):
     
 @api_view(['POST', 'PUT'])
 @parser_classes((MultiPartParser, FormParser))
-def add_or_update_image(request):
+def add_or_update_resume(request):
     try:
         resume = Resume.objects.get(tracking=request.data['tracking'])
     except Resume.DoesNotExist:

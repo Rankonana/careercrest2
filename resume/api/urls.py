@@ -20,7 +20,7 @@ urlpatterns = [
 
     path('image/<str:tracking>/', views.getImage),
     path('image-delete/<str:tracking>/', views.deleteImage),
-    path('add-edit-image/', views.add_or_update_image),
+    path('add-edit-resume/', views.add_or_update_resume),
 
     path('socials/', views.getSocialLinks),
     path('socials/<str:pk>/', views.getSocialLink),

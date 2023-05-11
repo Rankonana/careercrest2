@@ -208,15 +208,22 @@
 
       var imgpathname = window.location.pathname;
       var imgresumetracking = imgpathname.substring(imgpathname.lastIndexOf('/') + 1);
-      url = `http://127.0.0.1:8000/api/add-edit-image/${imgresumetracking}`;
+      url = `/api/add-edit-resume/`;
 
       const formData = new FormData();
       formData.append('image', fileInput.files[0]);
-      formData.append('resume', imgresumetracking);
+      formData.append('tracking', imgresumetracking);
 
+
+      imagemethod= 'PUT'
+      var getimage = document.getElementById("uploadimage")
+        if(getimage.src.indexOf('NoImage.jpg') !== -1){
+
+            imagemethod = 'POST'
+        }
 
       const xhr = new XMLHttpRequest();
-      xhr.open('POST', url + "/");
+      xhr.open(imagemethod, url);
       xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
       xhr.send(formData);
       xhr.onload = () => {
@@ -334,7 +341,7 @@
                 deletelink.setAttribute("class","fa fa-trash-o")
                 deletelink.appendChild(ielement)
 
-                deletelink.href = `http://127.0.0.1:8000/api/delete-social/${social.socialtracking}`;
+                deletelink.href = `/api/delete-social/${social.socialtracking}`;
                 deletelink.addEventListener('click', function(event) {
                 event.preventDefault(); // Prevent the link from navigating to the URL
 
