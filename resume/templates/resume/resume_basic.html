@@ -169,7 +169,14 @@
                     </div>
                 </div>
 
-                <div id="socialdiv"></div>
+                <div>
+                    <div id="socialdiv">
+
+                    </div>
+                    <button id="addsocial"  class="btn btn-outline-primary" > + Add new one</button>
+                </div>
+                
+
                 
 
             </div>
@@ -184,21 +191,14 @@
         </div>
         <button id="basicnext" onclick="submitbasicform();" class="btn btn-danger">Save And Next</button>
 
-    
-
-
-    
-      
-      
-
 </div>
 
 <script>
 
-function submitbasicform() {
-    var form = document.getElementById('myResumeForm');
-    form.submit();
-    }
+    function submitbasicform() {
+        var form = document.getElementById('myResumeForm');
+        form.submit();
+        }
 
 </script>
 
@@ -243,13 +243,31 @@ function submitbasicform() {
 <script>
     var csrfToken = document.querySelector('[name=csrf-token]').content;
 
-    // Fetch data from API endpoint
-    fetch('/api/socials/')
-        .then(response => response.json())
-        .then(data => {
-            const divsocial = document.querySelector('#socialTable');
+    function updateSocial(method,social, name, url) {
 
-            data.forEach(social => {
+            var upspathname = window.location.pathname;
+            var upsresumetracking = upspathname.substring(upspathname.lastIndexOf('/') + 1);
+            // Create a new PUT request with the updated data
+            var xhrl = new XMLHttpRequest();
+            xhrl.open(method, '/api/add-edit-social/');
+            xhrl.setRequestHeader('Content-Type', 'application/json');
+            xhrl.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
+            xhrl.onload = function() {
+                if (xhrl.status === 200) {
+                console.log('social updated:');
+                } else {
+                    console.error('Error updating social:');
+                }
+            };
+            xhrl.send(JSON.stringify({
+                'resume': upsresumetracking,
+                'name': name,
+                'url': url,
+                'socialtracking': social.socialtracking
+            }));
+        }
+    function renderSocial(social)
+    {
                 // Create a new row for each social object
                 const divouter = document.createElement('div');
                 divouter.setAttribute("class","row")
@@ -291,28 +309,45 @@ function submitbasicform() {
                 socialurlInput.type = 'text';
                 socialurlInput.setAttribute("class","form-control")
 
+                select.addEventListener('change', function() {
+                    updateSocial('PUT',social,select.value,socialurlInput.value);
+                });
+
+                socialurlInput.addEventListener('change', function() {
+                    updateSocial('PUT',social,select.value,socialurlInput.value);
+
+                });
+
+                const coldel = document.createElement('div');
+                coldel.setAttribute("class","col-1")
+                const formdel = document.createElement('div');
+                formdel.setAttribute("class","form-group")
+
                 const deletelink = document.createElement('a');
-                deletelink.href = `http://127.0.0.1:8000/api/delete-social/${social.id}`;
-                deletelink.innerHTML = 'Delete social';
+                deletelink.setAttribute("style","color:red")
+                const ielement = document.createElement('i');
+                deletelink.setAttribute("class","fa fa-trash-o")
+                deletelink.appendChild(ielement)
+
+                deletelink.href = `http://127.0.0.1:8000/api/delete-social/${social.socialtracking}`;
                 deletelink.addEventListener('click', function(event) {
                 event.preventDefault(); // Prevent the link from navigating to the URL
 
-                alert(getCookie('csrftoken'));
                 const xhr = new XMLHttpRequest();
                 xhr.open('DELETE', deletelink.href);
                 xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
                 xhr.onload = function() {
                     if (xhr.status === 200) {
-                    console.log('Software deleted successfully!');
-                    location.reload();
+                    console.log('Social deleted successfully!');
                     } else {
-                    console.error('An error occurred while deleting the software:', xhr.statusText);
+                    console.error('An error occurred while deleting the Social:', xhr.statusText);
                     }
                 };
                 xhr.onerror = function() {
-                    console.error('An error occurred while deleting the software:', xhr.statusText);
+                    console.error('An error occurred while deleting the Social:', xhr.statusText);
                 };
                 xhr.send();
+                divouter.remove()
                 });
 
 
@@ -330,11 +365,14 @@ function submitbasicform() {
 
                 formgurl.appendChild(socialurlInput);
                 colurl.appendChild(formgurl);
-                colurl.appendChild(deletelink);
+
+                formdel.appendChild(deletelink)
+                coldel.appendChild(formdel);
 
 
                 divouter.appendChild(colname)
                 divouter.appendChild(colurl)
+                divouter.appendChild(coldel)
 
 
 
@@ -342,9 +380,43 @@ function submitbasicform() {
                 socialdiv.appendChild(divouter);
 
 
+
+    }
+    // Fetch data from API endpoint
+    fetch('/api/socials/')
+        .then(response => response.json())
+        .then(data => {
+
+            data.forEach(social => {
+                renderSocial(social)
             });
         })
         .catch(error => console.error(error));
+</script>
+
+<script>
+    class Social {
+    constructor(resume, name, url,socialtracking) {
+        this.resume = resume;
+        this.name = name;
+        this.url = url;
+        this.socialtracking = socialtracking;
+
+    }
+    }
+    var addsocial = document.getElementById('addsocial');
+    addsocial.addEventListener('click', function(event) {
+                event.preventDefault();
+                var pathname = window.location.pathname;
+                var resumetracking = pathname.substring(pathname.lastIndexOf('/') + 1);
+     
+                const mys = new Social(resumetracking, "twitter", "",Math.random().toString(36).substr(2, 9));
+
+                renderSocial(mys)
+                updateSocial('POST',mys,"twitter","");
+
+    });
+
 </script>
 
 

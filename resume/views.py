@@ -71,6 +71,7 @@ def myAccount(request):
     return render(request, 'resume/my_account.html',context)
 
 def createBasic(request,tracking):
+    my_cookie=  None
     form = ResumeForm()
     username = None
     xd = None
@@ -121,6 +122,7 @@ def createBasic(request,tracking):
                                         tracking=tracking,
                                         defaults=defaults
                                     )
+            my_cookie = resume.pk
             return redirect('create-basic',tracking=tracking)
 
         else:
@@ -153,6 +155,7 @@ def createBasic(request,tracking):
     socials  = None
     try:
         resume = Resume.objects.get(tracking=tracking)
+        my_cookie = resume.pk
         socials = SocialLinks.objects.filter(
                 Q(resume = resume)
                 )

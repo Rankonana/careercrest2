@@ -229,7 +229,12 @@ def socialLink_detail(request):
         socialLink = None
 
     if request.method == 'POST':
-        serializer = SocialLinkSerializer(data=request.data)
+        #
+        resumeid = Resume.objects.get(tracking =request.data.get('resume') )
+        data = request.data.copy()
+        data['resume'] = resumeid.pk
+        #
+        serializer = SocialLinkSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -238,15 +243,20 @@ def socialLink_detail(request):
     elif request.method == 'PUT':
         if socialLink is None:
             return Response(status=status.HTTP_404_NOT_FOUND)
-        serializer = SocialLinkSerializer(socialLink, data=request.data, partial=True)
+        #
+        resumeid = Resume.objects.get(tracking =request.data.get('resume') )
+        data = request.data.copy()
+        data['resume'] = resumeid.pk
+        #
+        serializer = SocialLinkSerializer(socialLink, data=data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
    
 @api_view(['DELETE'])
-def deleteSocialLink(request,pk):
-    socialLink = SocialLinks.objects.get(id=pk)
+def deleteSocialLink(request,socialtracking):
+    socialLink = SocialLinks.objects.get(socialtracking=socialtracking)
     socialLink.delete()
     return Response(status=status.HTTP_200_OK)
 

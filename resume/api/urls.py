@@ -25,7 +25,7 @@ urlpatterns = [
     path('socials/', views.getSocialLinks),
     path('socials/<str:pk>/', views.getSocialLink),
     path('add-edit-social/', views.socialLink_detail),
-    path('delete-social/<str:pk>/', views.deleteSocialLink),
+    path('delete-social/<str:socialtracking>/', views.deleteSocialLink),
 
 
 
