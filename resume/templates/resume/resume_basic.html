@@ -156,24 +156,24 @@
                     <button id="hiddensub" type="submit" class="btn btn-primary" style="display: none;">Save and Next</button>
 
                 </form>
-                <div class="row">
-                    <div class="col-6">
-                        <div class="form-group">
-                            <label for="social-media">Social Media:</label>
+                
+                <a href="#" id="hideunhideSocialLink"  >+ Add Social Links</a>
+                <div id="socialcontainer" style="display: none;">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="social-media">Social Media:</label>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="email">Social Link:</label>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-6">
-                        <div class="form-group">
-                            <label for="email">Social Link:</label>
-                        </div>
-                    </div>
-                </div>
+                    <div id="socialdiv"></div>
+                    <button id="addsocial"  class="btn btn-outline-primary" > + Add one more</button>
 
-                <div>
-                    <div id="socialdiv">
-
-                    </div>
-                    <button id="addsocial"  class="btn btn-outline-primary" > + Add new one</button>
                 </div>
                 
 
@@ -203,6 +203,31 @@
 </script>
 
 <script>
+
+        var lx = document.getElementById("hideunhideSocialLink");
+        lx.addEventListener("click", function(event){
+            event.preventDefault();
+
+                const socialDiv = document.getElementById('socialdiv');
+                const rows = socialDiv.querySelectorAll('.row');
+                const rowCnt = rows.length;
+
+                const socialcontainer = document.getElementById('socialcontainer');
+
+                const addButton = document.getElementById('addsocial');
+                if (rowCnt === 0) {
+                    document.getElementById('addsocial').click();
+
+                }
+                if (lx.innerText === "+ Add Social Links") {
+                    lx.innerText = "- Add Social Links";
+                    socialcontainer.style.display = "block";
+                } else {
+                    lx.innerText = "+ Add Social Links";
+                    socialcontainer.style.display = "none";
+                }
+        });
+
     const fileInput = document.querySelector('#image-file');
     fileInput.addEventListener('change', () => {
 
@@ -350,17 +375,7 @@
                 xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
                 xhr.onload = function() {
                     if (xhr.status === 200) {
-                        const socialDiv = document.getElementById('socialdiv');
-                        const rows = socialDiv.querySelectorAll('.row');
-                        const rowCnt = rows.length;
-                        console.log(rowCnt);
-
-                        const addButton = document.getElementById('addsocial');
-                        if (rowCnt === 3) {
-                            addButton.style.display = 'none';
-                        } else {
-                            addButton.style.display = '';
-                        }
+                        updateaddsoc();
                     console.log('Social deleted successfully!');
                     } else {
                     console.error('An error occurred while deleting the Social:', xhr.statusText);
@@ -371,6 +386,26 @@
                 };
                 xhr.send();
                 divouter.remove()
+
+                // gg 
+
+                const socialDiv2 = document.getElementById('socialdiv');
+                const rows2 = socialDiv2.querySelectorAll('.row');
+                const rowCnt2 = rows2.length;
+
+                const socialcontainer2 = document.getElementById('socialcontainer');
+                var lx2 = document.getElementById("hideunhideSocialLink");
+
+
+                const addButton = document.getElementById('addsocial');
+                if (rowCnt2 === 0) {
+                    lx2.innerText = "+ Add Social Links";
+                    socialcontainer2.style.display = "none";
+                }
+                //gg
+
+
+                
                 });
 
 
@@ -428,6 +463,20 @@
     }
     }
 
+    function updateaddsoc(){
+                        const socialDiv = document.getElementById('socialdiv');
+                        const rows = socialDiv.querySelectorAll('.row');
+                        const rowCnt = rows.length;
+                        console.log(rowCnt);
+
+                        const addButton = document.getElementById('addsocial');
+                        if (rowCnt === 3) {
+                            addButton.style.display = 'none';
+                        } else {
+                            addButton.style.display = '';
+                        }
+    }
+
 
     var addsocial = document.getElementById('addsocial');
     addsocial.addEventListener('click', function(event) {
@@ -440,16 +489,7 @@
                 renderSocial(mys)
                 updateSocial('POST',mys,"twitter","");
 
-                const socialDiv = document.getElementById('socialdiv');
-                const rows = socialDiv.querySelectorAll('.row');
-                const rowCnt = rows.length;
-                console.log(rowCnt);
-
-                if (rowCnt === 3) {
-                    addsocial.style.display = 'none';
-                } else {
-                    addsocial.style.display = '';
-                }
+                updateaddsoc();
 
 
     });
