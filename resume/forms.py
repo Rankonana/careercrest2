@@ -26,6 +26,11 @@ class ResumeForm(forms.Form):
     professional_summary = forms.CharField(label='Professional Summary:',
                                            widget=forms.Textarea(attrs={'cols': 50, 'rows': 10,'placeholder': 'Write your summary here...','class':'form-control'}),required=False
                                            )
+    
+class SummaryForm(forms.Form):
+    professional_summary = forms.CharField(label='Professional Summary:',
+                                           widget=forms.Textarea(attrs={'cols': 50, 'rows': 10,'placeholder': 'Write your summary here...','class':'form-control'}),required=False
+                                           )
 
 class ImageForm(forms.Form):
     image = forms.ImageField(required=False)

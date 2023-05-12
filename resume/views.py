@@ -167,19 +167,19 @@ def createBasic(request,tracking):
 
 
 def createSummary(request,tracking):
-    form = ResumeForm()
+    form = SummaryForm()
     if request.method == "POST":
-        form = ResumeForm(request.POST)
+        form = SummaryForm(request.POST)
         if form.is_valid():
             print(form.cleaned_data)
             resume, created = Resume.objects.update_or_create(
                             tracking = tracking,
                             defaults={
-                                       'user': request.session['username'],
+                                    #    'user': request.session['username'],
                                        'professional_summary' : form.cleaned_data['professional_summary']
                                        },
                             )
-            return redirect('list-work',tracking=tracking)
+            return redirect('finalize',tracking=tracking)
 
         else:
             print(form.errors)
@@ -187,7 +187,7 @@ def createSummary(request,tracking):
         try:
             rm = get_object_or_404(Resume,tracking=tracking)
             form_data = {'professional_summary': rm.professional_summary}
-            form = ResumeForm(data=form_data)
+            form = SummaryForm(data=form_data)
         except:
             pass
     context = {'form': form,'tracking':tracking }
