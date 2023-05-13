@@ -742,7 +742,7 @@
         
             const id = software.id; // Replace with the actual ID of the software to be deleted
             const deletelink = document.createElement('a');
-            deletelink.href = `http://127.0.0.1:8000/api/delete-software/${id}`;
+            deletelink.href = `/api/delete-software/${id}`;
             deletelink.innerHTML = 'Delete software';
             deletelink.addEventListener('click', function(event) {
             event.preventDefault(); // Prevent the link from navigating to the URL
@@ -852,7 +852,7 @@
         
             const idl = language.id; // Replace with the actual ID of the language to be deleted
             const deletelinkl = document.createElement('a');
-            deletelinkl.href = `http://127.0.0.1:8000/api/delete-language/${idl}`;
+            deletelinkl.href = `/api/delete-language/${idl}`;
             deletelinkl.innerHTML = 'Delete language';
             deletelinkl.addEventListener('click', function(event) {
             event.preventDefault(); // Prevent the link from navigating to the URL
@@ -1130,7 +1130,7 @@
             //add to database
             // Send a POST request to the API endpoint
             var xhraddcertmore = new XMLHttpRequest();
-                xhraddcertmore.open("POST", "http://127.0.0.1:8000/api/add-edit-certification/", true);
+                xhraddcertmore.open("POST", "/api/add-edit-certification/", true);
                 xhraddcertmore.setRequestHeader("Content-Type", "application/json");
                 xhraddcertmore.setRequestHeader('X-CSRFToken', csrfToken);
 
@@ -1199,7 +1199,7 @@
             
         // Send a PUT request to the API endpoint
         var xhrcer = new XMLHttpRequest();
-        xhrcer.open("PUT", "http://127.0.0.1:8000/api/add-edit-certification/", true);
+        xhrcer.open("PUT", "/api/add-edit-certification/", true);
         xhrcer.setRequestHeader("Content-Type", "application/json");
         xhrcer.setRequestHeader('X-CSRFToken', csrfToken);
 

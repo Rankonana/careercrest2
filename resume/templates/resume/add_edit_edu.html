@@ -5,12 +5,108 @@
 
 <div class="container">
 
-<form method="post">
-    {% csrf_token %}
-    {{form.as_p}}
-    <button type="submit" class="btn btn-success">Save</button>
-</form>
-<a href="{% url 'list-edu' tracking %}" class="btn btn-danger"> Cancel</a>
+    <form method="post">
+        {% csrf_token %}
+        <div id="edudetails">
+
+            <div class="row">
+                <div class="col-sm-6">
+                    {{form.schoolname.label_tag}}
+                    {{form.schoolname}}
+                </div>
+                <div class="col-sm-6">
+                    {{form.schoollocation.label_tag}}
+                    {{form.schoollocation}}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    {{form.degree.label_tag}}
+                    {{form.degree}}
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    {{form.fieldofstudy.label_tag}}
+                    {{form.fieldofstudy}}
+                </div>
+                <div class="col-sm-6">
+                    <div class="row">
+                        <div class="col-6">
+                            {{form.start_date.label_tag}}
+                            {{form.start_date}}
+                        </div>
+                        <div class="col-6">
+                            {{form.end_date.label_tag}}
+                            {{form.end_date}}
+                        </div>
+
+                    </div>
+                    
+                </div>
+            </div>
+            
+            <a onclick="displayJobInfo()" class="btn btn-primary ">NEXT</a>
+            <a href="{% url 'list-edu' tracking %}" class="btn btn-danger"> Cancel</a>
+
+
+        </div>
+        <div id="eduExtradetails" style="display: none;">
+            <!-- copied from summary  start -->
+            <div class="row">
+                <div class="col-md-7 summary-suggestions">
+                    <label for="summary-suggestions-label" class="control-label">Search by job title for pre-written examples</label>
+                    <div class="row">
+                        <div class="col-10">
+                            <input type="search" id="search-box-work" class="form-control" placeholder="Title, industry, keyword">
+                            <ul id="search-suggestions-work"></ul>
+                        </div>
+                        <div class="col-2">
+                            <button type="button" id="btn-title-search-work" class="btn btn-primary" title="search"> Search</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5">
+                            <div id="related-popular-work"></div>
+                        </div>
+                        <div class="col-7">
+                            <label for="summary-label" class="control-label">Showing results for : <p id="jobtitledisplay-work" style="font-weight: bold;"></p>
+                            </label>
+                            <div id="loading-work">Loading...</div>
+                            <div id="suggestions-work">
+                                <ul id="result-list-work"></ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5 skills">
+                    <label for="summary-label" class="control-label">Nice! Now let's add the job description</label>
+                    <div id="display-jog-title-employer-city"></div>
+                    <div class="form-group">
+                        {{form.job_description.label_tag}}
+                        {{form.job_description}}
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-success">Save</button>
+            <a href="{% url 'list-edu' tracking %}" class="btn btn-danger"> Cancel</a>
+
+        </div>
+    </form>
+
 
 </div>
+
+<script>
+    function displayJobInfo() {
+
+        var a = document.getElementById("edudetails");
+        a.style.display = "none";
+
+        var b = document.getElementById("eduExtradetails");
+        b.style.display = "block";
+
+	}
+</script>
 {% endblock content %}

@@ -3,7 +3,7 @@
 {% block content %}
 {% load static %}
     
-    <form class="d-flex" action="http://127.0.0.1:8000/blog/">
+    <form class="d-flex" action="/blog/">
       <input class="form-control mr-0" type="search" value="{{request.GET.q}}" name="q" placeholder="Search" aria-label="Search">
     </form>
     <main class="container my-3">
