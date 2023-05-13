@@ -3,6 +3,11 @@ from resume.models import *
 
 
 
+class SkillSerializer(ModelSerializer):
+    class Meta:
+        model = Skill
+        fields = '__all__'
+
 class SoftwareSerializer(ModelSerializer):
     class Meta:
         model = Software

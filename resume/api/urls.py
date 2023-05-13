@@ -27,6 +27,11 @@ urlpatterns = [
     path('add-edit-social/', views.socialLink_detail),
     path('delete-social/<str:socialtracking>/', views.deleteSocialLink),
 
+    path('skills/', views.getSkills),
+    path('skills/<str:pk>/', views.getSkill),
+    path('add-edit-skill/', views.skill_detail),
+    path('delete-skill/<str:skilltracking>/', views.deleteSkill),
+
 
 
 

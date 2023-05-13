@@ -227,9 +227,6 @@ def add_or_update_resume(request):
 
     return Response(status=status.HTTP_400_BAD_REQUEST)
 
-
-
-
     
 @api_view(['GET'])
 def getSocialLinks(request):
@@ -283,4 +280,52 @@ def deleteSocialLink(request,socialtracking):
     return Response(status=status.HTTP_200_OK)
 
 
+@api_view(['GET'])
+def getSkills(request):
+    skills = Skill.objects.all()
+    serializer = SkillSerializer(skills, many=True)
+    return Response(serializer.data)
 
+@api_view(['GET'])
+def getSkill(request,pk):
+    skill = Skill.objects.get(id=pk)
+    serializer = SkillSerializer(skill, many=False)
+    return Response(serializer.data)
+
+@api_view(['POST', 'PUT'])
+def skill_detail(request):
+    try:
+        skill = Skill.objects.get(skilltracking=request.data.get('skilltracking'))
+    except Skill.DoesNotExist:
+        skill = None
+
+
+    if request.method == 'POST':
+        resumeid = Resume.objects.get(tracking =request.data.get('resume') )
+        data = request.data.copy()
+        data['resume'] = resumeid.pk
+        serializer = SkillSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    elif request.method == 'PUT':
+        if skill is None:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        #
+        resumeid = Resume.objects.get(tracking =request.data.get('resume') )
+        data = request.data.copy()
+        data['resume'] = resumeid.pk
+        #
+        serializer = SkillSerializer(skill, data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+@api_view(['DELETE'])
+def deleteSkill(request,skilltracking):
+    skill = Skill.objects.get(skilltracking=skilltracking)
+    skill.delete()
+    return Response(status=status.HTTP_200_OK)
