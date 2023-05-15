@@ -5,10 +5,9 @@ from django.db import models
 # class CustomUser(AbstractUser):
 #     # Add custom fields here if needed
 #     pass
-
 class Resume(models.Model):
     user = models.CharField(max_length=200,null=True,blank=True)
-    image = models.ImageField(default="NoImage.jpg",null=True,blank=True)
+    image = models.ImageField(default="NoImageBlue.png",null=True,blank=True)
     firstname = models.CharField(max_length=200,null=True,blank=True)
     lastname = models.CharField(max_length=200,null=True,blank=True)
     profession = models.CharField(max_length=200,null=True,blank=True)

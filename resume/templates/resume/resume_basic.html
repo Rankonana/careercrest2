@@ -14,9 +14,55 @@
         <div class="upload-photo-section">
             <div class="upload-image-wraper">
                 <div class=" upload-image ">
-                    <img alt="Sample Image for Photo Upload" class="square thumbnail-img" id="uploadimage" src="{% static 'Contact Info - Zety_files/NoImageBlue.png' %}">
+                	{% if image %} 
+                    <img src="{{ image.url }}" alt="Sample Image for Photo Upload" id="uploadimage" class="square thumbnail-img"> 
+                    {% else %} 
+                    <img src="/media/NoImageBlue.png" alt="Sample Image for Photo Upload" id="uploadimage" class="square thumbnail-img"> 
+                    {% endif %}
                 </div>
-                <button type="button" class="btn upload-img-btn">Upload Photo</button>
+                <button type="button" class="btn btn-info btn-lg upload-img-btn" data-toggle="modal" data-target="#myModal">Upload Photo</button>
+
+                <!-- The Modal -->
+			<div class="modal fade" id="myModal">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<!-- Modal Header -->
+						<div class="modal-header">
+							<h4 class="modal-title">Photo upload</h4>
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+						</div>
+						<!-- Modal body -->
+						<div class="modal-body">
+							<div class="row">
+								<div class="col-6">
+									<img src="{{ image.url }}" alt="Sample Image for Photo Upload" id="modalimg" class="img-fluid">
+									<form id="image-form" enctype="multipart/form-data">
+										<label for="image-file" class="btn btn-primary">Upload <input type="file" id="image-file" name="image" style="width: 0px;height: 0px;overflow: hidden;">
+										</label>
+									</form>
+								</div>
+								<div class="col-6">
+									<div>
+										<p>Make sure to check the application requirements before adding a photo. Some employers won’t consider resume with photos.</p>
+										<p>Want to add a photo?</p>
+									</div>
+									<ul class="list-square px-0">
+										<li>• Choose a recent color photo in a JPEG, PNG, or GIF format, that’s less than 10MB.</li>
+										<li>• Crop your photo so it only shows your head and shoulders.</li>
+										<li>• If you already uploaded a photo, uploading another will replace it.</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<!-- Modal footer -->
+						<div class="modal-footer">
+							<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+							<button type="button" class="btn btn-primary">Save</button>
+						</div>
+					</div>
+				</div>
+			</div>
+                
             </div>
         </div>
     </div>
@@ -1070,46 +1116,46 @@
             }
     });
 
-    // const fileInput = document.querySelector('#image-file');
-    //     fileInput.addEventListener('change', () => {
+    const fileInput = document.querySelector('#image-file');
+        fileInput.addEventListener('change', () => {
 
-    //   var imgpathname = window.location.pathname;
-    //   var imgresumetracking = imgpathname.substring(imgpathname.lastIndexOf('/') + 1);
-    //   url = `/api/add-edit-resume/`;
+      var imgpathname = window.location.pathname;
+      var imgresumetracking = imgpathname.substring(imgpathname.lastIndexOf('/') + 1);
+      url = `/api/add-edit-resume/`;
 
-    //   const formData = new FormData();
-    //   formData.append('image', fileInput.files[0]);
-    //   formData.append('tracking', imgresumetracking);
+      const formData = new FormData();
+      formData.append('image', fileInput.files[0]);
+      formData.append('tracking', imgresumetracking);
 
 
-    //   imagemethod= 'PUT'
-    //   var getimage = document.getElementById("uploadimage")
-    //     if(getimage.src.indexOf('NoImage.jpg') !== -1){
+      imagemethod= 'PUT'
+      var getimage = document.getElementById("uploadimage")
+        if(getimage.src.indexOf('NoImageBlue.png') !== -1){
 
-    //         imagemethod = 'POST'
-    //     }
+            imagemethod = 'POST'
+        }
 
-    //   const xhr = new XMLHttpRequest();
-    //   xhr.open(imagemethod, url);
-    //   xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
-    //   xhr.send(formData);
-    //   xhr.onload = () => {
-    //     if (xhr.status === 200) {
-    //       console.log(xhr.response);
+      const xhr = new XMLHttpRequest();
+      xhr.open(imagemethod, url);
+      xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
+      xhr.send(formData);
+      xhr.onload = () => {
+        if (xhr.status === 200) {
+          console.log(xhr.response);
 
-    //       const imageUrl = JSON.parse(xhr.response).image;
-    //       const preview = document.getElementById('uploadimage');
-    //       const modalimg = document.getElementById('modalimg');
+          const imageUrl = JSON.parse(xhr.response).image;
+          const preview = document.getElementById('uploadimage');
+          const modalimg = document.getElementById('modalimg');
 
-    //       preview.src =  imageUrl;
-    //       modalimg.src =  imageUrl;
+          preview.src =  imageUrl;
+          modalimg.src =  imageUrl;
 
     
-    //     } else {
-    //       console.error(xhr.statusText);
-    //     }
-    //   };
-    // });
+        } else {
+          console.error(xhr.statusText);
+        }
+      };
+    });
 
     // Get CSRF token from cookies
     function getCookie(name) {

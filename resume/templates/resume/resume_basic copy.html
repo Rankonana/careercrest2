@@ -18,7 +18,7 @@
                     {% if image %}
                     <img src="{{ image.url }}" alt="Sample Image for Photo Upload" id="uploadimage" class="img-fluid">
                     {% else %}
-                    <img src="/media/NoImage.jpg" alt="Sample Image for Photo Upload" id="uploadimage" class="img-fluid">
+                    <img src="/media/NoImageBlue.png" alt="Sample Image for Photo Upload" id="uploadimage" class="img-fluid">
                     {% endif %}
                 </div>
                   
@@ -241,7 +241,7 @@
 
       imagemethod= 'PUT'
       var getimage = document.getElementById("uploadimage")
-        if(getimage.src.indexOf('NoImage.jpg') !== -1){
+        if(getimage.src.indexOf('NoImageBlue.png') !== -1){
 
             imagemethod = 'POST'
         }
