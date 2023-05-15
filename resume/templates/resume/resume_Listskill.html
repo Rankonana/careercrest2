@@ -87,7 +87,7 @@
                     var query = $('#search-box-certifications').val();
                     if (query.length > 0) {
                         $.ajax({
-                                url: 'http://localhost/summary-job-titles.php',
+                                url: 'http://127.0.0.1/summary-job-titles.php',
                                 type: 'POST',
                                 dataType: 'json',
                                 data: {
@@ -114,7 +114,7 @@
                     var query = suggestion;
                     if (query.length > 0) {
                         $.ajax({
-                            url: 'http://localhost/summary-job-titles.php',
+                            url: 'http://127.0.0.1/summary-job-titles.php',
                             type: 'POST',
                             dataType: 'json',
                             data: {
@@ -180,7 +180,7 @@
         const loadingcertifications = document.getElementById('loading-certifications');
         const jobtitledisplaycertifications = document.getElementById("jobtitledisplay-certifications");
         jobtitledisplaycertifications.textContent = searchBoxcertifications.value;
-        const urlcertifications = `http://localhost/job-certifications-suggestions.php/?search_query=${searchInputcertifications.value}`;
+        const urlcertifications = `http://127.0.0.1/job-certifications-suggestions.php/?search_query=${searchInputcertifications.value}`;
         loadingcertifications.style.display = 'block';
         fetch(urlcertifications).then(response => response.json()).then(data => {
             resultListcertifications.innerHTML = '';

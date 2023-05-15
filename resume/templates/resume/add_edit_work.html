@@ -56,10 +56,9 @@
 
         </div>
         <div id="JobExtradetails" style="display: none;">
-            <!-- copied from summary  start -->
             <div class="row">
-                <div class="col-md-7 summary-suggestions">
-                    <label for="summary-suggestions-label" class="control-label">Search by job title for pre-written examples</label>
+                <div class="col-md-7 job-suggestions">
+                    <label>Search by job title for pre-written examples</label>
                     <div class="row">
                         <div class="col-10">
                             <input type="search" id="search-box-work" class="form-control" placeholder="Title, industry, keyword">
@@ -83,11 +82,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-5 skills">
-                    <label for="summary-label" class="control-label">Nice! Now let's add the job description</label>
+                <div class="col-md-5">
+                    <p>Nice! Now let's add the job description</p>
                     <div id="display-jog-title-employer-city"></div>
                     <div class="form-group">
-                        {{form.job_description.label_tag}}
                         {{form.job_description}}
                     </div>
                 </div>
@@ -114,81 +112,83 @@
 <!-- script for work start -->
 <script id="for-work-job-titles">
     $(document).ready(function() {
-                $('#search-box-work').keyup(function() {
-                        var query = $('#search-box-work').val();
-                        if (query.length > 0) {
-                            $.ajax({
-                                    url: 'http://localhost/summary-job-titles.php',
-                                    type: 'POST',
-                                    dataType: 'json',
-                                    data: {
-                                        search_query: query
-                                    },
-                                    success: function(data) {
-                                        $('#search-suggestions-work').empty();
-                                        if (data.length > 0) {
-                                            $.each(data, function(index, value) {
-                                                    $('#search-suggestions-work').append(' < li > '+value.title+' < /li>');
-                                                    }); $('#search-suggestions-work').show();
-                                            }
-                                        }
-                                    });
+        $('#search-box-work').keyup(function() {
+            var query = $('#search-box-work').val();
+            if (query.length > 0) {
+                $.ajax({
+                    url: 'http://127.0.0.1/summary-job-titles.php',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        search_query: query
+                    },
+                    success: function(data) {
+                        $('#search-suggestions-work').empty();
+                        if (data.length > 0) {
+                            $.each(data, function(index, value) {
+                                $('#search-suggestions-work').append(' < li > '+value.title+' < /li>');
+                                }); $('#search-suggestions-work').show();
                             }
-                            else {
-                                $('#search-suggestions-work').hide();
-                            }
-                        }); $('#search-suggestions-work').on('click', 'li', function() {
-                        var suggestion = $(this).text();
-                        $('#search-box-work').val(suggestion);
-                        $('#search-suggestions-work').hide();
-                        // added start 
-                        var query = suggestion;
-                        if (query.length > 0) {
-                            $.ajax({
-                                url: 'http://localhost/summary-job-titles.php',
-                                type: 'POST',
-                                dataType: 'json',
-                                data: {
-                                    search_query: query
-                                },
-                                success: function(data) {
-                                    if (data[0].relatedJobTitles.length > 0) {
-                                        var relatedJobTitles = data[0].relatedJobTitles;
-                                        var relatedJobTitlesList = " < ul > ";
-                                        relatedJobTitles.forEach(function(title) {
-                                            relatedJobTitlesList += " < li style = 'font-size:0.875em' > "  + " < a href = '#' > " + title + " < /a>" + " < /li>";
-                                        });
-                                        relatedJobTitlesList += " < /ul>";
-                                        var html = " < p > < strong > Related job titles: < /strong> < /p>" + relatedJobTitlesList;
-                                        $("#related-popular-work").html(html);
-                                    } else {
-                                        $('#related-popular-work').empty();
-                                        if (data.length > 0) {
-                                            var popular = " < ol > ";
-                                            $.each(data, function(index, value) {
-                                                popular += " < li > " + value.title + " < /li>";
-                                            });
-                                            popular += " < /ol>";
-                                            var html = " < p > < strong > Popular job titles: < /strong> < /p>" +  " < a href = '#' > " + popular + " < /a>" ;
-                                            $("#related-popular-work").html(html);
-                                        }
-                                    }
-                                }
-                            });
-                            //adding event ha
-                            // add a click event handler to the links-container element
-                            $('#related-popular-work').on('click', 'a', function(event) {
-                                // prevent the default behavior of following the link
-                                event.preventDefault();
-                                // handle the click event here
-                                var searchValue = $(this).text();
-                                $("#search-box-work").val(searchValue);
-                                searchsummary();
-                            });
-                            //adding event ha
-                        } else {
-                            $('#search-suggestions-work').hide();
                         }
+                    });
+                }
+                else {
+                    $('#search-suggestions-work').hide();
+                }
+        });
+
+        $('#search-suggestions-work').on('click', 'li', function() {
+        var suggestion = $(this).text();
+        $('#search-box-work').val(suggestion);
+        $('#search-suggestions-work').hide();
+        // added start 
+        var query = suggestion;
+        if (query.length > 0) {
+            $.ajax({
+                url: 'http://127.0.0.1/summary-job-titles.php',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    search_query: query
+                },
+                success: function(data) {
+                    if (data[0].relatedJobTitles.length > 0) {
+                        var relatedJobTitles = data[0].relatedJobTitles;
+                        var relatedJobTitlesList = " < ul > ";
+                        relatedJobTitles.forEach(function(title) {
+                            relatedJobTitlesList += " < li style = 'font-size:0.875em' > "  + " < a href = '#' > " + title + " < /a>" + " < /li>";
+                        });
+                        relatedJobTitlesList += " < /ul>";
+                        var html = " < p > < strong > Related job titles: < /strong> < /p>" + relatedJobTitlesList;
+                        $("#related-popular-work").html(html);
+                    } else {
+                        $('#related-popular-work').empty();
+                            if (data.length > 0) {
+                                var popular = " < ol > ";
+                                $.each(data, function(index, value) {
+                                    popular += " < li > " + value.title + " < /li>";
+                                });
+                                popular += " < /ol>";
+                                var html = " < p > < strong > Popular job titles: < /strong> < /p>" +  " < a href = '#' > " + popular + " < /a>" ;
+                                $("#related-popular-work").html(html);
+                            }
+                        }
+                    }
+                    });
+                    //adding event ha
+                    // add a click event handler to the links-container element
+                    $('#related-popular-work').on('click', 'a', function(event) {
+                        // prevent the default behavior of following the link
+                        event.preventDefault();
+                        // handle the click event here
+                        var searchValue = $(this).text();
+                        $("#search-box-work").val(searchValue);
+                        searchsummary();
+                    });
+                        //adding event ha
+                    } else {
+                        $('#search-suggestions-work').hide();
+                    }
                         // added end 
                     });
                 });
@@ -211,7 +211,7 @@
         const loadingwork = document.getElementById('loading-work');
         const jobtitledisplaywork = document.getElementById("jobtitledisplay-work");
         jobtitledisplaywork.textContent = searchBoxwork.value;
-        const urlwork = `http://localhost/job-work-suggestions.php/?search_query=${searchInputwork.value}`;
+        const urlwork = `http://127.0.0.1/job-work-suggestions.php/?search_query=${searchInputwork.value}`;
         loadingwork.style.display = 'block';
         fetch(urlwork).then(response => response.json()).then(data => {
             resultListwork.innerHTML = '';
@@ -221,7 +221,8 @@
                 buttonwork.classList.add("btn");
                 buttonwork.classList.add("btn-primary");
                 buttonwork.innerText = 'Add';
-                buttonwork.setAttribute("id", "addremovesummary-work");
+                buttonwork.setAttribute('style','height:35px;width:35px;font-size:1rem;');
+
                 let spanwork = document.createElement('div');
                 spanwork.innerHTML = result.text;
                 liwork.appendChild(buttonwork);

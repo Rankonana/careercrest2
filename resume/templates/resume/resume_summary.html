@@ -69,7 +69,7 @@
                         var query = $('#search-box').val();
                         if (query.length > 0) {
                             $.ajax({
-                                    url: 'http://localhost/summary-job-titles.php',
+                                    url: 'http://127.0.0.1/summary-job-titles.php',
                                     type: 'POST',
                                     dataType: 'json',
                                     data: {
@@ -96,7 +96,7 @@
                         var query = suggestion;
                         if (query.length > 0) {
                             $.ajax({
-                                url: 'http://localhost/summary-job-titles.php',
+                                url: 'http://127.0.0.1/summary-job-titles.php',
                                 type: 'POST',
                                 dataType: 'json',
                                 data: {
@@ -162,7 +162,7 @@
         const loading = document.getElementById('loading');
         const jobtitledisplay = document.getElementById("jobtitledisplay");
         jobtitledisplay.textContent = searchBox.value;
-        const url = `http://localhost/job-summary-suggestions.php/?search_query=${searchInput.value}`;
+        const url = `http://127.0.0.1/job-summary-suggestions.php/?search_query=${searchInput.value}`;
         loading.style.display = 'block';
         fetch(url).then(response => response.json()).then(data => {
             resultList.innerHTML = '';
