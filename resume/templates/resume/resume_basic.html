@@ -4,121 +4,1009 @@
 {% load static %}
 {% block head %}
 {% endblock head %}
-   <!-- test start  -->
 
-    <div class="page-title-wrap  ">
-        <h1 class="page-title">What’s the best way for employers to contact you?</h1>
-        <p class="sub-title">We suggest including an email and phone number.</p>
-    </div>
-    <div class="row">
-        <div class="col-cntc-img col-md-2 p-0 ">
-            <div class="upload-photo-section">
-                <div class="upload-image-wraper">
-                    <div class=" upload-image ">
-                        <img alt="Sample Image for Photo Upload" class="square thumbnail-img" id="uploadimage" src="{% static 'Contact Info - Zety_files/NoImageBlue.png' %}">
-                    </div>
-                    <button type="button" class="btn upload-img-btn">Upload Photo</button>
+<div class="page-title-wrap  ">
+    <h1 class="page-title">What’s the best way for employers to contact you?</h1>
+    <p class="sub-title">We suggest including an email and phone number.</p>
+</div>
+<div class="row">
+    <div class="col-cntc-img col-md-2 p-0 ">
+        <div class="upload-photo-section">
+            <div class="upload-image-wraper">
+                <div class=" upload-image ">
+                    <img alt="Sample Image for Photo Upload" class="square thumbnail-img" id="uploadimage" src="{% static 'Contact Info - Zety_files/NoImageBlue.png' %}">
                 </div>
+                <button type="button" class="btn upload-img-btn">Upload Photo</button>
             </div>
         </div>
-        <div class="col-cntc-form col-md-7 ">
-            <form id="myResumeForm"  method="post" enctype="multipart/form-data">
-                {% csrf_token %}  
+    </div>
+    <div class="col-cntc-form col-md-7 ">
+        <form id="myResumeForm"  method="post" enctype="multipart/form-data">
+            {% csrf_token %} 
+            <div class="cntc-fields-wrap">
+                <div class="row row-full-name">
+                    <div class="col-6 col-first-name">
+                        <div class="form-group placeholder-wrap bold-FNAM  is-valid">
+                            <label class="control-label " for="textFNAM">First Name <span></span>
+                            </label>
+                            <!-- <input type="text" name="FNAM" placeholder="e.g. Minenhle" maxlength="35" class="form-control" id="textFNAM" autocomplete="given-name" aria-label="First Name" aria-required="false" value=""> -->
+                            {{ form.firstname }}
 
-                <div class="cntc-fields-wrap">
-                    <div class="row row-full-name">
-                        <div class="col-6 col-first-name">
-                            <div class="form-group placeholder-wrap bold-FNAM  is-valid">
-                                <label class="control-label " for="textFNAM">First Name <span></span>
-                                </label>
-                                <input type="text" name="FNAM" placeholder="e.g. Minenhle" maxlength="35" class="form-control" id="textFNAM" autocomplete="given-name" aria-label="First Name" aria-required="false" value="">
-                            </div>
-                        </div>
-                        <div class="col-6 col-last-name">
-                            <div class="form-group placeholder-wrap bold-LNAM  is-valid">
-                                <label class="control-label " for="textLNAM">Surname <span></span>
-                                </label>
-                                <input type="text" name="LNAM" placeholder="e.g. Dlamini" maxlength="35" class="form-control" id="textLNAM" autocomplete="family-name" aria-label="Surname" aria-required="false" value="">
-                            </div>
                         </div>
                     </div>
-                    <div class="row row-doc-title">
-                        <div class="col-md-12 col-doc-title">
-                            <div class="form-group placeholder-wrap bold-DCTL  is-valid">
-                                <label class="control-label " for="textDCTL">Profession <span></span>
-                                </label>
-                                <input type="text" name="DCTL" placeholder="e.g. Sr. Accountant" class="form-control" id="textDCTL" autocomplete="additional-name" aria-label="Profession" aria-required="false" value="">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row row-city-state-zip">
-                        <div class="col-city col-6 field-1">
-                            <div class="form-group placeholder-wrap bold-CITY  is-valid">
-                                <label class="control-label " for="city">City <span></span>
-                                </label>
-                                <input type="city" name="CITY" placeholder="e.g. Durban" maxlength="100" class="form-control" id="city" autocomplete="address-level2" aria-label="City" aria-required="false" value="">
-                            </div>
-                        </div>
-                        <div class="col-6 col-country col-xl-3  field-2">
-                            <div class="form-group placeholder-wrap bold-CNTY  is-valid">
-                                <label class="control-label " for="country">Country <span></span>
-                                </label>
-                                <input type="country" name="CNTY" placeholder="e.g. South Africa " maxlength="50" class="form-control" id="country" aria-label="Country" aria-required="false" value="">
-                            </div>
-                        </div>
-                        <div class="col-6 col-zip col-xl-3  field-3">
-                            <div class="form-group placeholder-wrap bold-ZIPC  is-valid">
-                                <label class="control-label " for="zip">Postal Code <span></span>
-                                </label>
-                                <input type="zip" name="ZIPC" placeholder="e.g. 4057" maxlength="10" class="form-control" id="zip" autocomplete="shipping postal-code" aria-label="Postal Code" aria-required="false" value="">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row row-extra-field"></div>
-                    <div class="row row-phone-email">
-                        <div class="col-sm-6 col-phone">
-                            <div class="form-group placeholder-wrap bold-HPHN  is-valid">
-                                <label class="control-label " for="HPHN">Phone <span></span>
-                                </label>
-                                <input type="tel" name="HPHN" placeholder="e.g. +27 82 978 5313" maxlength="20" class="form-control" id="HPHN" autocomplete="tel" aria-label="Phone" aria-required="false" value="">
-                            </div>
-                        </div>
-                        <div class="col-sm-6 col-email">
-                            <div class="form-group placeholder-wrap bold-EMAI  is-valid">
-                                <label class="control-label " for="EMAI">Email <span></span>
-                                </label>
-                                <input type="email" name="EMAI" placeholder="e.g. minenhledlamini@sample.za" maxlength="50" class="form-control" id="EMAI" autocomplete="email" aria-label="Email" aria-required="false" value="">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="additional-options">
-                        <div class="add-social-links">
-                            <a class="link" href="javascript:;">
-                                <span class="icon-add"></span>Add Social Links </a>
+                    <div class="col-6 col-last-name">
+                        <div class="form-group placeholder-wrap bold-LNAM  is-valid">
+                            <label class="control-label " for="textLNAM">Surname <span></span>
+                            </label>
+                            <input type="text" name="LNAM" placeholder="e.g. Dlamini" maxlength="35" class="form-control" id="textLNAM" autocomplete="family-name" aria-label="Surname" aria-required="false" value="">
                         </div>
                     </div>
                 </div>
-                <button  type="submit" class="btn btn-primary" >Save and Next z</button>
-            </form>
-        </div>
-        <div class="resume-thumbnail col-md-3">
-            <div class="resume-preview thumb-preview" style="opacity: 1;">
-                
+                <div class="row row-doc-title">
+                    <div class="col-md-12 col-doc-title">
+                        <div class="form-group placeholder-wrap bold-DCTL  is-valid">
+                            <label class="control-label " for="textDCTL">Profession <span></span>
+                            </label>
+                            <input type="text" name="DCTL" placeholder="e.g. Sr. Accountant" class="form-control" id="textDCTL" autocomplete="additional-name" aria-label="Profession" aria-required="false" value="">
+                        </div>
+                    </div>
+                </div>
+                <div class="row row-city-state-zip">
+                    <div class="col-city col-6 field-1">
+                        <div class="form-group placeholder-wrap bold-CITY  is-valid">
+                            <label class="control-label " for="city">City <span></span>
+                            </label>
+                            <input type="city" name="CITY" placeholder="e.g. Durban" maxlength="100" class="form-control" id="city" autocomplete="address-level2" aria-label="City" aria-required="false" value="">
+                        </div>
+                    </div>
+                    <div class="col-6 col-country col-xl-3  field-2">
+                        <div class="form-group placeholder-wrap bold-CNTY  is-valid">
+                            <label class="control-label " for="country">Country <span></span>
+                            </label>
+                            <input type="country" name="CNTY" placeholder="e.g. South Africa " maxlength="50" class="form-control" id="country" aria-label="Country" aria-required="false" value="">
+                        </div>
+                    </div>
+                    <div class="col-6 col-zip col-xl-3  field-3">
+                        <div class="form-group placeholder-wrap bold-ZIPC  is-valid">
+                            <label class="control-label " for="zip">Postal Code <span></span>
+                            </label>
+                            <input type="zip" name="ZIPC" placeholder="e.g. 4057" maxlength="10" class="form-control" id="zip" autocomplete="shipping postal-code" aria-label="Postal Code" aria-required="false" value="">
+                        </div>
+                    </div>
+                </div>
+                <div class="row row-extra-field"></div>
+                <div class="row row-phone-email">
+                    <div class="col-sm-6 col-phone">
+                        <div class="form-group placeholder-wrap bold-HPHN  is-valid">
+                            <label class="control-label " for="HPHN">Phone <span></span>
+                            </label>
+                            <input type="tel" name="HPHN" placeholder="e.g. +27 82 978 5313" maxlength="20" class="form-control" id="HPHN" autocomplete="tel" aria-label="Phone" aria-required="false" value="">
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-email">
+                        <div class="form-group placeholder-wrap bold-EMAI  is-valid">
+                            <label class="control-label " for="EMAI">Email <span></span>
+                            </label>
+                            <input type="email" name="EMAI" placeholder="e.g. minenhledlamini@sample.za" maxlength="50" class="form-control" id="EMAI" autocomplete="email" aria-label="Email" aria-required="false" value="">
+                        </div>
+                    </div>
+                </div>
+                <div class="additional-options">
+                    <div class="add-social-links">
+                        <a class="link" href="javascript:;">
+                            <span class="icon-add"></span>Add Social Links </a>
+                    </div>
+                </div>
             </div>
-            <p class="btn-preview-ctnr">
-                <button title="Preview my resume" type="button" aria-hidden="true" class="btn btn-default btn-preview">
-                    <i class="icon-thumbnail-preview far fa-eye" aria-hidden="true"></i>Preview </button>
-            </p>
-            <button type="button" class="btn btn-link change-template-btn">Change template</button>
+            <button  type="submit" class="btn btn-primary" style="display: none;">Save and Next</button>
+
+        </form>
+        
+    </div>
+    <div class="resume-thumbnail col-md-3">
+        <div class="resume-preview thumb-preview" style="opacity: 1;">
+            <div class="" tabindex="">
+                <div>
+                    <style type="text/css' %}" id="static">
+                        /*Font support for MAC*/
+                        @font-face {
+                            font-family: 'Century Gothic';
+                            font-weight: normal;
+                            font-style: normal;
+                            src: local('Century Gothic'), url('/blobcontent/zty/fonts/CenturyGothic.ttf') format('truetype')
+                        }
+
+                        @font-face {
+                            font-family: 'Century Gothic';
+                            font-weight: bold;
+                            font-style: normal;
+                            src: local('Century Gothic Bold'), url('/blobcontent/zty/fonts/CenturyGothicBold.ttf') format('truetype')
+                        }
+
+                        @font-face {
+                            font-family: 'Century Gothic';
+                            font-weight: bold;
+                            font-style: italic;
+                            src: local('Century Gothic Bold Italic'), url('/blobcontent/zty/fonts/CenturyGothicBoldItalic.ttf') format('truetype')
+                        }
+
+                        @font-face {
+                            font-family: 'Century Gothic';
+                            font-weight: normal;
+                            font-style: italic;
+                            src: local('Century Gothic Italic'), url('/blobcontent/zty/fonts/CenturyGothicItalic.ttf') format('truetype')
+                        }
+
+                        html,
+                        body,
+                        div,
+                        span,
+                        applet,
+                        object,
+                        iframe,
+                        h1,
+                        h2,
+                        h3,
+                        h4,
+                        h5,
+                        h6,
+                        p,
+                        blockquote,
+                        pre,
+                        a,
+                        abbr,
+                        acronym,
+                        address,
+                        big,
+                        cite,
+                        code,
+                        del,
+                        dfn,
+                        em,
+                        font,
+                        img,
+                        ins,
+                        kbd,
+                        q,
+                        s,
+                        samp,
+                        small,
+                        strike,
+                        strong,
+                        sub,
+                        sup,
+                        tt,
+                        var,
+                        b,
+                        u,
+                        i,
+                        center,
+                        dl,
+                        dt,
+                        dd,
+                        ol,
+                        ul,
+                        li,
+                        fieldset,
+                        form,
+                        label,
+                        legend,
+                        table,
+                        caption,
+                        tbody,
+                        tfoot,
+                        thead,
+                        tr,
+                        th,
+                        td {
+                            margin: 0;
+                            padding: 0;
+                            border: 0;
+                            outline: 0;
+                            vertical-align: baseline;
+                            background: transparent
+                        }
+
+                        body {
+                            text-align: left;
+                            font-feature-settings: "liga"0;
+                            -moz-font-feature-settings: "liga"off
+                        }
+
+                        .skn-srz1 ol,
+                        .skn-srz1 ul {
+                            list-style: none
+                        }
+
+                        .skn-srz1 table {
+                            border-collapse: collapse;
+                            border-spacing: 0;
+                            font-size: inherit;
+                            color: inherit;
+                            width: 100%
+                        }
+
+                        /*START content disc style for LI*/
+                        .skn-srz1 ul,
+                        .skn-srz1 li {
+                            margin: 0;
+                            padding: 0;
+                            list-style-type: disc
+                        }
+
+                        .skn-srz1 ul li {
+                            margin: 0 0 0 16px;
+                            padding: 0
+                        }
+
+                        @-moz-document url-prefix() {
+                            .skn-srz1 ul li {
+                                margin: 0 0 0 12px;
+                                padding: 0 0 0 3px
+                            }
+                        }
+
+                        /*END content disc style for LI*/
+                        /*common css*/
+                        .skn-srz1 .txtBold {
+                            font-weight: 700
+                        }
+
+                        .skn-srz1 .paddedline {
+                            display: block
+                        }
+
+                        .skn-srz1 .mt5 {
+                            margin-top: 5px
+                        }
+
+                        .skn-srz1 .txtRight {
+                            text-align: right
+                        }
+
+                        .skn-srz1 table.skills,
+                        .skn-srz1 .table_wrapper {
+                            margin-top: 0;
+                            width: 100%;
+                            word-break: break-all
+                        }
+
+                        .skn-srz1 table.skills th,
+                        .skn-srz1 table.skills td {
+                            text-align: center;
+                            width: 20%
+                        }
+
+                        .skn-srz1 table.skills .skillname,
+                        .skn-srz1 table.skills .skillrating {
+                            text-align: left;
+                            width: 35%
+                        }
+
+                        .skn-srz1 table.skills .skillrating {
+                            width: 20%
+                        }
+
+                        .skn-srz1 table.skills .skillyears,
+                        .skn-srz1 table.skills .skilllast {
+                            width: 19%
+                        }
+
+                        .skn-srz1 table.skills .pad1 {
+                            width: 5%
+                        }
+
+                        .skn-srz1 table.skills .pad2,
+                        .skn-srz1 table.skills .pad3 {
+                            width: 1%
+                        }
+
+                        .skn-srz1 {
+                            color: #343434;
+                            font-variant-ligatures: none;
+                            line-height: 16px;
+                            min-height: 792px;
+                            box-sizing: border-box
+                        }
+
+                        .skn-srz1 .name {
+                            font-weight: 700;
+                            padding: 0;
+                            position: relative;
+                            text-align: left;
+                            word-wrap: break-word
+                        }
+
+                        .skn-srz1 .address .singlecolumn {
+                            margin-left: 0 !important
+                        }
+
+                        .skn-srz1 .heading {
+                            font-weight: 700;
+                            line-height: 15px;
+                            margin-bottom: 10px
+                        }
+
+                        .skn-srz1 .sectiontitle {
+                            word-break: break-word
+                        }
+
+                        .skn-srz1 .degreeGap {
+                            margin-bottom: 4px
+                        }
+
+                        .skn-srz1 .locationGap {
+                            margin-top: 4px
+                        }
+
+                        .skn-srz1 .firstsection,
+                        .skn-srz1 .SECTION_NAME {
+                            padding-top: 0 !important
+                        }
+
+                        .skn-srz1 .section:empty,
+                        .skn-srz1 .hide-bar .outer-square,
+                        .skn-srz1 .hide-bar .field-ratt {
+                            display: none
+                        }
+
+                        /*Left Box */
+                        .skn-srz1 .left-box {
+                            background: #003D73;
+                            display: table-cell;
+                            padding: 15px;
+                            box-sizing: initial
+                        }
+
+                        .skn-srz1 .left-box .section {
+                            position: relative;
+                            color: #fff
+                        }
+
+                        .skn-srz1 .left-box .heading {
+                            line-height: 1.5;
+                            margin-left: -15px;
+                            margin-right: -15px;
+                            padding: 0 15px;
+                            position: relative
+                        }
+
+                        .skn-srz1 .left-box .heading:before {
+                            content: '';
+                            position: absolute;
+                            left: 0;
+                            top: 0;
+                            background: #003D73;
+                            height: 100%;
+                            width: 100%;
+                            filter: brightness(0.8)
+                        }
+
+                        .skn-srz1 .left-box .sectiontitle {
+                            padding: 3px 0;
+                            text-align: left;
+                            position: relative
+                        }
+
+                        .skn-srz1 .left-box .SECTION_CNTC {
+                            padding-top: 20px !important
+                        }
+
+                        .skn-srz1 .parentContainer {
+                            border-collapse: collapse;
+                            display: table;
+                            min-height: inherit;
+                            table-layout: fixed;
+                            width: 100%
+                        }
+
+                        /*Right Box */
+                        .skn-srz1 .right-box {
+                            display: table-cell;
+                            letter-spacing: .2px;
+                            padding: 15px;
+                            vertical-align: top
+                        }
+
+                        .skn-srz1 .right-box .section:first-child {
+                            padding-top: 0
+                        }
+
+                        .skn-srz1 .right-box .heading {
+                            border-bottom: 1px solid #d5d6d6;
+                            border-top: 1px solid #d5d6d6;
+                            letter-spacing: 0;
+                            padding: 5px 0
+                        }
+
+                        .skn-srz1 .right-box .sectiontitle {
+                            color: #002e58
+                        }
+
+                        .skn-srz1 .right-box .paddedline.date-content {
+                            position: absolute;
+                            margin-left: 0;
+                            width: 65px
+                        }
+
+                        .skn-srz1 .paragraph .singlecolumn {
+                            position: relative
+                        }
+
+                        .skn-srz1 .right-box .summary .paragraph .singlecolumn {
+                            margin-left: 0
+                        }
+
+                        .skn-srz1 .education .joblocation,
+                        .txtItl {
+                            font-style: italic
+                        }
+
+                        /* Issues fix for builder page */
+                        .skn-srz1>div {
+                            min-height: inherit
+                        }
+
+                        #displayResume .skn-srz1.document {
+                            min-height: 792px
+                        }
+
+                        .skn-srz1 .left-box .active * {
+                            color: #343434
+                        }
+
+                        /* Only for firefox */
+                        @-moz-document url-prefix() {
+                            .skn-srz1 .parentContainer {
+                                height: 1px
+                            }
+                        }
+
+                        .skn-srz1 .word-break {
+                            word-wrap: break-word
+                        }
+
+                        .skn-srz1 .left-box .outer-square,
+                        .skn-srz1 right-box .outer-square,
+                        .skn-srz1 .left-box .inner-square,
+                        .skn-srz1 .right-box .inner-square {
+                            height: 7px;
+                            position: relative
+                        }
+
+                        .skn-srz1 .left-box .inner-square {
+                            background: #fff
+                        }
+
+                        .skn-srz1 .right-box .outer-square {
+                            background: #d6d6d6
+                        }
+
+                        .skn-srz1 .right-box .inner-square {
+                            background: #003D73;
+                            filter: brightness(.8)
+                        }
+
+                        /* For dates fix */
+                        .skn-srz1 .right-box .hidedates {
+                            visibility: hidden;
+                            position: static !important;
+                            display: block;
+                            float: left
+                        }
+
+                        .skn-srz1 .left-box .hidedates {
+                            display: none
+                        }
+
+                        .skn-srz1 .paragraph.datespara:after {
+                            content: '';
+                            display: table;
+                            clear: both
+                        }
+
+                        /*PICT*/
+                        .skn-srz1 .prflPic,
+                        .skn-srz1 .prflPic>div {
+                            width: 154px;
+                            height: 154px
+                        }
+
+                        .skn-srz1 .prflPic img {
+                            min-width: 100%;
+                            max-width: 100%;
+                            min-height: 100%;
+                            max-height: 100%
+                        }
+                    </style>
+                    <style type="text/css' %}" id="dynamic" data-time="Mon May 15 2023 11:03:00 GMT+0200 (South Africa Standard Time)">
+                        .skn-srz1,
+                        .skn-srz1 table {
+                            line-height: 18px
+                        }
+
+                        .skn-srz1.pagesize {
+                            width: 595px
+                        }
+
+                        .skn-srz1.fontface {
+                            font-family: Century Gothic
+                        }
+
+                        .skn-srz1.fontsize {
+                            font-size: 11px
+                        }
+
+                        .skn-srz1 .section {
+                            padding-top: 20px
+                        }
+
+                        .skn-srz1 .firstparagraph {
+                            margin-top: 0 !important
+                        }
+
+                        .skn-srz1 .paragraph {
+                            margin-top: 10px
+                        }
+
+                        .skn-srz1 .singlecolumn,
+                        .skn-srz1 .maincolumn {
+                            word-wrap: break-word
+                        }
+
+                        .skn-srz1 .right-box .singlecolumn,
+                        .skn-srz1 .right-box .maincolumn {
+                            margin-left: 0px
+                        }
+
+                        .skn-srz1 table.skills td {
+                            padding-top: 5px
+                        }
+
+                        .skn-srz1 .jobtitle,
+                        .skn-srz1 .degree,
+                        .skn-srz1 .programline {
+                            font-size: 14px
+                        }
+
+                        .skn-srz1 .name {
+                            font-size: 28px;
+                            line-height: 34px
+                        }
+
+                        .skn-srz1 .heading {
+                            line-height: 22px
+                        }
+
+                        .skn-srz1 .sectiontitle {
+                            font-size: 16px
+                        }
+
+                        .skn-srz1 .resumeTitle {
+                            font-size: 14px;
+                            padding-top: 3px
+                        }
+
+                        /*Left Box*/
+                        .skn-srz1 .left-box {
+                            background: #003D73;
+                            width: 154px
+                        }
+
+                        .skn-srz1 .left-box .section {
+                            padding-top: 20px
+                        }
+
+                        .skn-srz1 .left-box .heading {
+                            line-height: 22px
+                        }
+
+                        .skn-srz1 .left-box .heading:before {
+                            background: #003D73
+                        }
+
+                        .skn-srz1 .left-box .outer-square:before {
+                            background: #003D73;
+                            content: '';
+                            position: absolute;
+                            height: 7px;
+                            width: 100%;
+                            filter: brightness(.8)
+                        }
+
+                        /*Right Box*/
+                        .skn-srz1 .right-box .paragraph .singlecolumn {
+                            margin-left: 91px
+                        }
+
+                        .skn-srz1 .right-box .paddedline.date-content {
+                            left: -91px
+                        }
+
+                        .skn-srz1 .right-box .sectiontitle {
+                            color: #003D73
+                        }
+
+                        .skn-srz1 .right-box .inner-square {
+                            background: #003D73
+                        }
+
+                        /* Issues fix for builder page */
+                        .skn-srz1 .right-box .sortable-item {
+                            padding-top: 20px
+                        }
+
+                        .skn-srz1 .left-box>.sortable-item.active>.wrapper .heading:before {
+                            background: none
+                        }
+
+                        .skn-srz1 .left-box .sortable-item.active .outer-square:before {
+                            background: #d6d6d6
+                        }
+
+                        .skn-srz1 .left-box .sortable-item.active .inner-square {
+                            background: #003D73
+                        }
+
+                        /* Issues fix for builder page: Phase 2 */
+                        .skn-srz1._single-parent-drag>.wrapper-bg+div {
+                            position: relative;
+                            z-index: 8
+                        }
+
+                        .skn-srz1._single-parent-drag .outer-square:before {
+                            background: #d6d6d6;
+                            content: '';
+                            position: absolute;
+                            height: 7px;
+                            width: 100%;
+                            filter: brightness(0.8)
+                        }
+
+                        .skn-srz1._single-parent-drag .inner-square {
+                            background: #003D73
+                        }
+
+                        .skn-srz1._single-parent-drag .wrapper-bg+div .paragraph {
+                            margin-top: 0
+                        }
+
+                        .skn-srz1 .outer-square,
+                        .skn-srz1 .inner-square {
+                            height: 7px;
+                            position: relative
+                        }
+
+                        .skn-srz1 .parent-drag.active .wrapper,
+                        .skn-srz1 .sortable-item .sectiontitle {
+                            position: relative
+                        }
+
+                        .resume-preview .skn-srz1 .parentContainer .right-box .sortable-item:first-child,
+                        .resume-preview .skn-srz1 .parentContainer .right-box .sortable-item:first-child .section,
+                        .modal-preview-resume .skn-srz1 .parentContainer .right-box .sortable-item:first-child,
+                        .modal-preview-resume .skn-srz1 .parentContainer .right-box .sortable-item:first-child .section {
+                            padding-top: 0
+                        }
+
+                        /* support for IE Browser */
+                        @media screen and (min-width:0\0) {
+                            .skn-srz1 .left-box {
+                                box-sizing: content-box
+                            }
+
+                            .skn-srz1 .parentContainer {
+                                display: flex
+                            }
+
+                            .skn-srz1 .right-box {
+                                width: calc(100% - 154px)
+                            }
+
+                            .skn-srz1 .left-box,
+                            .skn-srz1 .right-box {
+                                background: none;
+                                display: inline;
+                                position: relative
+                            }
+
+                            .skn-srz1 .left-box:before {
+                                content: '';
+                                background: #003D73;
+                                position: absolute;
+                                left: 0;
+                                top: 0;
+                                height: 100%;
+                                width: 100%;
+                                opacity: .9
+                            }
+                        }
+                    </style>
+                </div>
+                <div class="document doc-root fontsize fontface vmargins hmargins   pagesize skn-srz1 SRZ1  ZTY  ">
+                    <div id="CONTAINER_PARENT_0" class="parentContainer">
+                        <div id="CONTAINER_0" class="left-box">
+                            <div data-react-beautiful-dnd-draggable="0" class="sortable-item section-container SortableItem-sibling  data-PICT">
+                                <div class="document-tool sec-tool" id="editIcons" style="right: -2px;"></div>
+                                <div id="SECTION_PICT50703abc-ae02-a9ad-ab8f-647f6f38536e" class="section photo notdraggable SECTION_PICT firstsection noparagraph  " data-section-cd="PICT">
+                                    <div class=" doc-item">
+                                        <div class="">
+                                            <div class="">
+                                                <div id="PARAGRAPH_PICT_0" class="paragraph PARAGRAPH_PICT firstparagraph placeholder-text ">
+                                                    <div class="clearfix doc-item">
+                                                        <div class="prflPic">
+                                                            <div id="FIELD_PURL">
+                                                                <a href="javascript:;" class="btn btn-primary btn-prfl-edit" title="Edit Photo">Edit Photo</a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="clear"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div data-react-beautiful-dnd-draggable="0" class="sortable-item section-container SortableItem-sibling  data-NAME">
+                                <div class="document-tool sec-tool" id="editIcons" style="right: -2px;"></div>
+                                <div id="SECTION_NAME087bfeb1-cf05-47cb-b32e-96c9d1c2cffc" class="section SECTION_NAME notdraggable    " data-section-cd="NAME">
+                                    <div class=" doc-item">
+                                        <div class="">
+                                            <div class="">
+                                                <div id="PARAGRAPH_NAME_58997506-d4e8-b13f-2e38-41621f94acc8" class="paragraph PARAGRAPH_NAME firstparagraph placeholder-text ">
+                                                    <div>
+                                                        <div class="name word-break">
+                                                            <span id="FIELD_FNAM">Your</span>
+                                                            <span class="word-break" id="FIELD_LNAM">Name</span>
+                                                        </div>
+                                                        <div class="resumeTitle placeholder-text" id="FIELD_DCTL">Profession</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div data-react-beautiful-dnd-draggable="0" class="sortable-item section-container SortableItem-sibling  data-CNTC">
+                                <div class="document-tool sec-tool" id="editIcons" style="right: -2px;"></div>
+                                <div id="SECTION_CNTCecd132ba-69c2-438a-a050-5476b74238c0" class="section SECTION_CNTC notdraggable    has-title " data-section-cd="CNTC">
+                                    <div class=" doc-item">
+                                        <div class="heading">
+                                            <div class="sectiontitle" id="SECTIONNAME_CNTC">Contact <span title="Rename Contact section" class="rename-section text-rename"></span>
+                                            </div>
+                                        </div>
+                                        <div class="">
+                                            <div class="">
+                                                <div id="PARAGRAPH_CNTC_a6688865-7197-59e6-928e-5b5ed8f4d315" class="paragraph PARAGRAPH_CNTC firstparagraph placeholder-text ">
+                                                    <div class="clearfix doc-item">
+                                                        <div class="address">
+                                                            <div class="singlecolumn">
+                                                                <div dependency="STRT|CITY|STAT|ZIPC|ADDR">
+                                                                    <div class="txtBold">
+                                                                        <span class="xslt_static_change">Address </span>
+                                                                    </div>
+                                                                    <div id="FIELD_STRT"></div>
+                                                                    <span id="FIELD_CITY">Durban</span>
+                                                                    <span dependency="CITY+STAT|ZIPC">,</span>
+                                                                    <span id="FIELD_STAT">South Africa</span>
+                                                                    <span dependency="STAT+ZIPC">, </span>
+                                                                    <span id="FIELD_ZIPC">4057</span>
+                                                                    <span id="FIELD_ADDR"></span>
+                                                                </div>
+                                                                <div class="txtBold mt5" dependency="HPHN|CPHN">
+                                                                    <span class="xslt_static_change">Phone </span>
+                                                                </div>
+                                                                <div dependency="HPHN">
+                                                                    <span id="FIELD_HPHN">+27 82 978 5313</span>
+                                                                </div>
+                                                                <div class="txtBold mt5" dependency="EMAI">
+                                                                    <span class="xslt_static_change">E-mail </span>
+                                                                </div>
+                                                                <div dependency="EMAI" class="word-break">
+                                                                    <span id="FIELD_EMAI">minenhledlamini@sample.za</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div data-react-beautiful-dnd-draggable="0" class="sortable-item section-container SortableItem-sibling  data-HILT">
+                                <div class="document-tool sec-tool" id="editIcons" style="right: -2px;"></div>
+                                <div id="SECTION_HILT35956172-3015-4391-9646-b87aa483d4f0" class="section SECTION_HILT  noparagraph  has-title " data-section-cd="HILT">
+                                    <div class=" doc-item">
+                                        <div class="heading">
+                                            <div class="sectiontitle" id="SECTIONNAME_HILT">Skills <span title="Rename Skills section" class="rename-section text-rename"></span>
+                                            </div>
+                                        </div>
+                                        <div class="">
+                                            <div class="">
+                                                <div id="PARAGRAPH_HILT_0" class="paragraph PARAGRAPH_HILT firstparagraph placeholder-text ">
+                                                    <div class="clearfix doc-item">
+                                                        <div class="singlecolumn maincolumn">
+                                                            <span class="paddedline" id="FIELD_SKC1">
+                                                                <ul>
+                                                                    <li>Store opening and closing</li>
+                                                                    <li>Sales expertise</li>
+                                                                    <li>Accurate Money Handling</li>
+                                                                    <li>Store Merchandising</li>
+                                                                </ul>
+                                                            </span>
+                                                            <span class="paddedline txtRight" id="FIELD_RATT"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="CONTAINER_1" class="right-box">
+                            <div data-react-beautiful-dnd-draggable="0" class="sortable-item section-container SortableItem-sibling  data-SUMM">
+                                <div class="document-tool sec-tool" id="editIcons" style="right: -2px;"></div>
+                                <div id="SECTION_SUMM22aeb0fe-3632-4d47-86dd-721468a177db" class="section summary notdraggable SECTION_SUMM  noparagraph  " data-section-cd="SUMM">
+                                    <div class=" doc-item">
+                                        <div class="">
+                                            <div class="">
+                                                <div id="PARAGRAPH_SUMM_0" class="paragraph PARAGRAPH_SUMM firstparagraph placeholder-text ">
+                                                    <div class="clearfix doc-item">
+                                                        <div class="singlecolumn" id="FIELD_FRFM">Motivated Sales Associate with 5 years of experience boosting sales and customer loyalty through individualized service. Resourceful expert at learning customer needs, directing to desirable merchandise and upselling to meet sales quotas. Committed to strengthening customer experiences with positivity and professionalism when answering requests and processing sales.</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div data-react-beautiful-dnd-draggable="0" class="sortable-item section-container SortableItem-sibling  data-EXPR">
+                                <div class="document-tool sec-tool" id="editIcons" style="right: -2px;"></div>
+                                <div id="SECTION_EXPR48ba284e-950e-4a92-93f4-a44702a0ef09" class="section experience SECTION_EXPR  noparagraph multi-para has-title " data-section-cd="EXPR">
+                                    <div class=" doc-item">
+                                        <div class="heading">
+                                            <div class="sectiontitle" id="SECTIONNAME_EXPR">Work History <span title="Rename Work History section" class="rename-section text-rename"></span>
+                                            </div>
+                                        </div>
+                                        <div class="">
+                                            <div class="sortableInner">
+                                                <div id="PARAGRAPH_EXPR_0" class="paragraph datespara PARAGRAPH_EXPR firstparagraph placeholder-text ">
+                                                    <div class="clearfix doc-item">
+                                                        <div class="paddedline date-content hidedates" dependency="JSTD|EDDT">
+                                                            <span class="jobdates" dependency="JSTD">2007-03</span>
+                                                            <span dependency="JSTD+EDDT"> - </span>
+                                                            <span class="jobdates" dependency="EDDT">2007-03</span>
+                                                            <br dependency="JTIT|COMP|JSTA|JCIT">
+                                                        </div>
+                                                        <div class="singlecolumn">
+                                                            <div class="paddedline date-content" dependency="JSTD|EDDT">
+                                                                <span class="jobdates" id="FIELD_JSTD" format="%Y-%m">May 2016</span>
+                                                                <span dependency="JSTD+EDDT"> - </span>
+                                                                <span class="jobdates" id="FIELD_EDDT" format="%Y-%m">Current</span>
+                                                                <br dependency="JTIT|COMP|JSTA|JCIT">
+                                                            </div>
+                                                            <span class="paddedline" dependency="JTIT">
+                                                                <span class="jobtitle txtBold" id="FIELD_JTIT">Retail Sales Associate</span>
+                                                            </span>
+                                                            <span class="paddedline locationGap txtItl" dependency="COMP|JSTA|JCIT">
+                                                                <span class="companyname" id="FIELD_COMP">H&amp;M</span>
+                                                                <span dependency="COMP+JCIT|JSTA">,</span>
+                                                                <span class="jobcity" id="FIELD_JCIT">Durban</span>
+                                                                <span class="jobstate" id="FIELD_JSTA"></span>
+                                                            </span>
+                                                            <span class="jobline" id="FIELD_JDES">
+                                                                <ul>
+                                                                    <li>Effectively upsold products by introducing accessories and other add-ons, adding R3000 to average monthly sales.</li>
+                                                                    <li>Generated brand awareness and positive product impressions to increase sales 22%.</li>
+                                                                    <li>Used consultative sales approach to understand customer needs and recommend relevant offerings.</li>
+                                                                </ul>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div id="PARAGRAPH_EXPR_-1" class="paragraph datespara PARAGRAPH_EXPR placeholder-text ">
+                                                    <div class="clearfix doc-item">
+                                                        <div class="paddedline date-content hidedates" dependency="JSTD|EDDT">
+                                                            <span class="jobdates" dependency="JSTD">2007-03</span>
+                                                            <span dependency="JSTD+EDDT"> - </span>
+                                                            <span class="jobdates" dependency="EDDT">2007-03</span>
+                                                            <br dependency="JTIT|COMP|JSTA|JCIT">
+                                                        </div>
+                                                        <div class="singlecolumn">
+                                                            <div class="paddedline date-content" dependency="JSTD|EDDT">
+                                                                <span class="jobdates" id="FIELD_JSTD" format="%Y-%m">January 2015</span>
+                                                                <span dependency="JSTD+EDDT"> - </span>
+                                                                <span class="jobdates" id="FIELD_EDDT" format="%Y-%m">March 2016</span>
+                                                                <br dependency="JTIT|COMP|JSTA|JCIT">
+                                                            </div>
+                                                            <span class="paddedline" dependency="JTIT">
+                                                                <span class="jobtitle txtBold" id="FIELD_JTIT">Barista</span>
+                                                            </span>
+                                                            <span class="paddedline locationGap txtItl" dependency="COMP|JSTA|JCIT">
+                                                                <span class="companyname" id="FIELD_COMP">Starbucks</span>
+                                                                <span dependency="COMP+JCIT|JSTA">,</span>
+                                                                <span class="jobcity" id="FIELD_JCIT">Durban</span>
+                                                                <span class="jobstate" id="FIELD_JSTA"></span>
+                                                            </span>
+                                                            <span class="jobline" id="FIELD_JDES">
+                                                                <ul>
+                                                                    <li>Created over 60 drinks per hour with consistently positive customer satisfaction scores.</li>
+                                                                    <li>Learned every menu preparation and numerous off-label drinks to meet all customer needs.</li>
+                                                                    <li>Upsold baked goods and extra shots with beverages, increasing store sales R3800 per month.</li>
+                                                                </ul>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div id="PARAGRAPH_EXPR_-2" class="paragraph datespara PARAGRAPH_EXPR placeholder-text ">
+                                                    <div class="clearfix doc-item">
+                                                        <div class="singlecolumn">
+                                                            <span class="jobline" id="FIELD_JDES"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div data-react-beautiful-dnd-draggable="0" class="sortable-item section-container SortableItem-sibling  data-EDUC">
+                                <div class="document-tool sec-tool" id="editIcons" style="right: -2px;"></div>
+                                <div id="SECTION_EDUC6d70f7e2-a4f8-41fb-9d2c-0b846cc2de1c" class="section education SECTION_EDUC  noparagraph multi-para has-title " data-section-cd="EDUC">
+                                    <div class=" doc-item">
+                                        <div class="heading">
+                                            <div class="sectiontitle" id="SECTIONNAME_EDUC">Education <span title="Rename Education section" class="rename-section text-rename"></span>
+                                            </div>
+                                        </div>
+                                        <div class="">
+                                            <div class="">
+                                                <div id="PARAGRAPH_EDUC_0" class="paragraph datespara PARAGRAPH_EDUC firstparagraph placeholder-text ">
+                                                    <div class="clearfix doc-item">
+                                                        <div class="singlecolumn">
+                                                            <div class="paddedline date-content">
+                                                                <span class="jobdates" id="FIELD_GRST" format="%Y-%m"></span>
+                                                                <span class="jobdates" id="FIELD_GRED" format="%Y-%m"></span>
+                                                            </div>
+                                                            <span class="paddedline degreeGap txtBold" dependency="DGRE|STUY">
+                                                                <span class="degree" id="FIELD_DGRE">National Diploma</span>
+                                                                <span dependency="DGRE+STUY">: </span>
+                                                                <span class="programline" id="FIELD_STUY">Accounting</span>
+                                                            </span>
+                                                            <div class="paddedline txtItl" dependency="SCIT|SSTA|SCHO">
+                                                                <span class="companyname" id="FIELD_SCHO">Durban University of Technology</span>
+                                                                <span dependency="SCHO+SSTA|SCIT"> - </span>
+                                                                <span class="joblocation jobcity" id="FIELD_SCIT">Durban</span>
+                                                                <span dependency="SCIT+SSTA">, </span>
+                                                                <span class="joblocation jobstate" id="FIELD_SSTA">South Africa</span>
+                                                            </div>
+                                                            <span id="FIELD_FRFM"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div></div>
+            </div>
         </div>
+        <p class="btn-preview-ctnr">
+            <button title="Preview my resume" type="button" aria-hidden="true" class="btn btn-default btn-preview">
+                <i class="icon-thumbnail-preview far fa-eye" aria-hidden="true"></i>Preview </button>
+        </p>
+        <button type="button" class="btn btn-link change-template-btn">Change template</button>
     </div>
-    <div class="btn-group-footer">
-        <button id="basicnext"  type="button"  class="btn btn-primary btn-next js-next-button">Next: Work History</button>
-
-        <button type="button" class="btn btn-default btn-back js-back-button">Back</button>
-    </div>
-
-<!-- test end -->
+</div>
+<div class="btn-group-footer">
+    <button id="basicnext" type="button" class="btn btn-primary btn-next js-next-button">Next: Work History</button>
+    <button type="button" class="btn btn-default btn-back js-back-button">Back</button>
+</div>
 
 <script>
 
@@ -420,8 +1308,16 @@
     // });
 
 </script>
+{% endblock %}
 
-{% endblock content %}
+
+        
+        
+            
+
+
+
+
 
 
 
