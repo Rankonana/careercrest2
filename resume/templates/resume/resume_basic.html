@@ -21,76 +21,86 @@
         </div>
     </div>
     <div class="col-cntc-form col-md-7 ">
-        <form id="myResumeForm"  method="post" enctype="multipart/form-data">
-            {% csrf_token %} 
+        
             <div class="cntc-fields-wrap">
-                <div class="row row-full-name">
-                    <div class="col-6 col-first-name">
-                        <div class="form-group placeholder-wrap bold-FNAM  is-valid">
-                            <label class="control-label " for="textFNAM">First Name <span></span>
-                            </label>
-                            <!-- <input type="text" name="FNAM" placeholder="e.g. Minenhle" maxlength="35" class="form-control" id="textFNAM" autocomplete="given-name" aria-label="First Name" aria-required="false" value=""> -->
-                            {{ form.firstname }}
+                <form id="myResumeForm"  method="post" enctype="multipart/form-data">
+                    {% csrf_token %} 
+                    <div class="row row-full-name">
+                        <div class="col-6 col-first-name">
+                            <div class="form-group placeholder-wrap bold-FNAM  is-valid">
+                                <label class="control-label " for="textFNAM">First Name <span></span>
+                                </label>
+                                {{form.firstname}}
 
+                            </div>
+                        </div>
+                        <div class="col-6 col-last-name">
+                            <div class="form-group placeholder-wrap bold-LNAM  is-valid">
+                                <label class="control-label " for="textLNAM">Surname <span></span>
+                                </label>
+                                {{ form.lastname }}
+
+                            </div>
                         </div>
                     </div>
-                    <div class="col-6 col-last-name">
-                        <div class="form-group placeholder-wrap bold-LNAM  is-valid">
-                            <label class="control-label " for="textLNAM">Surname <span></span>
-                            </label>
-                            <input type="text" name="LNAM" placeholder="e.g. Dlamini" maxlength="35" class="form-control" id="textLNAM" autocomplete="family-name" aria-label="Surname" aria-required="false" value="">
+                    <div class="row row-doc-title">
+                        <div class="col-md-12 col-doc-title">
+                            <div class="form-group placeholder-wrap bold-DCTL  is-valid">
+                                <label class="control-label " for="textDCTL">Profession <span></span>
+                                </label>
+                                {{ form.profession }}
+
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="row row-doc-title">
-                    <div class="col-md-12 col-doc-title">
-                        <div class="form-group placeholder-wrap bold-DCTL  is-valid">
-                            <label class="control-label " for="textDCTL">Profession <span></span>
-                            </label>
-                            <input type="text" name="DCTL" placeholder="e.g. Sr. Accountant" class="form-control" id="textDCTL" autocomplete="additional-name" aria-label="Profession" aria-required="false" value="">
+                    <div class="row row-city-state-zip">
+                        <div class="col-city col-6 field-1">
+                            <div class="form-group placeholder-wrap bold-CITY  is-valid">
+                                <label class="control-label " for="city">City <span></span>
+                                </label>
+                                {{ form.city }}
+
+                            </div>
+                        </div>
+                        <div class="col-6 col-country col-xl-3  field-2">
+                            <div class="form-group placeholder-wrap bold-CNTY  is-valid">
+                                <label class="control-label " for="country">Country <span></span>
+                                </label>
+                                {{ form.country }}
+
+                            </div>
+                        </div>
+                        <div class="col-6 col-zip col-xl-3  field-3">
+                            <div class="form-group placeholder-wrap bold-ZIPC  is-valid">
+                                <label class="control-label " for="zip">Postal Code <span></span>
+                                </label>
+                                {{ form.postalcode }}
+
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="row row-city-state-zip">
-                    <div class="col-city col-6 field-1">
-                        <div class="form-group placeholder-wrap bold-CITY  is-valid">
-                            <label class="control-label " for="city">City <span></span>
-                            </label>
-                            <input type="city" name="CITY" placeholder="e.g. Durban" maxlength="100" class="form-control" id="city" autocomplete="address-level2" aria-label="City" aria-required="false" value="">
+                    <div class="row row-extra-field"></div>
+                    <div class="row row-phone-email">
+                        <div class="col-sm-6 col-phone">
+                            <div class="form-group placeholder-wrap bold-HPHN  is-valid">
+                                <label class="control-label " for="HPHN">Phone <span></span>
+                                </label>
+                                {{ form.phone }}
+
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-email">
+                            <div class="form-group placeholder-wrap bold-EMAI  is-valid">
+                                <label class="control-label " for="EMAI">Email <span></span>
+                                </label>
+                                {{ form.email }}
+
+                            </div>
                         </div>
                     </div>
-                    <div class="col-6 col-country col-xl-3  field-2">
-                        <div class="form-group placeholder-wrap bold-CNTY  is-valid">
-                            <label class="control-label " for="country">Country <span></span>
-                            </label>
-                            <input type="country" name="CNTY" placeholder="e.g. South Africa " maxlength="50" class="form-control" id="country" aria-label="Country" aria-required="false" value="">
-                        </div>
-                    </div>
-                    <div class="col-6 col-zip col-xl-3  field-3">
-                        <div class="form-group placeholder-wrap bold-ZIPC  is-valid">
-                            <label class="control-label " for="zip">Postal Code <span></span>
-                            </label>
-                            <input type="zip" name="ZIPC" placeholder="e.g. 4057" maxlength="10" class="form-control" id="zip" autocomplete="shipping postal-code" aria-label="Postal Code" aria-required="false" value="">
-                        </div>
-                    </div>
-                </div>
-                <div class="row row-extra-field"></div>
-                <div class="row row-phone-email">
-                    <div class="col-sm-6 col-phone">
-                        <div class="form-group placeholder-wrap bold-HPHN  is-valid">
-                            <label class="control-label " for="HPHN">Phone <span></span>
-                            </label>
-                            <input type="tel" name="HPHN" placeholder="e.g. +27 82 978 5313" maxlength="20" class="form-control" id="HPHN" autocomplete="tel" aria-label="Phone" aria-required="false" value="">
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-email">
-                        <div class="form-group placeholder-wrap bold-EMAI  is-valid">
-                            <label class="control-label " for="EMAI">Email <span></span>
-                            </label>
-                            <input type="email" name="EMAI" placeholder="e.g. minenhledlamini@sample.za" maxlength="50" class="form-control" id="EMAI" autocomplete="email" aria-label="Email" aria-required="false" value="">
-                        </div>
-                    </div>
-                </div>
+                    <button id="hiddensub" type="submit" class="btn btn-primary" style="display: none;">Save and Next</button>
+
+                </form>
                 <div class="additional-options">
                     <div class="add-social-links">
                         <a class="link" href="javascript:;">
@@ -98,9 +108,7 @@
                     </div>
                 </div>
             </div>
-            <button  type="submit" class="btn btn-primary" style="display: none;">Save and Next</button>
-
-        </form>
+            
         
     </div>
     <div class="resume-thumbnail col-md-3">

@@ -2,8 +2,6 @@ from django import forms
 import datetime
 
 class ResumeForm(forms.Form):
-    title = forms.CharField(label='Title',
-                    widget=forms.TextInput(attrs={'placeholder': 'Title','class':'form-control'}), max_length=100,required=True)
     image = forms.ImageField(required=False)
     firstname = forms.CharField(label='First name',
                     widget=forms.TextInput(attrs={'placeholder': 'First name','class':'form-control'}), max_length=100,required=True)
@@ -12,17 +10,17 @@ class ResumeForm(forms.Form):
                     widget=forms.TextInput(attrs={'placeholder': 'Last name','class':'form-control'}), max_length=100,required=True)
     
     profession = forms.CharField(label='Profession',
-                    widget=forms.TextInput(attrs={'placeholder': 'Profession','class':'form-control'}), max_length=100,required=False)
+                    widget=forms.TextInput(attrs={'placeholder': 'e.g. Sr. Accountant','class':'form-control'}), max_length=100,required=False)
     city = forms.CharField(label='City',
-                    widget=forms.TextInput(attrs={'placeholder': 'City','class':'form-control'}), max_length=100,required=False)
+                    widget=forms.TextInput(attrs={'placeholder': 'Cape Town','class':'form-control'}), max_length=100,required=False)
     country = forms.CharField(label='Country',
-                    widget=forms.TextInput(attrs={'placeholder': 'Country','class':'form-control'}), max_length=100,required=False)
+                    widget=forms.TextInput(attrs={'placeholder': 'South Africa','class':'form-control'}), max_length=100,required=False)
     postalcode = forms.CharField(label='Postalcode',
-                    widget=forms.TextInput(attrs={'placeholder': 'Postal code','class':'form-control'}), max_length=100,required=False)
+                    widget=forms.TextInput(attrs={'placeholder': '4057','class':'form-control'}), max_length=100,required=False)
     phone = forms.CharField(label='Phone',
-                    widget=forms.TextInput(attrs={'placeholder': 'Phone','class':'form-control'}), max_length=100,required=False)
+                    widget=forms.TextInput(attrs={'placeholder': 'e.g. +27 82 978 5313','class':'form-control'}), max_length=100,required=False)
     email = forms.EmailField(label='E-mail',
-                    widget=forms.TextInput(attrs={'placeholder': 'E-mail','class':'form-control'}), max_length=100,required=True)
+                    widget=forms.TextInput(attrs={'placeholder': 'e.g. minenhledlamini@example.com','class':'form-control'}), max_length=100,required=True)
     professional_summary = forms.CharField(label='Professional Summary:',
                                            widget=forms.Textarea(attrs={'cols': 50, 'rows': 10,'placeholder': 'Write your summary here...','class':'form-control'}),required=False
                                            )

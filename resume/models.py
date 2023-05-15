@@ -8,7 +8,6 @@ from django.db import models
 
 class Resume(models.Model):
     user = models.CharField(max_length=200,null=True,blank=True)
-    title = models.CharField(max_length=200,null=True,blank=True)
     image = models.ImageField(default="NoImage.jpg",null=True,blank=True)
     firstname = models.CharField(max_length=200,null=True,blank=True)
     lastname = models.CharField(max_length=200,null=True,blank=True)

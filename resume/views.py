@@ -88,7 +88,6 @@ def createBasic(request,tracking):
             if not form.cleaned_data['image']:
                 defaults = {
                     'user': username,
-                    'title': form.cleaned_data['title'],
                     'firstname': form.cleaned_data['firstname'],
                     'lastname': form.cleaned_data['lastname'],
                     'profession': form.cleaned_data['profession'],
@@ -108,7 +107,6 @@ def createBasic(request,tracking):
                 defaults = {
                     'user': username,
                     'image': form.cleaned_data['image'],
-                    'title': form.cleaned_data['title'],
                     'firstname': form.cleaned_data['firstname'],
                     'lastname': form.cleaned_data['lastname'],
                     'profession': form.cleaned_data['profession'],
@@ -136,7 +134,7 @@ def createBasic(request,tracking):
         try:
             rm = get_object_or_404(Resume,tracking=tracking)
             xd = rm.image
-            form_data = {'title': rm.title,
+            form_data = {
                          'image': rm.image,
                           'firstname': rm.firstname,
                           'lastname': rm.lastname,
@@ -266,7 +264,6 @@ def addEditWork(request,tracking,worktracking):
                             worktracking = worktracking,
                             defaults={
                                        'resume': rm,
-                                       'job_title' : form.cleaned_data['job_title'],
                                        'employer' : form.cleaned_data['employer'],
                                        'city' : form.cleaned_data['city'],
                                        'country' : form.cleaned_data['country'],
