@@ -46,7 +46,7 @@
             <div class="col-md-5 certifications">
                 <label for="summary-label" class="control-label">What certifications would you like to highlight?</label>
                 <div id="display-jog-title-employer-city"></div>
-                <ul id="list-certifications-container">
+                <div id="list-certifications-container">
 
                     <div class="row">
                         <table id="skill-table">
@@ -60,7 +60,7 @@
                             </tbody>
                         </table>
                     </div>
-                </ul>
+                </div>
                 <div>
                     <a onclick="theaddmorecertifications();" class="btn btn-outline-primary"> + Add More certifications</a>
                 </div>
@@ -398,6 +398,10 @@
 
     // Function to update a skill with new data
     function updateSkill(skill, name, proficiency) {
+        // Get the pathname of the current URL
+        var pathnameaddmore = window.location.pathname;
+        // Extract the string after the last slash
+        var resumetrackingskill = pathnameaddmore.substring(pathnameaddmore.lastIndexOf('/') + 1);
         // Create a new PUT request with the updated data
         var xhrl = new XMLHttpRequest();
         xhrl.open('PUT', '/api/add-edit-skill/');
@@ -412,7 +416,7 @@
         };
         xhrl.send(JSON.stringify({
             'skilltracking': skill.skilltracking,
-            'resume': skill.resume,
+            'resume': resumetrackingskill,
             'skill_name': name,
             'proficiency': proficiency
         }));

@@ -6,17 +6,17 @@ urlpatterns = [
     path('softwares/', views.getSoftwares),
     path('softwares/<str:pk>/', views.getSoftware),
     path('add-edit-software/', views.software_detail),
-    path('delete-software/<str:pk>/', views.deleteSoftware),
+    path('delete-software/<str:softwaretracking>/', views.deleteSoftware),
 
     path('languages/', views.getLanguages),
     path('languages/<str:pk>/', views.getLanguage),
     path('add-edit-language/', views.language_detail),
-    path('delete-language/<str:pk>/', views.deleteLanguage),
+    path('delete-language/<str:languagetracking>/', views.deleteLanguage),
 
     path('certifications/', views.getCertifications),
     path('certifications/<str:pk>/', views.getCertification),
     path('add-edit-certification/', views.certification_detail),
-    path('delete-certification/<str:pk>/', views.deleteCertification),
+    path('delete-certification/<str:certificationtracking>/', views.deleteCertification),
 
     path('image/<str:tracking>/', views.getImage),
     path('image-delete/<str:tracking>/', views.deleteImage),

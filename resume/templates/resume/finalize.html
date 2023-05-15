@@ -160,14 +160,14 @@
                                             {{ acc_form.accomplishments }}
                                         </div>
                                     </div>
-                            <button type="submit" name="acc_form_submit" class="btn btn-danger">Save And Next</button>
+                            <button id="btnSubmitAcc" type="submit" name="acc_form_submit" class="btn btn-danger" style="display: none;">Save And Next</button>
                         </form>
                     </div>
                 </div>
             </div>
             <!-- copied from summary end -->
             <button class="back-btn btn btn-primary">Back</button>
-            <button class="next-btn btn btn-danger">Next</button>
+            <button id="btnAccNext" class="next-btn btn btn-danger">Next</button>
         </div>
         <div id="affiliations" class="question">
             <h1> Affiliations </h1>
@@ -181,7 +181,7 @@
                             <ul id="search-suggestions-affiliations"></ul>
                         </div>
                         <div class="col-2">
-                            <button type="button" id="btn-title-search-affiliations" class="btn btn-primary" title="search"> Search</button>
+                            <button  type="button" id="btn-title-search-affiliations" class="btn btn-primary" title="search" > Search</button>
                         </div>
                     </div>
                     <div class="row">
@@ -210,13 +210,13 @@
                                             {{ aff_form.affiliations }}
                                         </div>
                                     </div>
-                            <button type="submit" name="aff_form_submit" class="btn btn-danger">Save And Next</button>
+                            <button id="btnSuAff" type="submit" name="aff_form_submit" class="btn btn-danger" style="display: none;">Save And Next</button>
                         </form>
                     </div>
                 </div>
             </div>
             <button class="back-btn btn btn-primary">Back</button>
-            <button class="next-btn btn btn-danger">Next</button>
+            <button id="btnAffNext" class="next-btn btn btn-danger">Next</button>
         </div>
         <div id="additional-info" class="question">
             <h1> Additional Information </h1>
@@ -232,13 +232,13 @@
                                             {{ adds_form.additionalinformation }}
                                         </div>
                                     </div>
-                            <button type="submit" name="adds_form_submit" class="btn btn-danger">Save And Next</button>
+                            <button id="btnSumAdd" type="submit" name="adds_form_submit" class="btn btn-danger" style="display: none;">Save And Next</button>
                         </form>
                     </div>
                 </div>
             </div>
             <button class="back-btn btn btn-primary">Back</button>
-            <button class="next-btn btn btn-danger">Next</button>
+            <button id="btnNextAdd" class="next-btn btn btn-danger">Next</button>
         </div>
         <div id="software" class="question">
             <h1> Software </h1>
@@ -259,7 +259,7 @@
             </div>
             <div class="row">
                 <!-- <a onclick="theaddmoreSoftwareSkills()" class="btn btn-outline-primary"> + Add Software Skill</a> -->
-                <a href="{% url 'addeditSoftware' tracking newone  %}" class="btn btn-outline-primary"> + Add new one</a>
+                <button  class="btn btn-outline-primary" onclick="theaddmoresoftware();" > + Add new one</button>
 
             </div>
             <button class="back-btn btn btn-primary">Back</button>
@@ -322,20 +322,32 @@
                 <div class="col-md-5 certifications">
                     <label for="summary-label" class="control-label">What certifications would you like to highlight?</label>
                     <div id="display-jog-title-employer-city"></div>
-                    <ul id="list-certifications-container">
-                        {% for certification in certifications %}
+                    <div id="list-certifications-container">
+                        <!-- {% for certification in certifications %}
 
-                        <div class="containerxx" id="{{certification.certificationtracking}}">
+                            <div class="containerxx" id="{{certification.certificationtracking}}">
 
-                            <input type="date" id="certification_date" name="certification_date" class="form-control" value="{{ certification.certification_date|date:'Y-m-d' }}">
-                            <input type="text" id="certification_name" name="certification_name" class="form-control" value="{{ certification.certification_name}}">                                         
-                            <button class="btn-danger">X</button>
+                                <input type="date" id="certification_date" name="certification_date" class="form-control" value="{{ certification.certification_date|date:'Y-m-d' }}">
+                                <input type="text" id="certification_name" name="certification_name" class="form-control" value="{{ certification.certification_name}}">                                         
+                                <button class="btn-danger">X</button>
 
+                            </div>
+                        {% endfor %} -->
+                        <div class="row">
+                            <table id="certification-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Certification</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
                         </div>
-                    {% endfor %}
-                    </ul>
+                    </div>
                     <div>
-                        <a onclick="theaddmorecertifications('')" class="btn btn-outline-primary"> + Add More certifications</a>
+                        <button onclick="addCertification('',null);" class="btn btn-outline-primary"> + Add More certifications</button>
                     </div>
                 </div>
                 <!-- copied from summary end -->
@@ -382,13 +394,15 @@
                                             {{ own_form.yourown_name }}
                                         </div>
                                     </div>
-                            <button type="submit" name="own_form_submit" class="btn btn-danger">Save And Next</button>
+                            <button id="btnSubYouO" type="submit" name="own_form_submit" class="btn btn-danger" style="display: none;" >Save And Next</button>
                         </form>
                     </div>
                 </div>
             </div>
             <!-- start button -->
             <button class="back-btn btn btn-primary">Back</button>
+            <button id="btnNextAdd" class="back-btn btn btn-danger">Next</button>
+
 
             <!-- end button  -->
         </div>
@@ -396,6 +410,294 @@
 
 
 </div>
+
+<script id="api-certification">
+
+class Certification {
+    constructor(resume, certification_date, certification_name,certificationtracking) {
+        this.resume = resume;
+        this.certification_date = certification_date;
+        this.certification_name = certification_name;
+        this.certificationtracking = certificationtracking;
+
+    }
+    }
+    function addCertificationPOST(method,certification) {
+
+    var xhrC = new XMLHttpRequest();
+    xhrC.open(method, '/api/add-edit-certification/');
+    xhrC.setRequestHeader('Content-Type', 'application/json');
+    xhrC.setRequestHeader('X-CSRFToken', csrfToken);
+    xhrC.onload = function() {
+        if (xhrC.status === 200 || xhrC.status === 201) {
+        console.log('skill updated or added:');
+        } else {
+            console.error('Error adding or updating skill:');
+        }
+    };
+    xhrC.send(JSON.stringify({
+        'resume': certification.resume,
+        'certification_name': certification.certification_name,
+        'certification_date': certification.certification_date,
+        'certificationtracking': certification.certificationtracking
+    }));
+    }
+    function addCertification(certification_name,certification_date){
+    var pathname = window.location.pathname;
+    var resumetracking = pathname.substring(pathname.lastIndexOf('/') + 1);
+    certificationtrackingx = Math.random().toString(36).substr(2, 9);
+    var certificationx = new Certification(resumetracking,certification_date,certification_name,certificationtrackingx);
+    addCertificationPOST("POST",certificationx)
+    renderRowC(certificationx);
+    }
+
+var tableBodyC = document.querySelector('#certification-table tbody');
+
+// Function to render a row in the table
+function renderRowC(certification) {
+    // Create a new row element
+    var rowl = document.createElement('tr');
+    var td1l = document.createElement('td');
+    var td2l = document.createElement('td');
+
+    // Create two new input elements for the skill name and proficiency
+    var dateInput = document.createElement('input');   
+    dateInput.type = 'date';
+    dateInput.value = certification.certification_date;
+    // dateInput.classList.add("form-control");
+
+
+
+    var certification_name = document.createElement('input');
+    certification_name.type = 'text';
+    certification_name.value = certification.certification_name;
+    // certification_name.classList.add("form-control");
+
+
+
+    dateInput.addEventListener('change', function(e) {
+        updateCertification(certification, this.value, certification_name.value);
+
+    });
+
+    // Add an event listener to the input elements to update the skill data on change
+    certification_name.addEventListener('change', function() {
+        updateCertification(certification, dateInput.value, this.value);
+    });
+
+
+    const idl = certification.certificationtracking; // Replace with the actual ID of the skill to be deleted
+    const deletelinkl = document.createElement('a');
+    deletelinkl.href = `/api/delete-certification/${idl}`;
+    deletelinkl.innerHTML = 'Delete certification';
+    deletelinkl.addEventListener('click', function(event) {
+    event.preventDefault(); // Prevent the link from navigating to the URL
+
+    const xhrl = new XMLHttpRequest();
+    xhrl.open('DELETE', deletelinkl.href);
+    xhrl.setRequestHeader('X-CSRFToken', csrfToken);
+    xhrl.onload = function() {
+        if (xhrl.status === 200) {
+        console.log('certification deleted successfully!');
+        rowl.remove();
+        // location.reload();
+        } else {
+        console.error('An error occurred while deleting the certification:', xhrl.statusText);
+        }
+    };
+    xhrl.onerror = function() {
+        console.error('An error occurred while deleting the certification:', xhrl.statusText);
+    };
+    xhrl.send();
+    });
+
+
+
+
+    // Append the input elements to the row
+    td1l.appendChild(dateInput);
+    td2l.appendChild(certification_name);
+
+    td1l.appendChild(deletelinkl);
+
+    
+    rowl.appendChild(td1l);
+    rowl.appendChild(td2l);
+
+
+    
+
+        // Add the row to the table body
+        tableBodyC.appendChild(rowl);
+    }
+
+// Function to update a skill with new data
+function updateCertification(certification, certification_date, certification_name) {
+    // Get the pathname of the current URL
+    var pathnameaddmore = window.location.pathname;
+    // Extract the string after the last slash
+    var resumetrackingskill = pathnameaddmore.substring(pathnameaddmore.lastIndexOf('/') + 1);
+    // Create a new PUT request with the updated data
+    var xhrl = new XMLHttpRequest();
+    xhrl.open('PUT', '/api/add-edit-certification/');
+    xhrl.setRequestHeader('Content-Type', 'application/json');
+    xhrl.setRequestHeader('X-CSRFToken', csrfToken);
+    xhrl.onload = function() {
+        if (xhrl.status === 200) {
+        console.log('Skill updated:');
+        } else {
+            console.error('Error updating certification:');
+        }
+    };
+    xhrl.send(JSON.stringify({
+        'certificationtracking': certification.certificationtracking,
+        'resume': resumetrackingskill,
+        'certification_name': certification_name,
+        'certification_date': certification_date
+    }));
+}
+
+// Fetch the list of skill from the API and render the table rows
+fetch('/api/certifications/')
+    .then(response => response.json())
+    .then(data => data.forEach(renderRowC));
+</script>
+
+<script>
+
+    document.getElementById('btnAccNext').addEventListener("click", function(){
+        document.getElementById('btnSubmitAcc').click();
+    });
+    
+    document.getElementById('btnAffNext').addEventListener("click", function(){
+        document.getElementById('btnSuAff').click();
+    });
+    document.getElementById('btnNextAdd').addEventListener("click", function(){
+        document.getElementById('btnSumAdd').click();
+    });
+    document.getElementById('btnNextAdd').addEventListener("click", function(){
+        document.getElementById('btnSubYouO').click();
+    });
+
+</script>
+
+<!-- class start  -->
+<script>
+    class Sofware {
+    constructor(resume, software_name, proficiency,softwaretracking) {
+        this.resume = resume;
+        this.software_name = software_name;
+        this.proficiency = proficiency;
+        this.softwaretracking = softwaretracking;
+
+    }
+    }
+    function addSoftwarePOST(method,software) {
+
+        var xhrl = new XMLHttpRequest();
+        xhrl.open(method, '/api/add-edit-software/');
+        xhrl.setRequestHeader('Content-Type', 'application/json');
+        xhrl.setRequestHeader('X-CSRFToken', csrfToken);
+        xhrl.onload = function() {
+            if (xhrl.status === 200 || xhrl.status === 201) {
+            console.log('software updated or added:');
+            } else {
+                console.error('Error adding or updating software:');
+            }
+        };
+        xhrl.send(JSON.stringify({
+            'resume': software.resume,
+            'software_name': software.software_name,
+            'proficiency': software.proficiency,
+            'softwaretracking': software.softwaretracking
+        }));
+    }
+    function addSoftware(software_name,proficiency){
+        var pathname = window.location.pathname;
+        var resumetracking = pathname.substring(pathname.lastIndexOf('/') + 1);
+        skt = Math.random().toString(36).substr(2, 9);
+        var softx = new Sofware(resumetracking,software_name,proficiency,skt);
+        addSoftwarePOST("POST",softx)
+        renderRowS(softx);
+    }
+
+    function renderRowS(software) {
+        var tableBodyl = document.querySelector('#software-table tbody');
+
+        // Create a new row element
+        var rowl = document.createElement('tr');
+        var td1l = document.createElement('td');
+        var td2l = document.createElement('td');
+
+        // Create two new input elements for the skill name and proficiency
+        var nameInputl = document.createElement('input');
+
+        
+
+        nameInputl.type = 'text';
+        nameInputl.value = software.software_name;
+        var proficiencyInputl = software.proficiency;
+
+
+        var thedivl = document.createElement('jsuites-rating');
+        thedivl.setAttribute('value',software.proficiency);
+        thedivl.setAttribute('tooltip','Ugly, Bad, Average, Good, Outstanding');
+
+        thedivl.addEventListener('onchange', function(e) {
+            updateSoftware(software, nameInputl.value, this.value);
+
+        });
+
+    
+        const idl = software.softwaretracking; // Replace with the actual ID of the skill to be deleted
+        const deletelinkl = document.createElement('a');
+        deletelinkl.href = `/api/delete-software/${idl}`;
+        deletelinkl.innerHTML = 'Delete software';
+        deletelinkl.addEventListener('click', function(event) {
+        event.preventDefault(); // Prevent the link from navigating to the URL
+
+        const xhrl = new XMLHttpRequest();
+        xhrl.open('DELETE', deletelinkl.href);
+        xhrl.setRequestHeader('X-CSRFToken', csrfToken);
+        xhrl.onload = function() {
+            if (xhrl.status === 200) {
+            console.log('software deleted successfully!');
+            rowl.remove();
+            // location.reload();
+            } else {
+            console.error('An error occurred while deleting the software:', xhrl.statusText);
+            }
+        };
+        xhrl.onerror = function() {
+            console.error('An error occurred while deleting the software:', xhrl.statusText);
+        };
+        xhrl.send();
+        });
+
+
+    
+
+        // Append the input elements to the row
+        td1l.appendChild(nameInputl);
+        td2l.appendChild(thedivl);
+        td1l.appendChild(deletelinkl);
+
+        
+        rowl.appendChild(td1l);
+        rowl.appendChild(td2l);
+
+
+        // Add an event listener to the input elements to update the skill data on change
+        nameInputl.addEventListener('change', function() {
+            updateSoftware(software, nameInputl.value, proficiencyInputl);
+        });
+
+            // Add the row to the table body
+            tableBodyl.appendChild(rowl);
+        }
+
+</script>
+<!-- class end -->
 
 		<!-- script for accomplishments start -->
 		<script id="for-accomplishments-job-titles">
@@ -740,7 +1042,7 @@
             });
 
         
-            const id = software.id; // Replace with the actual ID of the software to be deleted
+            const id = software.softwaretracking; // Replace with the actual ID of the software to be deleted
             const deletelink = document.createElement('a');
             deletelink.href = `/api/delete-software/${id}`;
             deletelink.innerHTML = 'Delete software';
@@ -752,8 +1054,8 @@
             xhr.setRequestHeader('X-CSRFToken', csrfToken);
             xhr.onload = function() {
                 if (xhr.status === 200) {
+                    row.remove();
                 console.log('Software deleted successfully!');
-                location.reload();
                 } else {
                 console.error('An error occurred while deleting the software:', xhr.statusText);
                 }
@@ -788,6 +1090,11 @@
 
         // Function to update a software with new data
         function updateSoftware(software, name, proficiency) {
+            // Get the pathname of the current URL
+            var pathnameaddmore = window.location.pathname;
+            // Extract the string after the last slash
+            var resumetrackingsoftware = pathnameaddmore.substring(pathnameaddmore.lastIndexOf('/') + 1);
+
             // Create a new PUT request with the updated data
             var xhr = new XMLHttpRequest();
             xhr.open('PUT', '/api/add-edit-software/');
@@ -802,7 +1109,7 @@
             };
             xhr.send(JSON.stringify({
                 'softwaretracking': software.softwaretracking,
-                'resume': software.resume,
+                'resume': resumetrackingsoftware,
                 'software_name': name,
                 'proficiency': proficiency
             }));
@@ -812,6 +1119,10 @@
         fetch('/api/softwares/')
             .then(response => response.json())
             .then(data => data.forEach(renderRow));
+
+        function theaddmoresoftware() {
+        addSoftware("","0");
+    }
     </script>
   <!-- software end -->
 
@@ -850,7 +1161,7 @@
             });
 
         
-            const idl = language.id; // Replace with the actual ID of the language to be deleted
+            const idl = language.languagetracking; // Replace with the actual ID of the language to be deleted
             const deletelinkl = document.createElement('a');
             deletelinkl.href = `/api/delete-language/${idl}`;
             deletelinkl.innerHTML = 'Delete language';
@@ -863,7 +1174,7 @@
             xhrl.onload = function() {
                 if (xhrl.status === 200) {
                 console.log('Language deleted successfully!');
-                location.reload();
+                rowl.remove();
                 } else {
                 console.error('An error occurred while deleting the language:', xhrl.statusText);
                 }
@@ -1056,27 +1367,62 @@
                             buttoncertifications.classList.add("btn-primary");
                             buttoncertifications.textContent = "ADD";
 
-                                  // Get all the <div> elements inside the <ul> list
-                            const divs = document.querySelectorAll('#list-certifications-container > div');
 
-                            // Loop through each <div> element
-                            divs.forEach(function(div) {
+                            //
+                            // Get a reference to the table element
+                            var table = document.getElementById("certification-table");
 
-                            // Get the value of the textbox inside the <div> element
-                            const value = div.querySelector('input[type="text"]').value;
+                            // Loop through the rows of the table
+                            for (var i = 0, row; row = table.rows[i]; i++) {
+                            // Get the textbox in this row
+                            var textBox = row.cells[1].getElementsByTagName("input")[0].value;
 
-                            // Check if the value contains the word "facebook"
-                            if (value.includes(textxxx)) {
-
-                                // If it does, remove the <div> element from the <ul> list
-                                div.remove();
-                                console.log('removed')
+                            // Check if the textbox contains the desired word
+                            if (textBox.includes(textxxx)) {
+                                // Click on the link in this row
+                                var link = row.cells[0].getElementsByTagName("a")[0];
+                                console.log(link);
                             }
-                            });
+                            }
+                            //
+
+                                  // Get all the <div> elements inside the <ul> list
+                            // const divs = document.querySelectorAll('#certification-table tbody tr');
+                            // console.log(divs);
+
+                            // // Loop through each <div> element
+                            // divs.forEach(function(div) {
+
+                            // // Get the value of the textbox inside the <div> element
+                            // const value = div.querySelector('input[type="text"]').value;
+
+                            // const linka = div.getElementsByTagName('a');
+                            // const linksw = div.getElementsByTagName("a");
+
+
+                            // // Check if the value contains the word "facebook"
+                            // if (value.includes(textxxx)) {
+
+                            //     // If it does, remove the <div> element from the <ul> list
+                            //     div.remove();
+                            //     //console.log('removed')
+                            //     //console.log(div.outerHTML);
+                            //     const tempElement = document.createElement("div");
+                            //     tempElement.innerHTML  = div.outerHTML;
+                            //     const ad = tempElement.getElementsByTagName("a");
+                            //     ad.click();
+                            //     //console.log(ad);
+
+                            //     //linksw.click();
+
+                            //     //linka.click();
+                            // }
+                            // });
 						} else {
                             buttoncertifications.classList.remove("btn-primary");
                             buttoncertifications.classList.add("btn-danger");
-                            theaddmorecertifications(textxxx);
+                            //theaddmorecertifications(textxxx);
+                            addCertification(textxxx,null);
 							}
 
 
@@ -1092,85 +1438,7 @@
             });
         }
 
-        function theaddmorecertifications(certname) {
-            const listContainer = document.getElementById('list-certifications-container');
-            const listItem = document.createElement('div');
-            listItem.classList.add("containerxx");
-            var certificationtrackingaddmore = Math.random().toString(36).substr(2, 9);
-
-
-            listItem.setAttribute("id", certificationtrackingaddmore);
-
-             // Get the pathname of the current URL
-             var pathnameaddmore = window.location.pathname;
-            // Extract the string after the last slash
-            var resumetrackingaddmore = pathnameaddmore.substring(pathnameaddmore.lastIndexOf('/') + 1);
-           
-
-            
-            const textxxx = certname;
-            const listItems = listContainer.querySelectorAll('div');
-            const numberOfItems = listItems.length;
-            var dateInput = document.createElement("input");
-            dateInput.setAttribute("type", "date");
-            dateInput.setAttribute('id', 'date-element-' + numberOfItems);
-            dateInput.classList.add("form-control");
-
-            const textBox = document.createElement('input');
-            textBox.type = 'text';
-            textBox.setAttribute('id', 'certification-textbox-' + numberOfItems);
-            textBox.setAttribute('name', 'certification-textbox-' + numberOfItems);
-            textBox.classList.add("form-control");
-            textBox.value = textxxx;
-            // Create a delete button
-            const deleteButton = document.createElement('button');
-            deleteButton.textContent = 'X';
-            deleteButton.classList.add("btn-danger");
-
-            //add to database
-            // Send a POST request to the API endpoint
-            var xhraddcertmore = new XMLHttpRequest();
-                xhraddcertmore.open("POST", "/api/add-edit-certification/", true);
-                xhraddcertmore.setRequestHeader("Content-Type", "application/json");
-                xhraddcertmore.setRequestHeader('X-CSRFToken', csrfToken);
-
-                xhraddcertmore.onreadystatechange = function() {
-                    if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-                    console.log("Certification data sent successfully!");
-                    }
-                };
-
-                console.log('check certname : ' + certname)
-                var dataaddmore = JSON.stringify({
-                    certification_name: textxxx,
-                    certificationtracking: certificationtrackingaddmore,
-                    resume: resumetrackingaddmore
-                });
-
-                xhraddcertmore.send(dataaddmore);
-            //
-
-            // start event
-
-            dateInput.addEventListener('change', function() {
-                addEditCertification(certificationtrackingaddmore);
-            });
-
-            textBox.addEventListener('input', function() {
-                addEditCertification(certificationtrackingaddmore);
-            });
-
-            // end event
-
-            // Add the rating element, textbox, and delete button to the list item
-            listItem.appendChild(dateInput);
-            listItem.appendChild(textBox);
-            listItem.appendChild(deleteButton);
-            // Add the list item to the container
-            listContainer.appendChild(listItem);
-            // Get all the delete buttons
-            deletecertifications();
-        }
+        
 
         function deletecertifications() {
             var deleteButtons = document.querySelectorAll("#list-certifications-container button");
@@ -1183,6 +1451,18 @@
                 });
             });
         }
+        //
+        // var deleteButtons = document.querySelectorAll("#list-certifications-container button");
+        //     // Loop through the delete buttons and attach a click event listener
+        //     deleteButtons.forEach(function(button) {
+        //         button.addEventListener("click", function() {
+        //             // Get the parent list item of the clicked button and remove it
+        //             var listItem = button.parentNode;
+        //             listItem.remove();
+        //         });
+        //     });
+
+        //
     </script>
 
     <script>

@@ -189,16 +189,15 @@
                 <button type="button" class="btn btn-primary">Change Template</button>
             </div>
         </div>
-        <button id="basicnext" onclick="submitbasicform();" class="btn btn-danger">Save And Next</button>
+        <button id="basicnext"  class="btn btn-danger">Save And Next</button>
 
 </div>
 
 <script>
 
-    function submitbasicform() {
+    document.getElementById('basicnext').addEventListener("click", function(){
         document.getElementById('hiddensub').click();
-
-        }
+    });
 
 </script>
 

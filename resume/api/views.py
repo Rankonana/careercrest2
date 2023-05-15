@@ -68,8 +68,8 @@ def software_detail(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 @api_view(['DELETE'])
-def deleteSoftware(request,pk):
-    software = Software.objects.get(id=pk)
+def deleteSoftware(request,softwaretracking):
+    software = Software.objects.get(softwaretracking=softwaretracking)
     software.delete()
     return Response(status=status.HTTP_200_OK)
 
@@ -107,15 +107,20 @@ def language_detail(request):
     elif request.method == 'PUT':
         if language is None:
             return Response(status=status.HTTP_404_NOT_FOUND)
-        serializer = LanguageSerializer(language, data=request.data)
+        #
+        resumeid = Resume.objects.get(tracking =request.data.get('resume') )
+        data = request.data.copy()
+        data['resume'] = resumeid.pk
+        #
+        serializer = LanguageSerializer(language, data=data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 @api_view(['DELETE'])
-def deleteLanguage(request,pk):
-    language = Languages.objects.get(id=pk)
+def deleteLanguage(request,languagetracking):
+    language = Languages.objects.get(languagetracking=languagetracking)
     language.delete()
     return Response(status=status.HTTP_200_OK)
 
@@ -164,8 +169,8 @@ def certification_detail(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 @api_view(['DELETE'])
-def deleteCertification(request,pk):
-    certification = Certifications.objects.get(id=pk)
+def deleteCertification(request,certificationtracking):
+    certification = Certifications.objects.get(certificationtracking=certificationtracking)
     certification.delete()
     return Response(status=status.HTTP_200_OK)
 

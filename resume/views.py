@@ -244,7 +244,7 @@ def deleteSocial(request,tracking,socialtracking):
 
 
 def listWork(request,tracking):
-    print(request.session['username'])
+    #print(request.session['username'])
     works = None
     try:
         resume = Resume.objects.get(tracking=tracking)
