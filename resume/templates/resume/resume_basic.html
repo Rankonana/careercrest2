@@ -101,12 +101,32 @@
                     <button id="hiddensub" type="submit" class="btn btn-primary" style="display: none;">Save and Next</button>
 
                 </form>
+                
                 <div class="additional-options">
                     <div class="add-social-links">
-                        <a class="link" href="javascript:;">
-                            <span class="icon-add"></span>Add Social Links </a>
+                        <a class="link" href="#" id="hideunhideSocialLink">
+                            <span class="icon-minus"></span>+ Add Social Links</a>
+                        </div> 
+
+                    <div id="socialcontainer" style="display: none;">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="social-media">Social Media:</label>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="email">Social Link:</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="socialdiv"></div>
+                        <button id="addsocial"  class="btn btn-outline-primary" > + Add one more</button>
+
                     </div>
-                </div>
+                </div> 
+
             </div>
             
         
@@ -1026,29 +1046,29 @@
 
 <script>
 
-    // var lx = document.getElementById("hideunhideSocialLink");
-    //     lx.addEventListener("click", function(event){
-    //     event.preventDefault();
+    var lx = document.getElementById("hideunhideSocialLink");
+        lx.addEventListener("click", function(event){
+        event.preventDefault();
 
-    //         const socialDiv = document.getElementById('socialdiv');
-    //         const rows = socialDiv.querySelectorAll('.row');
-    //         const rowCnt = rows.length;
+            const socialDiv = document.getElementById('socialdiv');
+            const rows = socialDiv.querySelectorAll('.row');
+            const rowCnt = rows.length;
 
-    //         const socialcontainer = document.getElementById('socialcontainer');
+            const socialcontainer = document.getElementById('socialcontainer');
 
-    //         const addButton = document.getElementById('addsocial');
-    //         if (rowCnt === 0) {
-    //             document.getElementById('addsocial').click();
+            const addButton = document.getElementById('addsocial');
+            if (rowCnt === 0) {
+                document.getElementById('addsocial').click();
 
-    //         }
-    //         if (lx.innerText === "+ Add Social Links") {
-    //             lx.innerText = "- Add Social Links";
-    //             socialcontainer.style.display = "block";
-    //         } else {
-    //             lx.innerText = "+ Add Social Links";
-    //             socialcontainer.style.display = "none";
-    //         }
-    // });
+            }
+            if (lx.innerText === "+ Add Social Links") {
+                lx.innerText = "- Add Social Links";
+                socialcontainer.style.display = "block";
+            } else {
+                lx.innerText = "+ Add Social Links";
+                socialcontainer.style.display = "none";
+            }
+    });
 
     // const fileInput = document.querySelector('#image-file');
     //     fileInput.addEventListener('change', () => {
@@ -1256,7 +1276,7 @@
 
 
                 // Add the row to the table body
-                // socialdiv.appendChild(divouter);
+                socialdiv.appendChild(divouter);
 
 
 
@@ -1300,20 +1320,20 @@
 
 
     var addsocial = document.getElementById('addsocial');
-    //  addsocial.addEventListener('click', function(event) {
-    //             event.preventDefault();
-    //             var pathname = window.location.pathname;
-    //             var resumetracking = pathname.substring(pathname.lastIndexOf('/') + 1);
+     addsocial.addEventListener('click', function(event) {
+                event.preventDefault();
+                var pathname = window.location.pathname;
+                var resumetracking = pathname.substring(pathname.lastIndexOf('/') + 1);
      
-    //             const mys = new Social(resumetracking, "twitter", "",Math.random().toString(36).substr(2, 9));
+                const mys = new Social(resumetracking, "twitter", "",Math.random().toString(36).substr(2, 9));
 
-    //             renderSocial(mys)
-    //             updateSocial('POST',mys,"twitter","");
+                renderSocial(mys)
+                updateSocial('POST',mys,"twitter","");
 
-    //             updateaddsoc();
+                updateaddsoc();
 
 
-    // });
+    });
 
 </script>
 {% endblock %}
