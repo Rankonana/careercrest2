@@ -211,23 +211,36 @@
                         buttoncertifications.classList.add("btn-primary");
                         buttoncertifications.textContent = "ADD";
 
-                              // Get all the <div> elements inside the <ul> list
-                        const divs = document.querySelectorAll('#list-certifications-container > div');
+                        // Get all the <div> elements inside the <ul> list
+                            const divs = document.querySelectorAll('#skill-table tbody tr');
 
-                        // Loop through each <div> element
-                        divs.forEach(function(div) {
+                            for (var i = 0, row; row = divs[i]; i++) {
+                                const ad = row.querySelector("a"); // remove [i] from row[i]
+                                const textBoxx = row.querySelector("input[type='text']");
 
-                        // Get the value of the textbox inside the <div> element
-                        const value = div.querySelector('input[type="text"]').value;
+                                console.log(textBoxx.value);
 
-                        // Check if the value contains the word "facebook"
-                        if (value.includes(textxxx)) {
-
-                            // If it does, remove the <div> element from the <ul> list
-                            div.remove();
-                            console.log('removed')
-                        }
-                        });
+                                if (textBoxx.value.includes(textxxx)) {
+                                    if (ad) {
+                                        row.remove(); // remove divs[i] and replace with row
+                                        const xhrl = new XMLHttpRequest();
+                                        xhrl.open('DELETE', ad.getAttribute("href"));
+                                        xhrl.setRequestHeader('X-CSRFToken', csrfToken);
+                                        xhrl.onload = function() {
+                                            if (xhrl.status === 200) {
+                                                console.log('skill deleted successfully!');
+                                                row.remove(); // remove row instead of rowl
+                                            } else {
+                                                console.error('An error occurred while deleting the skill:', xhrl.statusText);
+                                            }
+                                        };
+                                        xhrl.onerror = function() {
+                                            console.error('An error occurred while deleting the skill:', xhrl.statusText);
+                                        };
+                                        xhrl.send();
+                                    }
+                                }
+                            }
                     } else {
                         buttoncertifications.classList.remove("btn-primary");
                         buttoncertifications.classList.add("btn-danger");

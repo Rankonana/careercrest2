@@ -323,16 +323,6 @@
                     <label for="summary-label" class="control-label">What certifications would you like to highlight?</label>
                     <div id="display-jog-title-employer-city"></div>
                     <div id="list-certifications-container">
-                        <!-- {% for certification in certifications %}
-
-                            <div class="containerxx" id="{{certification.certificationtracking}}">
-
-                                <input type="date" id="certification_date" name="certification_date" class="form-control" value="{{ certification.certification_date|date:'Y-m-d' }}">
-                                <input type="text" id="certification_name" name="certification_name" class="form-control" value="{{ certification.certification_name}}">                                         
-                                <button class="btn-danger">X</button>
-
-                            </div>
-                        {% endfor %} -->
                         <div class="row">
                             <table id="certification-table">
                                 <thead>
@@ -1368,56 +1358,40 @@ fetch('/api/certifications/')
                             buttoncertifications.textContent = "ADD";
 
 
-                            //
-                            // Get a reference to the table element
-                            var table = document.getElementById("certification-table");
+                           
+                            // Get all the <div> elements inside the <ul> list
+                            const divs = document.querySelectorAll('#certification-table tbody tr');
 
-                            // Loop through the rows of the table
-                            for (var i = 0, row; row = table.rows[i]; i++) {
-                            // Get the textbox in this row
-                            var textBox = row.cells[1].getElementsByTagName("input")[0].value;
+                            for (var i = 0, row; row = divs[i]; i++) {
+                                const ad = row.querySelector("a"); // remove [i] from row[i]
+                                const textBoxx = row.querySelector("input[type='text']");
 
-                            // Check if the textbox contains the desired word
-                            if (textBox.includes(textxxx)) {
-                                // Click on the link in this row
-                                var link = row.cells[0].getElementsByTagName("a")[0];
-                                console.log(link);
+                                console.log(textBoxx.value);
+
+                                if (textBoxx.value.includes(textxxx)) {
+                                    if (ad) {
+                                        row.remove(); // remove divs[i] and replace with row
+                                        const xhrl = new XMLHttpRequest();
+                                        xhrl.open('DELETE', ad.getAttribute("href"));
+                                        xhrl.setRequestHeader('X-CSRFToken', csrfToken);
+                                        xhrl.onload = function() {
+                                            if (xhrl.status === 200) {
+                                                console.log('certification deleted successfully!');
+                                                row.remove(); // remove row instead of rowl
+                                            } else {
+                                                console.error('An error occurred while deleting the certification:', xhrl.statusText);
+                                            }
+                                        };
+                                        xhrl.onerror = function() {
+                                            console.error('An error occurred while deleting the certification:', xhrl.statusText);
+                                        };
+                                        xhrl.send();
+                                    }
+                                }
                             }
-                            }
-                            //
-
-                                  // Get all the <div> elements inside the <ul> list
-                            // const divs = document.querySelectorAll('#certification-table tbody tr');
-                            // console.log(divs);
-
-                            // // Loop through each <div> element
-                            // divs.forEach(function(div) {
-
-                            // // Get the value of the textbox inside the <div> element
-                            // const value = div.querySelector('input[type="text"]').value;
-
-                            // const linka = div.getElementsByTagName('a');
-                            // const linksw = div.getElementsByTagName("a");
 
 
-                            // // Check if the value contains the word "facebook"
-                            // if (value.includes(textxxx)) {
 
-                            //     // If it does, remove the <div> element from the <ul> list
-                            //     div.remove();
-                            //     //console.log('removed')
-                            //     //console.log(div.outerHTML);
-                            //     const tempElement = document.createElement("div");
-                            //     tempElement.innerHTML  = div.outerHTML;
-                            //     const ad = tempElement.getElementsByTagName("a");
-                            //     ad.click();
-                            //     //console.log(ad);
-
-                            //     //linksw.click();
-
-                            //     //linka.click();
-                            // }
-                            // });
 						} else {
                             buttoncertifications.classList.remove("btn-primary");
                             buttoncertifications.classList.add("btn-danger");
