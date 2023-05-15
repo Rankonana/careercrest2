@@ -284,7 +284,8 @@
             </div>
             <div class="row">
                 <!-- <a onclick="theaddmorelanguages()" class="btn btn-outline-primary"> + Add a language</a> -->
-                <a href="{% url 'addeditLanguage' tracking newone  %}" class="btn btn-outline-primary"> + Add new one</a>
+                <!-- <a href="{% url 'addeditLanguage' tracking newone  %}" class="btn btn-outline-primary"> + Add new one</a> -->
+                <button  class="btn btn-outline-primary" onclick="theaddmorelanguage();" > + Add new one</button>
 
             </div>
             <button class="back-btn btn btn-primary">Back</button>
@@ -571,123 +572,7 @@ fetch('/api/certifications/')
 
 </script>
 
-<!-- class start  -->
-<script>
-    class Sofware {
-    constructor(resume, software_name, proficiency,softwaretracking) {
-        this.resume = resume;
-        this.software_name = software_name;
-        this.proficiency = proficiency;
-        this.softwaretracking = softwaretracking;
 
-    }
-    }
-    function addSoftwarePOST(method,software) {
-
-        var xhrl = new XMLHttpRequest();
-        xhrl.open(method, '/api/add-edit-software/');
-        xhrl.setRequestHeader('Content-Type', 'application/json');
-        xhrl.setRequestHeader('X-CSRFToken', csrfToken);
-        xhrl.onload = function() {
-            if (xhrl.status === 200 || xhrl.status === 201) {
-            console.log('software updated or added:');
-            } else {
-                console.error('Error adding or updating software:');
-            }
-        };
-        xhrl.send(JSON.stringify({
-            'resume': software.resume,
-            'software_name': software.software_name,
-            'proficiency': software.proficiency,
-            'softwaretracking': software.softwaretracking
-        }));
-    }
-    function addSoftware(software_name,proficiency){
-        var pathname = window.location.pathname;
-        var resumetracking = pathname.substring(pathname.lastIndexOf('/') + 1);
-        skt = Math.random().toString(36).substr(2, 9);
-        var softx = new Sofware(resumetracking,software_name,proficiency,skt);
-        addSoftwarePOST("POST",softx)
-        renderRowS(softx);
-    }
-
-    function renderRowS(software) {
-        var tableBodyl = document.querySelector('#software-table tbody');
-
-        // Create a new row element
-        var rowl = document.createElement('tr');
-        var td1l = document.createElement('td');
-        var td2l = document.createElement('td');
-
-        // Create two new input elements for the skill name and proficiency
-        var nameInputl = document.createElement('input');
-
-        
-
-        nameInputl.type = 'text';
-        nameInputl.value = software.software_name;
-        var proficiencyInputl = software.proficiency;
-
-
-        var thedivl = document.createElement('jsuites-rating');
-        thedivl.setAttribute('value',software.proficiency);
-        thedivl.setAttribute('tooltip','Ugly, Bad, Average, Good, Outstanding');
-
-        thedivl.addEventListener('onchange', function(e) {
-            updateSoftware(software, nameInputl.value, this.value);
-
-        });
-
-    
-        const idl = software.softwaretracking; // Replace with the actual ID of the skill to be deleted
-        const deletelinkl = document.createElement('a');
-        deletelinkl.href = `/api/delete-software/${idl}`;
-        deletelinkl.innerHTML = 'Delete software';
-        deletelinkl.addEventListener('click', function(event) {
-        event.preventDefault(); // Prevent the link from navigating to the URL
-
-        const xhrl = new XMLHttpRequest();
-        xhrl.open('DELETE', deletelinkl.href);
-        xhrl.setRequestHeader('X-CSRFToken', csrfToken);
-        xhrl.onload = function() {
-            if (xhrl.status === 200) {
-            console.log('software deleted successfully!');
-            rowl.remove();
-            // location.reload();
-            } else {
-            console.error('An error occurred while deleting the software:', xhrl.statusText);
-            }
-        };
-        xhrl.onerror = function() {
-            console.error('An error occurred while deleting the software:', xhrl.statusText);
-        };
-        xhrl.send();
-        });
-
-
-    
-
-        // Append the input elements to the row
-        td1l.appendChild(nameInputl);
-        td2l.appendChild(thedivl);
-        td1l.appendChild(deletelinkl);
-
-        
-        rowl.appendChild(td1l);
-        rowl.appendChild(td2l);
-
-
-        // Add an event listener to the input elements to update the skill data on change
-        nameInputl.addEventListener('change', function() {
-            updateSoftware(software, nameInputl.value, proficiencyInputl);
-        });
-
-            // Add the row to the table body
-            tableBodyl.appendChild(rowl);
-        }
-
-</script>
-<!-- class end -->
 
 		<!-- script for accomplishments start -->
 		<script id="for-accomplishments-job-titles">
@@ -995,6 +880,123 @@ fetch('/api/certifications/')
 		</script>
 		<!-- script for affiliations end -->
 
+<!-- class start  -->
+<script>
+    class Sofware {
+    constructor(resume, software_name, proficiency,softwaretracking) {
+        this.resume = resume;
+        this.software_name = software_name;
+        this.proficiency = proficiency;
+        this.softwaretracking = softwaretracking;
+
+    }
+    }
+    function addSoftwarePOST(method,software) {
+
+        var xhrl = new XMLHttpRequest();
+        xhrl.open(method, '/api/add-edit-software/');
+        xhrl.setRequestHeader('Content-Type', 'application/json');
+        xhrl.setRequestHeader('X-CSRFToken', csrfToken);
+        xhrl.onload = function() {
+            if (xhrl.status === 200 || xhrl.status === 201) {
+            console.log('software updated or added:');
+            } else {
+                console.error('Error adding or updating software:');
+            }
+        };
+        xhrl.send(JSON.stringify({
+            'resume': software.resume,
+            'software_name': software.software_name,
+            'proficiency': software.proficiency,
+            'softwaretracking': software.softwaretracking
+        }));
+    }
+    function addSoftware(software_name,proficiency){
+        var pathname = window.location.pathname;
+        var resumetracking = pathname.substring(pathname.lastIndexOf('/') + 1);
+        skt = Math.random().toString(36).substr(2, 9);
+        var softx = new Sofware(resumetracking,software_name,proficiency,skt);
+        addSoftwarePOST("POST",softx)
+        renderRowS(softx);
+    }
+
+    function renderRowS(software) {
+        var tableBodyl = document.querySelector('#software-table tbody');
+
+        // Create a new row element
+        var rowl = document.createElement('tr');
+        var td1l = document.createElement('td');
+        var td2l = document.createElement('td');
+
+        // Create two new input elements for the skill name and proficiency
+        var nameInputl = document.createElement('input');
+
+        
+
+        nameInputl.type = 'text';
+        nameInputl.value = software.software_name;
+        var proficiencyInputl = software.proficiency;
+
+
+        var thedivl = document.createElement('jsuites-rating');
+        thedivl.setAttribute('value',software.proficiency);
+        thedivl.setAttribute('tooltip','Ugly, Bad, Average, Good, Outstanding');
+
+        thedivl.addEventListener('onchange', function(e) {
+            updateSoftware(software, nameInputl.value, this.value);
+
+        });
+
+    
+        const idl = software.softwaretracking; // Replace with the actual ID of the skill to be deleted
+        const deletelinkl = document.createElement('a');
+        deletelinkl.href = `/api/delete-software/${idl}`;
+        deletelinkl.innerHTML = 'Delete software';
+        deletelinkl.addEventListener('click', function(event) {
+        event.preventDefault(); // Prevent the link from navigating to the URL
+
+        const xhrl = new XMLHttpRequest();
+        xhrl.open('DELETE', deletelinkl.href);
+        xhrl.setRequestHeader('X-CSRFToken', csrfToken);
+        xhrl.onload = function() {
+            if (xhrl.status === 200) {
+            console.log('software deleted successfully!');
+            rowl.remove();
+            // location.reload();
+            } else {
+            console.error('An error occurred while deleting the software:', xhrl.statusText);
+            }
+        };
+        xhrl.onerror = function() {
+            console.error('An error occurred while deleting the software:', xhrl.statusText);
+        };
+        xhrl.send();
+        });
+
+
+    
+
+        // Append the input elements to the row
+        td1l.appendChild(nameInputl);
+        td2l.appendChild(thedivl);
+        td1l.appendChild(deletelinkl);
+
+        
+        rowl.appendChild(td1l);
+        rowl.appendChild(td2l);
+
+
+        // Add an event listener to the input elements to update the skill data on change
+        nameInputl.addEventListener('change', function() {
+            updateSoftware(software, nameInputl.value, proficiencyInputl);
+        });
+
+            // Add the row to the table body
+            tableBodyl.appendChild(rowl);
+        }
+
+</script>
+<!-- class end -->
 
   <!-- software start  -->
     <script>
@@ -1116,115 +1118,242 @@ fetch('/api/certifications/')
     </script>
   <!-- software end -->
 
-    <!-- language start  -->
-    <script>
-        // Get the CSRF token from the HTML meta tag
-        var csrfTokenl = document.querySelector('[name=csrf-token]').content;
+  <!-- class start language -->
+<script>
+    class Language {
+    constructor(resume, language_name, proficiency,languagetracking) {
+        this.resume = resume;
+        this.language_name = language_name;
+        this.proficiency = proficiency;
+        this.languagetracking = languagetracking;
 
-        // Get the table body element
+    }
+    }
+    function addLanguagePOST(method,language) {
+
+        var xhrl = new XMLHttpRequest();
+        xhrl.open(method, '/api/add-edit-language/');
+        xhrl.setRequestHeader('Content-Type', 'application/json');
+        xhrl.setRequestHeader('X-CSRFToken', csrfToken);
+        xhrl.onload = function() {
+            if (xhrl.status === 200 || xhrl.status === 201) {
+            console.log('language updated or added:');
+            } else {
+                console.error('Error adding or updating language:');
+            }
+        };
+        xhrl.send(JSON.stringify({
+            'resume': language.resume,
+            'language_name': language.language_name,
+            'proficiency': language.proficiency,
+            'languagetracking': language.languagetracking
+        }));
+    }
+    function addLanguage(language_name,proficiency){
+        var pathname = window.location.pathname;
+        var resumetracking = pathname.substring(pathname.lastIndexOf('/') + 1);
+        skt = Math.random().toString(36).substr(2, 9);
+        var languagex = new Language(resumetracking,language_name,proficiency,skt);
+        addLanguagePOST("POST",languagex)
+        renderRowS(languagex);
+    }
+
+    function renderRowS(language) {
         var tableBodyl = document.querySelector('#language-table tbody');
 
-        // Function to render a row in the table
-        function renderRowl(language) {
-            // Create a new row element
-            var rowl = document.createElement('tr');
-            var td1l = document.createElement('td');
-            var td2l = document.createElement('td');
+        // Create a new row element
+        var rowl = document.createElement('tr');
+        var td1l = document.createElement('td');
+        var td2l = document.createElement('td');
 
-            // Create two new input elements for the language name and proficiency
-            var nameInputl = document.createElement('input');
-
-            
-
-            nameInputl.type = 'text';
-            nameInputl.value = language.language_name;
-            var proficiencyInputl = language.proficiency;
-
-
-            var thedivl = document.createElement('jsuites-rating');
-            thedivl.setAttribute('value',language.proficiency);
-            thedivl.setAttribute('tooltip','Ugly, Bad, Average, Good, Outstanding');
-
-            thedivl.addEventListener('onchange', function(e) {
-                updateLanguage(language, nameInputl.value, this.value);
-
-            });
-
-        
-            const idl = language.languagetracking; // Replace with the actual ID of the language to be deleted
-            const deletelinkl = document.createElement('a');
-            deletelinkl.href = `/api/delete-language/${idl}`;
-            deletelinkl.innerHTML = 'Delete language';
-            deletelinkl.addEventListener('click', function(event) {
-            event.preventDefault(); // Prevent the link from navigating to the URL
-
-            const xhrl = new XMLHttpRequest();
-            xhrl.open('DELETE', deletelinkl.href);
-            xhrl.setRequestHeader('X-CSRFToken', csrfToken);
-            xhrl.onload = function() {
-                if (xhrl.status === 200) {
-                console.log('Language deleted successfully!');
-                rowl.remove();
-                } else {
-                console.error('An error occurred while deleting the language:', xhrl.statusText);
-                }
-            };
-            xhrl.onerror = function() {
-                console.error('An error occurred while deleting the language:', xhrl.statusText);
-            };
-            xhrl.send();
-            });
-
+        // Create two new input elements for the skill name and proficiency
+        var nameInputl = document.createElement('input');
 
         
 
-            // Append the input elements to the row
-            td1l.appendChild(nameInputl);
-            td2l.appendChild(thedivl);
-            td1l.appendChild(deletelinkl);
-
-            
-            rowl.appendChild(td1l);
-            rowl.appendChild(td2l);
+        nameInputl.type = 'text';
+        nameInputl.value = language.language_name;
+        var proficiencyInputl = language.proficiency;
 
 
-            // Add an event listener to the input elements to update the language data on change
-            nameInputl.addEventListener('change', function() {
-                updateLanguage(language, nameInputl.value, proficiencyInputl);
-            });
+        var thedivl = document.createElement('jsuites-rating');
+        thedivl.setAttribute('value',language.proficiency);
+        thedivl.setAttribute('tooltip','Ugly, Bad, Average, Good, Outstanding');
 
-                // Add the row to the table body
-                tableBodyl.appendChild(rowl);
+        thedivl.addEventListener('onchange', function(e) {
+            updateLanguage(language, nameInputl.value, this.value);
+
+        });
+
+    
+        const idl = language.languagetracking; // Replace with the actual ID of the skill to be deleted
+        const deletelinkl = document.createElement('a');
+        deletelinkl.href = `/api/delete-language/${idl}`;
+        deletelinkl.innerHTML = 'Delete language';
+        deletelinkl.addEventListener('click', function(event) {
+        event.preventDefault(); // Prevent the link from navigating to the URL
+
+        const xhrl = new XMLHttpRequest();
+        xhrl.open('DELETE', deletelinkl.href);
+        xhrl.setRequestHeader('X-CSRFToken', csrfToken);
+        xhrl.onload = function() {
+            if (xhrl.status === 200) {
+            console.log('language deleted successfully!');
+            rowl.remove();
+            // location.reload();
+            } else {
+            console.error('An error occurred while deleting the language:', xhrl.statusText);
             }
+        };
+        xhrl.onerror = function() {
+            console.error('An error occurred while deleting the language:', xhrl.statusText);
+        };
+        xhrl.send();
+        });
 
-        // Function to update a language with new data
-        function updateLanguage(language, name, proficiency) {
-            // Create a new PUT request with the updated data
-            var xhrl = new XMLHttpRequest();
-            xhrl.open('PUT', '/api/add-edit-language/');
-            xhrl.setRequestHeader('Content-Type', 'application/json');
-            xhrl.setRequestHeader('X-CSRFToken', csrfToken);
-            xhrl.onload = function() {
-                if (xhrl.status === 200) {
-                console.log('Language updated:');
-                } else {
-                    console.error('Error updating language:');
-                }
-            };
-            xhrl.send(JSON.stringify({
-                'languagetracking': language.languagetracking,
-                'resume': language.resume,
-                'language_name': name,
-                'proficiency': proficiency
-            }));
+
+    
+
+        // Append the input elements to the row
+        td1l.appendChild(nameInputl);
+        td2l.appendChild(thedivl);
+        td1l.appendChild(deletelinkl);
+
+        
+        rowl.appendChild(td1l);
+        rowl.appendChild(td2l);
+
+
+        // Add an event listener to the input elements to update the skill data on change
+        nameInputl.addEventListener('change', function() {
+            updateLanguage(language, nameInputl.value, proficiencyInputl);
+        });
+
+            // Add the row to the table body
+            tableBodyl.appendChild(rowl);
         }
 
-        // Fetch the list of language from the API and render the table rows
-        fetch('/api/languages/')
-            .then(response => response.json())
-            .then(data => data.forEach(renderRowl));
-    </script>
-  <!-- language end -->
+</script>
+<!-- class end language -->
+  <!-- language start  -->
+  <script>
+    // Get the CSRF token from the HTML meta tag
+    //var csrfToken = document.querySelector('[name=csrf-token]').content;
+
+    // Get the table body element
+    var tableBodyL = document.querySelector('#language-table tbody');
+
+    // Function to render a row in the table
+    function renderRowL(language) {
+        // Create a new row element
+        var row = document.createElement('tr');
+        var td1 = document.createElement('td');
+        var td2 = document.createElement('td');
+
+        // Create two new input elements for the language name and proficiency
+        var nameInput = document.createElement('input');
+
+        
+
+        nameInput.type = 'text';
+        nameInput.value = language.language_name;
+
+        var proficiencyInput = language.proficiency;
+
+
+        var thediv = document.createElement('jsuites-rating');
+        thediv.setAttribute('value',language.proficiency);
+        thediv.setAttribute('tooltip','Ugly, Bad, Average, Good, Outstanding');
+
+        thediv.addEventListener('onchange', function(e) {
+            updateLanguage(language, nameInput.value, this.value);
+
+        });
+
+    
+        const id = language.languagetracking; // Replace with the actual ID of the language to be deleted
+        const deletelink = document.createElement('a');
+        deletelink.href = `/api/delete-language/${id}`;
+        deletelink.innerHTML = 'Delete language';
+        deletelink.addEventListener('click', function(event) {
+        event.preventDefault(); // Prevent the link from navigating to the URL
+
+        const xhr = new XMLHttpRequest();
+        xhr.open('DELETE', deletelink.href);
+        xhr.setRequestHeader('X-CSRFToken', csrfToken);
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                row.remove();
+            console.log('Language deleted successfully!');
+            } else {
+            console.error('An error occurred while deleting the language:', xhr.statusText);
+            }
+        };
+        xhr.onerror = function() {
+            console.error('An error occurred while deleting the language:', xhr.statusText);
+        };
+        xhr.send();
+        });
+
+
+    
+
+        // Append the input elements to the row
+        td1.appendChild(nameInput);
+        td2.appendChild(thediv);
+        td1.appendChild(deletelink);
+
+        
+        row.appendChild(td1);
+        row.appendChild(td2);
+
+
+        // Add an event listener to the input elements to update the language data on change
+        nameInput.addEventListener('change', function() {
+            updateLanguage(language, nameInput.value, proficiencyInput);
+        });
+
+            // Add the row to the table body
+            tableBodyL.appendChild(row);
+        }
+
+    // Function to update a language with new data
+    function updateLanguage(language, name, proficiency) {
+        // Get the pathname of the current URL
+        var pathnameaddmore = window.location.pathname;
+        // Extract the string after the last slash
+        var resumetrackinglanguage = pathnameaddmore.substring(pathnameaddmore.lastIndexOf('/') + 1);
+
+        // Create a new PUT request with the updated data
+        var xhr = new XMLHttpRequest();
+        xhr.open('PUT', '/api/add-edit-language/');
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.setRequestHeader('X-CSRFToken', csrfToken);
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+            console.log('Language updated:');
+            } else {
+                console.error('Error updating language:');
+            }
+        };
+        xhr.send(JSON.stringify({
+            'languagetracking': language.languagetracking,
+            'resume': resumetrackinglanguage,
+            'language_name': name,
+            'proficiency': proficiency
+        }));
+    }
+
+    // Fetch the list of language from the API and render the table rows
+    fetch('/api/languages/')
+        .then(response => response.json())
+        .then(data => data.forEach(renderRowL));
+
+    function theaddmorelanguage() {
+    addLanguage("","0");
+}
+</script>
+<!-- language end -->
 
   <!-- script for certifications start -->
     <script id="for-certifications-job-titles">
