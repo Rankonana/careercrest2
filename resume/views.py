@@ -264,6 +264,7 @@ def addEditWork(request,tracking,worktracking):
                             worktracking = worktracking,
                             defaults={
                                        'resume': rm,
+                                       'job_title': form.cleaned_data['job_title'],
                                        'employer' : form.cleaned_data['employer'],
                                        'city' : form.cleaned_data['city'],
                                        'country' : form.cleaned_data['country'],

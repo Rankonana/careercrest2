@@ -49,10 +49,13 @@
 
 
 
+            <div class="btn-group-footer">
+                <a href="{% url 'list-work' tracking %}" class="btn btn-danger"> Back</a>
+                <a onclick="displayJobInfo()" class="btn btn-primary ">NEXT</a>
 
+            </div>
 
-            <a onclick="displayJobInfo()" class="btn btn-primary ">NEXT</a>
-            <a href="{% url 'list-work' tracking %}" class="btn btn-danger"> Cancel</a>
+            
 
         </div>
         <div id="JobExtradetails" style="display: none;">
@@ -90,8 +93,13 @@
                     </div>
                 </div>
             </div>
-            <button type="submit"  class="btn btn-success">Save</button>
-            <a href="{% url 'list-work' tracking %}" class="btn btn-danger"> Cancel</a>
+
+            <div class="btn-group-footer">
+                <a href="{% url 'list-work' tracking %}" class="btn btn-danger"> Back</a>
+                <button type="submit"  class="btn btn-success">Next</button>
+
+
+            </div>
         </div>
     </form>
     

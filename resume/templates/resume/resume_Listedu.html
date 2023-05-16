@@ -17,13 +17,13 @@
     <a href="{% url 'addeditedu' tracking newone  %}" class="btn btn-outline-primary"> + Add new one</a>
 
     
-    <div class="row">
-        <div class="col-6">
-            <a href="{% url 'list-work' tracking %}" class="btn btn-outline-primary"> Back</a>
-        </div>
-        <div class="col-6">
-            <a href="{% url 'list-skill' tracking %}" class="btn btn-danger"> Next</a>
-        </div>
+
+    <div class="btn-group-footer">
+
+        <a href="{% url 'list-skill' tracking %}" class="btn btn-default btn-next js-back-button"> Next</a>
+        <a href="{% url 'list-work' tracking %}" class="btn btn-primary  btn-back js-next-button"> Back</a>
+
+
     </div>
 </div>    
 

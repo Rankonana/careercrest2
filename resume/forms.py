@@ -43,14 +43,14 @@ class SocialForm(forms.Form):
     
 class WorkForm(forms.Form):
     job_title = forms.CharField(label='Job Title',
-                    widget=forms.TextInput(attrs={'placeholder': 'Job Title','class':'form-control'}),max_length=100)
+                    widget=forms.TextInput(attrs={'placeholder': 'e.g. Retail Sales Associate','class':'form-control'}),max_length=100)
     employer = forms.CharField(label='Employer',
-                    widget=forms.TextInput(attrs={'placeholder': 'Employer','class':'form-control'}),max_length=100)
+                    widget=forms.TextInput(attrs={'placeholder': 'e.g. H&M','class':'form-control'}),max_length=100)
     city = forms.CharField(label='City',
-                    widget=forms.TextInput(attrs={'placeholder': 'City','class':'form-control'}),
+                    widget=forms.TextInput(attrs={'placeholder': 'e.g. Durban','class':'form-control'}),
                     max_length=100)
     country = forms.CharField(label='Country',
-                    widget=forms.TextInput(attrs={'placeholder': 'Country','class':'form-control'}),max_length=100)
+                    widget=forms.TextInput(attrs={'placeholder': 'e.g. South Africa ','class':'form-control'}),max_length=100)
     start_date = forms.DateField(label='Start date',
                     widget=forms.DateInput(attrs={'type': 'date','class': 'form-control'}))
     end_date = forms.DateField(label='End date',
