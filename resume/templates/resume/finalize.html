@@ -232,7 +232,7 @@
                                             {{ adds_form.additionalinformation }}
                                         </div>
                                     </div>
-                            <button id="btnSumAdd" type="submit" name="adds_form_submit" class="btn btn-danger" style="display: none;">Save And Next</button>
+                            <button id="btnSumAdd" type="submit" name="adds_form_submit" class="btn btn-danger" >Save And Next</button>
                         </form>
                     </div>
                 </div>
@@ -385,7 +385,7 @@
                                             {{ own_form.yourown_name }}
                                         </div>
                                     </div>
-                            <button id="btnSubYouO" type="submit" name="own_form_submit" class="btn btn-danger" style="display: none;" >Save And Next</button>
+                            <button id="btnSubYouO" type="submit" name="own_form_submit" class="btn btn-danger" >Save And Next</button>
                         </form>
                     </div>
                 </div>
@@ -916,11 +916,13 @@ fetch('/api/certifications/')
         var resumetracking = pathname.substring(pathname.lastIndexOf('/') + 1);
         skt = Math.random().toString(36).substr(2, 9);
         var softx = new Sofware(resumetracking,software_name,proficiency,skt);
-        addSoftwarePOST("POST",softx)
-        renderRowS(softx);
+        addSoftwarePOST("POST",softx);
+        renderRowSoft(softx);
+        console.log(softx);
     }
 
-    function renderRowS(software) {
+    function renderRowSoft(software) {
+        console.log(software);
         var tableBodyl = document.querySelector('#software-table tbody');
 
         // Create a new row element
@@ -1155,10 +1157,10 @@ fetch('/api/certifications/')
         skt = Math.random().toString(36).substr(2, 9);
         var languagex = new Language(resumetracking,language_name,proficiency,skt);
         addLanguagePOST("POST",languagex)
-        renderRowS(languagex);
+        renderRowlanguage(languagex);
     }
 
-    function renderRowS(language) {
+    function renderRowlanguage(language) {
         var tableBodyl = document.querySelector('#language-table tbody');
 
         // Create a new row element

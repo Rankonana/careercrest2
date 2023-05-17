@@ -29,7 +29,7 @@ class SocialLinks(models.Model):
     socialtracking = models.CharField(max_length=200,null=True,blank=True)
 
     def __str__(self):
-        return self.name
+        return self.socialtracking
 
 class WorkExperience(models.Model):
     resume = models.ForeignKey(Resume, on_delete=models.CASCADE, related_name='work_experience')
@@ -44,7 +44,7 @@ class WorkExperience(models.Model):
 
 
     def __str__(self):
-        return self.job_title + " " + self.employer
+        return self.worktracking
     
 class Education(models.Model):
     resume = models.ForeignKey(Resume, on_delete=models.CASCADE, related_name='education')
