@@ -1,471 +1,843 @@
-{% extends 'base-resume-create.html' %}
-{% block title %}Add/edit work{% endblock %}
-{% block head %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"  content="width=device-width,initial-scale=1.0">
+
+  <title>Summernote</title>
+   <!-- Favicon -->
+   <link rel="icon" href="{% static 'img/favicon-32x32.png' %}" sizes="32x32">
+   <link rel="icon" href="{% static 'img/favicon-16x16.png' %}" sizes="16x16">
+   <link rel="apple-touch-icon" href="{% static 'img/apple-touch-icon.png' %}">
+
+   <link rel="icon" href="{% static 'img/android-chrome-192x192.png' %}" sizes="192x192">
+   <link rel="icon" href="{% static 'img/android-chrome-512x512.png' %}" sizes="512x512">
+   <link rel="icon" href="{% static 'img/favicon.ico' %}" >
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&amp;family=Inter:wght@700;800&amp;display=swap" rel="stylesheet">
+   
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+	<!-- <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.3/dist/jquery.slim.min.js"></script> -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+	<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
+    
+    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+	<!-- modal start  -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+	<!-- modal end -->
+
+	<!-- start jsuites -->
+	<script src="https://jsuites.net/v4/jsuites.js"></script>
+	<script src="https://jsuites.net/v4/jsuites.webcomponents.js"></script>
+	<link rel="stylesheet" href="https://jsuites.net/v4/jsuites.css" type="text/css" />
+	<!-- end jsuites -->
+
 
 	<!-- summart start  -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
-	<link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-	<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
-	<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 	<!-- summar end -->
-    
-<style>
-    
-    li {
-      display: flex;
-      /* margin-bottom: 10px; */
-      /* border-bottom: 1px solid #ccc; */
-      /* padding-bottom: 10px; */
-      padding-top: 12px;
-      padding-bottom: 16px;
-      padding-left: 16px;
-      padding-right: 16px;
-    }
-
-    #related-popular-work li {
-      padding: 0%;
-    }
-    /* width */
-    ::-webkit-scrollbar {
-    width: 10px;
-    }
-
-    /* Track */
-    ::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 5px #ced4da; 
-    border-radius: 10px;
-    }
-    
-    /* Handle */
-    ::-webkit-scrollbar-thumb {
-    background: #ced4da; 
-    border-radius: 10px;
-    }
-
-    /* Handle on hover */
-    ::-webkit-scrollbar-thumb:hover {
-    background: #ced4da; 
-    }
-    
-    li:last-child {
-      margin-bottom: 0;
-      border-bottom: none;
-      padding-bottom: 0;
-    }
-    
-    li button {
-      margin-right: 10px;
-      height: 40px;
-    }
-    #suggestionsList {
-      max-height: 500px;
-      overflow-y: auto;
-      cursor: pointer;
-      position: absolute;
-      z-index: 1;
-      background-color: #fff;
-      width: 100%;
 
 
-    }
+   <style type="text/css">
+        	#work-information,
+			#skills-information,
+			#JobExtradetails,
+            #edit-JobExtradetails,
+			#education-information,
+			#summary-information,
+			#finalize-div,
+			#Accomplishments-div,
+			#Affiliations-div,
+			#Additional-Information-div,
+			#Software-div,
+			#Languages-div,
+			#Certifications-div,
+			#Interests-div,
+			#AddYourOwn-div,
+			#downloadingdiv {
+				display: none;
+			}
 
-    #suggestionsList li:hover{
+            
+
+			
+
+			.hidden {
+				display: none;
+			}
+
+			#search-suggestions,#edit-search-suggestions {
+				display: none;
+				position: absolute;
+				z-index: 1;
+				background-color: #f1f1f1;
+				border: 1px solid #ccc;
+				max-height: 200px;
+				overflow-y: auto;
+				list-style-type: none;
+				padding: 0;
+				margin: 0;
+			}
+            
+
+			#search-suggestions-work,#edit-search-suggestions-work {
+				display: none;
+				position: absolute;
+				z-index: 1;
+				background-color: #f1f1f1;
+				border: 1px solid #ccc;
+				max-height: 200px;
+				overflow-y: auto;
+				list-style-type: none;
+				padding: 0;
+				margin: 0;
+			}
+            
+
+			#search-suggestions li,#edit-search-suggestions li {
+				padding: 5px;
+				cursor: pointer;
+			}
+
+			#search-suggestions-work li,#edit-search-suggestions-work li {
+				padding: 5px;
+				cursor: pointer;
+			}
+
+			#search-suggestions-accomplishments li,
+            #search-suggestions-affiliations li {
+				padding: 5px;
+				cursor: pointer;
+			}
+
+			
+
+			#search-suggestions li:hover,
+            #search-suggestions-work li:hover,
+            #search-suggestions-accomplishments li:hover,
+            #search-suggestions-affiliations li:hover {
 				background-color: #e9e9e9;
+			}
+
+			
+
+			#suggestions,#suggestions-work,#suggestions-accomplishments, #suggestions-affiliations {
+				height: 200px;
+				overflow-y: scroll;
+			}
+
+
+			/* ul {
+				list-style-type: none;
+				padding: 0;
+			}
+
+			li {
+				margin-bottom: 10px;
+			} */
+
+			button {
+				margin-right: 5px;
+			}
+
+			#loading,#loading-work,#edit-loading-work,#loading-accomplishments,#loading-affiliations  {
+				display: none;
+				margin-top: 10px;
+			}
+
+
+            .containerxx {
+            display: flex;
+            flex-direction: row;
             }
-    
-</style>
-{% endblock head %}
-{% block content %}
-{% load static %}
+
+
+			.question {
+				width: 100%;
+				height: 100%;
+				border-radius: 10px;
+				position: relative;
+				display: none;
+			}
+
+			.visible {
+				display: block;
+			}
+
+			.q-input,
+			.move {
+				margin: 10px;
+				border: none;
+				padding: 10px;
+			}
+
+			.move {
+				display: flex;
+				justify-content: space-between;
+			}
+
+			.move button {
+				padding: 5px;
+				font-size: 16px;
+				width: 60px;
+				border-radius: 5px;
+				border: none;
+				cursor: pointer;
+				transition: 0.4s;
+			}
+
+			.move button:hover {
+				box-shadow: -2px -2px 20px #fff;
+			}
+
+			.move button:focus {
+				outline: none;
+			}
+
+			/* Default styles for labels and inputs */
+			/* label,
+			input {
+				display: block;
+				margin-bottom: 10px;
+			} */
 
 
 
-<div class="container">
+        .container {
+        width: 100%;
+        height: 100%;
+        border-radius: 10px;
+        position: relative;
+		}
+			.jrating .jrating-selected {
+			background-image: url("data:image/svg+xml,%0A%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='green'%3E%3Cpath d='M0 0h24v24H0z' fill='none'/%3E%3Cpath d='M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z'/%3E%3Cpath d='M0 0h24v24H0z' fill='none'/%3E%3C/svg%3E");
+		}
+		.nopadding {
+		padding-left: 5px !important;
+		padding-right: 5px !important;
+
+		}
+		footer {
+		padding: 5px;
+		text-align: center;
+		}
+		.back-button {
+		background-color: #5a6064;
+		border: none;
+		color: white;
+		}
+		.next-button {
+		background-color: #3ba709;
+		border: none;
+		color: white;
+		}
+
+		.mcentre {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+		@media (max-width: 768px) {
+		.hide-on-small {
+			display: none;
+		}
+		}
 
 
-    <div class="mcentre">
-        <h3>Tell us about your most recent job</h3>
-        <p>We’ll start there and work backward.</p>
+	
+    </style>
+</head>
+<body>
+    <div class="container-xxl bg-white p-0">
+        <!-- Navbar Start -->
+        <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0" style="top: 0px;">
+            <a href="{% url 'resume-home' %}" class="navbar-brand d-flex align-items-center text-center py-0 px-4 px-lg-5">
+                <h1 class="m-0 text-primary">CareerCrest</h1>
+            </a>
+            <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <div class="navbar-nav ms-auto p-4 p-lg-0">
 
-    </div>
-    <form id="myForm" method="post">
-        {% csrf_token %}
+                   
+					{% url 'create-basic' tracking as create_basic_url %}
+					<a href="{% url 'create-basic' tracking %}" class="nav-item nav-link{% if request.path == create_basic_url %} active{% endif %}">Heading</a>
+
+					{% url 'list-work' tracking as work_url %}			
+					<a href="{% url 'list-work' tracking %}" class="nav-item nav-link {% if request.path == work_url %} active{% endif %}">Work History</a>                   
+					
+					{% url 'list-edu' tracking as edu_url %}
+					<a href="{% url 'list-edu' tracking %}" class="nav-item nav-link {% if request.path == edu_url %} active{% endif %}">Education</a>                   
+					
+					{% url 'list-skill' tracking as skill_url %}
+					<a href="{% url 'list-skill' tracking %}" class="nav-item nav-link {% if request.path == skill_url %} active{% endif %}">Skills</a>                   
+
+					{% url 'create-summary' tracking as summary_url %}
+					<a href="{% url 'create-summary' tracking %}" class="nav-item nav-link {% if request.path == summary_url %} active{% endif %}">Summary</a>                   
+
+					{% url 'finalize' tracking as finalize_url %}
+					<a href="{% url 'finalize' tracking %}" class="nav-item nav-link {% if request.path == finalize_url %} active{% endif %}">finalize</a>                   
+
+					<!-- <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle {% if request.path == finalize_url %} active{% endif %}" data-bs-toggle="dropdown">Finalize</a>
+                        <div class="dropdown-menu rounded-0 m-0">
+							<a href="{% url 'list-language' tracking %}" class="nav-item nav-link">Languages</a>                   
+							<a href="{% url 'list-interest' tracking %}" class="nav-item nav-link">Interests</a>                   
+							<a href="{% url 'list-software' tracking %}" class="nav-item nav-link">Software</a>                   
+							<a href="{% url 'list-cert' tracking %}" class="nav-item nav-link">Certifications</a>                   
+							<a href="{% url 'list-yourown' tracking %}" class="nav-item nav-link">YourOwn</a> 
+							<a href="{% url 'list-social' tracking %}" class="nav-item nav-link">Social Links</a> 
+							<a href="{% url 'list-accomplishment' tracking %}" class="nav-item nav-link">Accomplishments</a>                   
+							<a href="{% url 'list-affiliation' tracking %}" class="nav-item nav-link">Affiliations</a>                   
+							<a href="{% url 'list-add' tracking %}" class="nav-item nav-link">Additiona lInformation</a>                   
+	
+						</div>
+                    </div>  -->
+					
+				
+					                 
+                </div>
+            </div>
+
+        </nav>
+        <!-- Navbar End -->
+
+        <div class="container">
+
+            <div class="mcentre">
+                <h3>Tell us about your most recent job</h3>
+                <p>We’ll start there and work backward.</p>
         
-        <div id="Jobdetails">
-
-            <div class="row">
-                <div class="col-sm-6">
-                    {{form.job_title.label_tag}}
-                    {{form.job_title}}
-                </div>
-                <div class="col-sm-6">
-                    {{form.employer.label_tag}}
-                    {{form.employer}}
-                </div>
             </div>
-            <div class="row">
-                <div class="col-sm-6">
-                    {{form.city.label_tag}}
-                    {{form.city}}
-                </div>
-                <div class="col-sm-6">
-                    {{form.country.label_tag}}
-                    {{form.country}}
-                </div>
 
-            </div>
-            <div class="row">
-                <div class="col-sm-6">
-                    {{form.start_date.label_tag}}
-                    {{form.start_date}}
-                </div>
-                <div class="col-sm-6">
-                    {{form.end_date.label_tag}}
-                    {{form.end_date}}
-                </div>
-
-            </div>
-            
-        
-
-
-
-            <footer>
-                <a href="{% url 'list-work' tracking %}" class="btn back-button"> Back</a>
-                <a onclick="displayJobInfo()" class="btn next-button ">NEXT</a>
-
-            </footer>
-
-            
-
-        </div>
-        <div id="JobExtradetails" style="display: none;">
-            <div class="row">
-                <div class="col-md-7 job-suggestions">
-                    <label>Search by job title for pre-written examples</label>
+            <form id="myForm" method="post">
+                {% csrf_token %}
+                
+                <div id="Jobdetails">
                     <div class="row">
-                        <div class="col-9 nopadding">
-                            <input type="search" id="search-box-work" class="form-control" placeholder="Title, industry, keyword">
-                            <ul id="suggestionsList" class="list-group mt-2"></ul>
-
+                        <div class="col-sm-6">
+                            {{form.job_title.label_tag}}
+                            {{form.job_title}}
                         </div>
-                        <div class="col-3 nopadding">
-                            <button type="button" id="btn-title-search-work" class="btn btn-primary" title="search"> <i class="fas fa-search"></i></button>
+                        <div class="col-sm-6">
+                            {{form.employer.label_tag}}
+                            {{form.employer}}
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-5 hide-on-small">
-                            <div id="related-popular-work"></div>
-
+                        <div class="col-sm-6">
+                            {{form.city.label_tag}}
+                            {{form.city}}
                         </div>
-                        <div class="col-sm-7">
-                            <label for="summary-label" class="control-label">Showing results for : <p id="jobtitledisplay-work" style="font-weight: bold;"></p>
-                            </label>
-                            <div id="loading-work">Loading...</div>
-                            <div id="suggestions-work" >
-                                <ul id="result-list-work" class="list-unstyled "></ul>
-                               
-                                
-                                
-                            </div>
-                            
+                        <div class="col-sm-6">
+                            {{form.country.label_tag}}
+                            {{form.country}}
                         </div>
+        
                     </div>
-                </div>
-                <div class="col-md-5">
-                    <h3>Nice! Now let's add the job description</h3>
-                    <div id="display-jog-title-employer-city"></div>
-                    <div class="form-group">
-                        {{form.job_description.as_hidden}} 
-                        <div id="summernote"></div>
-
-
+                    <div class="row">
+                        <div class="col-sm-6">
+                            {{form.start_date.label_tag}}
+                            {{form.start_date}}
+                        </div>
+                        <div class="col-sm-6">
+                            {{form.end_date.label_tag}}
+                            {{form.end_date}}
+                        </div>
+        
                     </div>
                     
-
-
+                
+        
+        
+        
                     <footer>
                         <a href="{% url 'list-work' tracking %}" class="btn back-button"> Back</a>
-                        <button type="submit" class="btn next-button"> Next</button>
+                        <a onclick="displayJobInfo()" class="btn next-button ">NEXT</a>
+        
                     </footer>
                 </div>
-            </div>
+                <div id="JobExtradetails" style="display: none;">
+                    <div class="row">
+                        <div class="col-md-7 job-suggestions">
+                            <label>Search by job title for pre-written examples</label>
+                            <div class="row">
+                                <div class="col-9 nopadding">
+                                    <input type="search" id="search-box-work" class="form-control" placeholder="Title, industry, keyword">
+                                    <ul id="suggestionsList" class="list-group mt-2"></ul>
+        
+                                </div>
+                                <div class="col-3 nopadding">
+                                    <button type="button" id="btn-title-search-work" class="btn btn-primary" title="search"> <i class="fas fa-search"></i></button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-5 hide-on-small">
+                                    <div id="related-popular-work"></div>
+        
+                                </div>
+                                <div class="col-sm-7">
+                                    <label for="summary-label" class="control-label">Showing results for : <p id="jobtitledisplay-work" style="font-weight: bold;"></p>
+                                    </label>
+                                    <div id="loading-work">Loading...</div>
+                                    <div id="suggestions-work" >
+                                        <ul id="result-list-work" class="list-unstyled "></ul>
+                                       
+                                        
+                                        
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <h3>Nice! Now let's add the job description</h3>
+                            <div id="display-jog-title-employer-city"></div>
+                            <div class="form-group">
+                                {{form.job_description.as_hidden}}   
+                                <div id="summernote"><p>Hello Summernote</p></div>  
+                            </div>
 
+                            <footer>
+                                <a href="{% url 'list-work' tracking %}" class="btn back-button"> Back</a>
+                                <button type="submit" class="btn next-button"> Next</button>
+                            </footer>
+
+                        </div>
+
+                    </div>
+                </div>
+            </form>
 
         </div>
-    </form>
- 
-    
-</div>    
 
-<script>
+
+    </div>
+  <script>
     $(document).ready(function() {
         $('#summernote').summernote();
-
-        var htmlContent = $('#id_job_description').val();
-        $('#summernote').summernote({
-            // Summernote options
-        }).summernote('code', htmlContent);
-    });
-
-      // Assign Summernote content to hidden input field on form submit
-    $('#myForm').on('submit', function() {
-        var summernoteContent = $('#summernote').summernote('code');
-        $('#id_job_description').val(summernoteContent);
     });
   </script>
+      <!-- JavaScript Libraries -->
+    <!-- <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'lib/wow/wow.min.js' %}"></script>
+    <script src="{% static 'lib/easing/easing.min.js'%}"></script>
+    <script src="{% static 'lib/waypoints/waypoints.min.js'%}"></script>
+    <script src="{% static 'lib/owlcarousel/owl.carousel.min.js'%}"></script>
 
-<script>
-    function displayJobInfo() {
+    <!-- Template Javascript -->
+    <script src="{% static 'js/main.js'%}" ></script>
 
-        var a = document.getElementById("Jobdetails");
-        a.style.display = "none";
+    
 
-        var b = document.getElementById("JobExtradetails");
-        b.style.display = "block";
+	 <script>
+		function savandget() {
+			// Get all form elements
+			//const formElements = document.querySelectorAll('input[type="text"], input[type="email"], input[type="number"], input[type="checkbox"],input[type="date"] ,input[type="radio"], select, textarea');
 
-        var jt = document.getElementById("id_job_title");
-        var sbw = document.getElementById("search-box-work");
-        sbw.value = jt.value;
+			const formElements = document.querySelectorAll('input[type="checkbox"]');
 
-        var btn = document.getElementById("btn-title-search-work");
-        btn.click();
+			// Loop through all form elements and add event listeners to save their values to localStorage
+			for (let i = 0; i < formElements.length; i++) {
+			const element = formElements[i];
+			
+			// Check if there is a saved value in localStorage and populate the form element if there is
+			if (localStorage.getItem(element.name)) {
+				if (element.type === 'checkbox') {
+				element.checked = localStorage.getItem(element.name) === 'true';
+				} else if (element.type === 'radio') {
+				if (element.value === localStorage.getItem(element.name)) {
+					element.checked = true;
+				}
+				} else {
+				element.value = localStorage.getItem(element.name);
+				}
+			}
+			
+			// Add an event listener to save the form element's value to localStorage when it changes
+			element.addEventListener('change', function() {
+				if (element.type === 'checkbox') {
+				localStorage.setItem(element.name, element.checked);
+				} else if (element.type === 'radio') {
+				if (element.checked) {
+					localStorage.setItem(element.name, element.value);
+				}
+				} else {
+				localStorage.setItem(element.name, element.value);
+				}
+			});
+			}
+			funcheckbox();
+		}
+	</script>
+	<script>
+		function funcheckbox() {
+		var checkedboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+		var cvalues = [];
+		checkedboxes.forEach(function(checkbox) {
+			cvalues.push(checkbox.value);
+			const div = document.getElementById(checkbox.value);
+			div.classList.add('visit');
+			func();
+		});
 
-        
+		// Get all unchecked checkboxes
+		var uncheckedboxes = document.querySelectorAll('input[type="checkbox"]:not(:checked)');
+		uncheckedboxes.forEach(function(checkbox) {
+			// Get the <div> element associated with the unchecked checkbox
+			const div = document.getElementById(checkbox.value);
+			// Remove the 'visit' class from the <div> element
+			div.classList.remove('visit');
+			func();
+		});
+		}
 
-        
+		function func() {
+			var nextButtons = document.querySelectorAll('.next-btn');
+			var previousButtons = document.querySelectorAll('.back-btn');
+			nextButtons.forEach(nextButton => {
+				nextButton.addEventListener("click", function() {
+					var currentQuestion = nextButton.parentElement;
+					var nextElement = currentQuestion.nextElementSibling;
+					while (nextElement) {
+						if (nextElement.classList.contains("question") && nextElement.classList.contains("visit")) {
+							nextElement.classList.add("visible");
+							currentQuestion.classList.remove("visible");
+							localStorage.setItem('visibleDiv', nextElement.id);
+							break;
+						}
+						nextElement = nextElement.nextElementSibling;
+					}
+				});
+			})
+			previousButtons.forEach(previousButton => {
+				previousButton.addEventListener("click", function() {
+					var currentQuestion = previousButton.parentElement;
+					var previousElement = currentQuestion.previousElementSibling;
+					while (previousElement) {
+						if (previousElement.classList.contains("question") && previousElement.classList.contains("visit")) {
+							previousElement.classList.add("visible");
+							currentQuestion.classList.remove("visible");
+							localStorage.setItem('visibleDiv', previousElement.id);
 
-	}
-</script>
+							break;
+						}
+						previousElement = previousElement.previousElementSibling;
+					}
+				});
+			})
 
-<!-- script for work start -->
-<script id="for-work-job-titles">
-    $(document).ready(function() {
-        $('#search-box-work').keyup(function() {
-            var query = $('#search-box-work').val();
+			///
+			// Get the currently visible div from local storage, if it exists
+				const visibleDiv = localStorage.getItem('visibleDiv');
+
+				// If a visible div was found in local storage, hide all divs except for the visible one
+				if (visibleDiv) {
+				document.querySelectorAll('div.question').forEach(div => {
+					if (div.id === visibleDiv) {
+					div.classList.add("visible");
+
+					} else {
+						div.classList.remove("visible");
+					}
+				});
+				}
+			///
+		}
+	</script>
+    <script>
+        $(document).ready(function() {
+            $('#summernote').summernote();
+    
+            var htmlContent = $('#id_job_description').val();
+            $('#summernote').summernote({
+                // Summernote options
+            }).summernote('code', htmlContent);
+        });
+    
+          // Assign Summernote content to hidden input field on form submit
+        $('#myForm').on('submit', function() {
+            var summernoteContent = $('#summernote').summernote('code');
+            $('#id_job_description').val(summernoteContent);
+        });
+      </script>
+    
+    <script>
+        function displayJobInfo() {
+    
+            var a = document.getElementById("Jobdetails");
+            a.style.display = "none";
+    
+            var b = document.getElementById("JobExtradetails");
+            b.style.display = "block";
+    
+            var jt = document.getElementById("id_job_title");
+            var sbw = document.getElementById("search-box-work");
+            sbw.value = jt.value;
+    
+            var btn = document.getElementById("btn-title-search-work");
+            btn.click();
+    
+            
+    
+            
+    
+        }
+    </script>
+    
+    <!-- script for work start -->
+    <script id="for-work-job-titles">
+        $(document).ready(function() {
+            $('#search-box-work').keyup(function() {
+                var query = $('#search-box-work').val();
+                if (query.length > 0) {
+                    $.ajax({
+                        url: '/api/work-job-title/'+ query,
+                        type: 'GET',
+                        dataType: 'json',
+                        data: {
+                            search_query: query
+                        },
+                        success: function(data) {
+                            $('#suggestionsList').empty();
+                            if (data.length > 0) {
+                                $.each(data, function(index, value) {
+                                    $('#suggestionsList').append("<li class='list-group-item'>" +value.title+ "</li>");
+                                    }); $('#suggestionsList').show();
+    
+                                    
+    
+                                    
+                                }
+    
+                                
+                                
+                               
+                            }
+                        });
+                    }
+                    else {
+                        $('#suggestionsList').hide();
+                    }
+            });
+    
+            //str
+            $('#suggestionsList').on('click', 'li', function() {
+            var suggestion = $(this).text();
+            $('#search-box-work').val(suggestion);
+            $('#suggestionsList').hide();
+            // added start 
+            var query = suggestion;
             if (query.length > 0) {
                 $.ajax({
-                    url: '/api/work-job-title/'+ query,
+                    url: '/api/work-job-title-related/' +query,
                     type: 'GET',
                     dataType: 'json',
                     data: {
                         search_query: query
                     },
                     success: function(data) {
-                        $('#suggestionsList').empty();
+                        if (data[0].relatedJobTitles.length > 0) {
+                        var relatedJobTitles = data[0].relatedJobTitles;
+                        var relatedJobTitlesList = "<ul>";
+                        relatedJobTitles.forEach(function(title) {
+                            relatedJobTitlesList += "<li ><a href='#'>" + "<i class='fas fa-search'></i> " + title + "</a></li>";
+                        });
+                        relatedJobTitlesList += "</ul>";
+                        var html = "<p><strong>Related job titles:</strong></p>" + relatedJobTitlesList;
+                        $("#related-popular-work").html(html);
+                        } else {
+                        $("#related-popular-work").empty();
                         if (data.length > 0) {
+                            var popular = "<ol>";
                             $.each(data, function(index, value) {
-                                $('#suggestionsList').append("<li class='list-group-item'>" +value.title+ "</li>");
-                                }); $('#suggestionsList').show();
-
-                                
-
-                                
-                            }
-
-                            
-                            
-                           
+                            popular += "<li>" + value.title + "</li>";
+                            });
+                            popular += "</ol>";
+                            var html = "<p><strong>Popular job titles:</strong></p><a href='#'>" +"<i class='fas fa-search'></i> "+ popular + "</a>";
+                            $("#related-popular-work").html(html);
+                        }
+                        }
+    
+                        }
+                        });
+                        //adding event ha
+                        // add a click event handler to the links-container element
+                        $('#related-popular-work').on('click', 'a', function(event) {
+                            // prevent the default behavior of following the link
+                            event.preventDefault();
+                            // handle the click event here
+                            var searchValue = $(this).text();
+                            $("#search-box-work").val(searchValue);
+                            searchsummary();
+                        });
+                            //adding event ha
+                        } else {
+                            $('#suggestionsList').hide();
+                        }
+                            // added end 
+                        });
+                        //endc
+    
+                        //22
+    
+            $('#btn-title-search-work').on('click', function() {
+            var suggestion = $("#search-box-work").val();
+            // added start 
+            var query = suggestion;
+            if (query.length > 0) {
+                $.ajax({
+                    url: '/api/work-job-title-related/' +query,
+                    type: 'GET',
+                    dataType: 'json',
+                    data: {
+                        search_query: query
+                    },
+                    success: function(data) {
+                        if (data[0].relatedJobTitles.length > 0) {
+                        var relatedJobTitles = data[0].relatedJobTitles;
+                        var relatedJobTitlesList = "<ul>";
+                        relatedJobTitles.forEach(function(title) {
+                            relatedJobTitlesList += "<li ><a href='#'>" + "<i class='fas fa-search'></i> " + title + "</a></li>";
+                        });
+                        relatedJobTitlesList += "</ul>";
+                        var html = "<p><strong>Related job titles:</strong></p>" + relatedJobTitlesList;
+                        $("#related-popular-work").html(html);
+                        } else {
+                        $("#related-popular-work").empty();
+                        if (data.length > 0) {
+                            var popular = "<ol>";
+                            $.each(data, function(index, value) {
+                            popular += "<li>" + value.title + "</li>";
+                            });
+                            popular += "</ol>";
+                            var html = "<p><strong>Popular job titles:</strong></p><a href='#'>" +"<i class='fas fa-search'></i> "+ popular + "</a>";
+                            $("#related-popular-work").html(html);
+                        }
+                        }
+    
+                        }
+                        });
+                        //adding event ha
+                        // add a click event handler to the links-container element
+                        $('#related-popular-work').on('click', 'a', function(event) {
+                            // prevent the default behavior of following the link
+                            event.preventDefault();
+                            // handle the click event here
+                            var searchValue = $(this).text();
+                            $("#search-box-work").val(searchValue);
+                            searchsummary();
+                        });
+                            //adding event ha
+                        } else {
+                            $('#suggestionsList').hide();
+                        }
+                            // added end 
+                        });
+                        
+                        //22
+            });
+    </script>
+    <script id="for-work-search-description">
+        const searchBoxwork = document.getElementById("search-box-work");
+        const searchBtnwork = document.getElementById("btn-title-search-work");
+        searchBoxwork.addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                searchsummarywork();
+            }
+        });
+        searchBtnwork.addEventListener("click", searchsummarywork);
+    
+        function searchsummarywork() {
+            const searchBtnwork = document.getElementById('btn-title-search-work');
+            const searchInputwork = document.getElementById('search-box-work');
+            const resultsDivwork = document.getElementById("suggestions");
+            const resultListwork = document.getElementById('result-list-work');
+            const loadingwork = document.getElementById('loading-work');
+            const jobtitledisplaywork = document.getElementById("jobtitledisplay-work");
+            jobtitledisplaywork.textContent = searchBoxwork.value;
+            const urlwork = `/api/work-job-description/${searchInputwork.value}/`;
+            loadingwork.style.display = 'block';
+            fetch(urlwork).then(response => response.json()).then(data => {
+                resultListwork.innerHTML = '';
+                data.result.forEach(result => {
+                    const liwork = document.createElement('li');
+                    liwork.setAttribute('class','border border-secondary rounded');
+    
+                    const buttonwork = document.createElement('button');
+                    buttonwork.classList.add("btn");
+                    buttonwork.classList.add("btn-primary");
+                    buttonwork.innerText = 'Add';
+                    buttonwork.setAttribute('type','button');
+    
+                    
+                    let spanwork = document.createElement('div');
+                    spanwork.innerHTML = result.text;
+                    liwork.appendChild(buttonwork);
+                    liwork.appendChild(spanwork);
+                    resultListwork.appendChild(liwork);
+                    //add remove button
+                    // Get the button and textarea elements
+                    //const myButton = document.getElementById("myButton");
+                    const myTextareawork = document.getElementById("id_job_description");
+                    // Add a click event listener to the button
+                    buttonwork.addEventListener("click", function(event) {
+                        event.preventDefault();
+                        // Copy the text from the input element to the textarea
+                        const textwork = this.nextElementSibling.textContent.trim();
+                        const myInputwork = textwork;
+                        myTextareawork.value += textwork + " ";
+                        buttonwork.textContent = "REMOVE";
+                        // Toggle the button color between danger and primary
+                        if (buttonwork.classList.contains("btn-danger")) {
+                            buttonwork.classList.remove("btn-danger");
+                            buttonwork.classList.add("btn-primary");
+                            buttonwork.textContent = "ADD";
+                            const startwork = myTextareawork.value.indexOf(myInputwork);
+                            const endwork = startwork + myInputwork.length;
+                            // Remove the copied text from the textarea
+                            myTextareawork.value = myTextareawork.value.substring(0, startwork) + myTextareawork.value.substring(endwork);
+                            myTextareawork.value = myTextareawork.value.replace(myInputwork, "");
+                        } else {
+                            buttonwork.classList.remove("btn-primary");
+                            buttonwork.classList.add("btn-danger");
                         }
                     });
-                }
-                else {
-                    $('#suggestionsList').hide();
-                }
-        });
-
-        //str
-        $('#suggestionsList').on('click', 'li', function() {
-        var suggestion = $(this).text();
-        $('#search-box-work').val(suggestion);
-        $('#suggestionsList').hide();
-        // added start 
-        var query = suggestion;
-        if (query.length > 0) {
-            $.ajax({
-                url: '/api/work-job-title-related/' +query,
-                type: 'GET',
-                dataType: 'json',
-                data: {
-                    search_query: query
-                },
-                success: function(data) {
-                    if (data[0].relatedJobTitles.length > 0) {
-                    var relatedJobTitles = data[0].relatedJobTitles;
-                    var relatedJobTitlesList = "<ul>";
-                    relatedJobTitles.forEach(function(title) {
-                        relatedJobTitlesList += "<li ><a href='#'>" + "<i class='fas fa-search'></i> " + title + "</a></li>";
-                    });
-                    relatedJobTitlesList += "</ul>";
-                    var html = "<p><strong>Related job titles:</strong></p>" + relatedJobTitlesList;
-                    $("#related-popular-work").html(html);
-                    } else {
-                    $("#related-popular-work").empty();
-                    if (data.length > 0) {
-                        var popular = "<ol>";
-                        $.each(data, function(index, value) {
-                        popular += "<li>" + value.title + "</li>";
-                        });
-                        popular += "</ol>";
-                        var html = "<p><strong>Popular job titles:</strong></p><a href='#'>" +"<i class='fas fa-search'></i> "+ popular + "</a>";
-                        $("#related-popular-work").html(html);
-                    }
-                    }
-
-                    }
-                    });
-                    //adding event ha
-                    // add a click event handler to the links-container element
-                    $('#related-popular-work').on('click', 'a', function(event) {
-                        // prevent the default behavior of following the link
-                        event.preventDefault();
-                        // handle the click event here
-                        var searchValue = $(this).text();
-                        $("#search-box-work").val(searchValue);
-                        searchsummary();
-                    });
-                        //adding event ha
-                    } else {
-                        $('#suggestionsList').hide();
-                    }
-                        // added end 
-                    });
-                    //endc
-
-                    //22
-
-        $('#btn-title-search-work').on('click', function() {
-        var suggestion = $("#search-box-work").val();
-        // added start 
-        var query = suggestion;
-        if (query.length > 0) {
-            $.ajax({
-                url: '/api/work-job-title-related/' +query,
-                type: 'GET',
-                dataType: 'json',
-                data: {
-                    search_query: query
-                },
-                success: function(data) {
-                    if (data[0].relatedJobTitles.length > 0) {
-                    var relatedJobTitles = data[0].relatedJobTitles;
-                    var relatedJobTitlesList = "<ul>";
-                    relatedJobTitles.forEach(function(title) {
-                        relatedJobTitlesList += "<li ><a href='#'>" + "<i class='fas fa-search'></i> " + title + "</a></li>";
-                    });
-                    relatedJobTitlesList += "</ul>";
-                    var html = "<p><strong>Related job titles:</strong></p>" + relatedJobTitlesList;
-                    $("#related-popular-work").html(html);
-                    } else {
-                    $("#related-popular-work").empty();
-                    if (data.length > 0) {
-                        var popular = "<ol>";
-                        $.each(data, function(index, value) {
-                        popular += "<li>" + value.title + "</li>";
-                        });
-                        popular += "</ol>";
-                        var html = "<p><strong>Popular job titles:</strong></p><a href='#'>" +"<i class='fas fa-search'></i> "+ popular + "</a>";
-                        $("#related-popular-work").html(html);
-                    }
-                    }
-
-                    }
-                    });
-                    //adding event ha
-                    // add a click event handler to the links-container element
-                    $('#related-popular-work').on('click', 'a', function(event) {
-                        // prevent the default behavior of following the link
-                        event.preventDefault();
-                        // handle the click event here
-                        var searchValue = $(this).text();
-                        $("#search-box-work").val(searchValue);
-                        searchsummary();
-                    });
-                        //adding event ha
-                    } else {
-                        $('#suggestionsList').hide();
-                    }
-                        // added end 
-                    });
-                    
-                    //22
-        });
-</script>
-<script id="for-work-search-description">
-    const searchBoxwork = document.getElementById("search-box-work");
-    const searchBtnwork = document.getElementById("btn-title-search-work");
-    searchBoxwork.addEventListener("keypress", function(event) {
-        if (event.key === "Enter") {
-            searchsummarywork();
-        }
-    });
-    searchBtnwork.addEventListener("click", searchsummarywork);
-
-    function searchsummarywork() {
-        const searchBtnwork = document.getElementById('btn-title-search-work');
-        const searchInputwork = document.getElementById('search-box-work');
-        const resultsDivwork = document.getElementById("suggestions");
-        const resultListwork = document.getElementById('result-list-work');
-        const loadingwork = document.getElementById('loading-work');
-        const jobtitledisplaywork = document.getElementById("jobtitledisplay-work");
-        jobtitledisplaywork.textContent = searchBoxwork.value;
-        const urlwork = `/api/work-job-description/${searchInputwork.value}/`;
-        loadingwork.style.display = 'block';
-        fetch(urlwork).then(response => response.json()).then(data => {
-            resultListwork.innerHTML = '';
-            data.result.forEach(result => {
-                const liwork = document.createElement('li');
-                liwork.setAttribute('class','border border-secondary rounded');
-
-                const buttonwork = document.createElement('button');
-                buttonwork.classList.add("btn");
-                buttonwork.classList.add("btn-primary");
-                buttonwork.innerText = 'Add';
-                buttonwork.setAttribute('type','button');
-
-                
-                let spanwork = document.createElement('div');
-                spanwork.innerHTML = result.text;
-                liwork.appendChild(buttonwork);
-                liwork.appendChild(spanwork);
-                resultListwork.appendChild(liwork);
-                //add remove button
-                // Get the button and textarea elements
-                //const myButton = document.getElementById("myButton");
-                const myTextareawork = document.getElementById("id_job_description");
-                // Add a click event listener to the button
-                buttonwork.addEventListener("click", function(event) {
-                    event.preventDefault();
-                    // Copy the text from the input element to the textarea
-                    const textwork = this.nextElementSibling.textContent.trim();
-                    const myInputwork = textwork;
-                    myTextareawork.value += textwork + " ";
-                    buttonwork.textContent = "REMOVE";
-                    // Toggle the button color between danger and primary
-                    if (buttonwork.classList.contains("btn-danger")) {
-                        buttonwork.classList.remove("btn-danger");
-                        buttonwork.classList.add("btn-primary");
-                        buttonwork.textContent = "ADD";
-                        const startwork = myTextareawork.value.indexOf(myInputwork);
-                        const endwork = startwork + myInputwork.length;
-                        // Remove the copied text from the textarea
-                        myTextareawork.value = myTextareawork.value.substring(0, startwork) + myTextareawork.value.substring(endwork);
-                        myTextareawork.value = myTextareawork.value.replace(myInputwork, "");
-                    } else {
-                        buttonwork.classList.remove("btn-primary");
-                        buttonwork.classList.add("btn-danger");
-                    }
+                    //add remove button
                 });
-                //add remove button
+                loadingwork.style.display = 'none';
+            }).catch(error => {
+                console.error(error);
+                loadingwork.style.display = 'none';
             });
-            loadingwork.style.display = 'none';
-        }).catch(error => {
-            console.error(error);
-            loadingwork.style.display = 'none';
-        });
-    }
-</script>
-<!-- script for work end -->
-
-{% endblock content %}
+        }
+    </script>
+    <!-- script for work end -->
+</body>
+</html>
