@@ -406,7 +406,7 @@
                                     </label>
                                     <div id="loading-work">Loading...</div>
                                     <div id="suggestions-work" >
-                                        <ul id="result-list-work" class="list-unstyled "></ul>
+                                        <div id="result-list-work" class="list-unstyled "></div>
                                        
                                         
                                         
@@ -420,7 +420,7 @@
                             <div id="display-jog-title-employer-city"></div>
                             <div class="form-group">
                                 {{form.job_description.as_hidden}}   
-                                <div id="summernote"><p>Hello Summernote</p></div>  
+                                <div id="summernote"></div>  
                             </div>
 
                             <footer>
@@ -438,11 +438,11 @@
 
 
     </div>
-  <script>
+  <!-- <script>
     $(document).ready(function() {
         $('#summernote').summernote();
     });
-  </script>
+  </script> -->
       <!-- JavaScript Libraries -->
     <!-- <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -580,12 +580,16 @@
                 // Summernote options
             }).summernote('code', htmlContent);
         });
+
+
+
     
-          // Assign Summernote content to hidden input field on form submit
+        //   Assign Summernote content to hidden input field on form submit
         $('#myForm').on('submit', function() {
             var summernoteContent = $('#summernote').summernote('code');
             $('#id_job_description').val(summernoteContent);
         });
+
       </script>
     
     <script>
@@ -775,68 +779,97 @@
         searchBtnwork.addEventListener("click", searchsummarywork);
     
         function searchsummarywork() {
-            const searchBtnwork = document.getElementById('btn-title-search-work');
-            const searchInputwork = document.getElementById('search-box-work');
-            const resultsDivwork = document.getElementById("suggestions");
-            const resultListwork = document.getElementById('result-list-work');
-            const loadingwork = document.getElementById('loading-work');
-            const jobtitledisplaywork = document.getElementById("jobtitledisplay-work");
-            jobtitledisplaywork.textContent = searchBoxwork.value;
-            const urlwork = `/api/work-job-description/${searchInputwork.value}/`;
-            loadingwork.style.display = 'block';
-            fetch(urlwork).then(response => response.json()).then(data => {
-                resultListwork.innerHTML = '';
-                data.result.forEach(result => {
-                    const liwork = document.createElement('li');
-                    liwork.setAttribute('class','border border-secondary rounded');
-    
-                    const buttonwork = document.createElement('button');
-                    buttonwork.classList.add("btn");
-                    buttonwork.classList.add("btn-primary");
-                    buttonwork.innerText = 'Add';
-                    buttonwork.setAttribute('type','button');
-    
-                    
-                    let spanwork = document.createElement('div');
-                    spanwork.innerHTML = result.text;
-                    liwork.appendChild(buttonwork);
-                    liwork.appendChild(spanwork);
-                    resultListwork.appendChild(liwork);
-                    //add remove button
-                    // Get the button and textarea elements
-                    //const myButton = document.getElementById("myButton");
-                    const myTextareawork = document.getElementById("id_job_description");
-                    // Add a click event listener to the button
-                    buttonwork.addEventListener("click", function(event) {
-                        event.preventDefault();
-                        // Copy the text from the input element to the textarea
-                        const textwork = this.nextElementSibling.textContent.trim();
-                        const myInputwork = textwork;
-                        myTextareawork.value += textwork + " ";
-                        buttonwork.textContent = "REMOVE";
-                        // Toggle the button color between danger and primary
-                        if (buttonwork.classList.contains("btn-danger")) {
-                            buttonwork.classList.remove("btn-danger");
-                            buttonwork.classList.add("btn-primary");
-                            buttonwork.textContent = "ADD";
-                            const startwork = myTextareawork.value.indexOf(myInputwork);
-                            const endwork = startwork + myInputwork.length;
-                            // Remove the copied text from the textarea
-                            myTextareawork.value = myTextareawork.value.substring(0, startwork) + myTextareawork.value.substring(endwork);
-                            myTextareawork.value = myTextareawork.value.replace(myInputwork, "");
-                        } else {
-                            buttonwork.classList.remove("btn-primary");
-                            buttonwork.classList.add("btn-danger");
+        const searchBtnwork = $('#btn-title-search-work');
+        const searchInputwork = $('#search-box-work');
+        const resultsDivwork = $('#suggestions');
+        const resultListwork = $('#result-list-work');
+        const loadingwork = $('#loading-work');
+        const jobtitledisplaywork = $('#jobtitledisplay-work');
+        jobtitledisplaywork.text(searchInputwork.val());
+        const urlwork = `/api/work-job-description/${searchInputwork.val()}/`;
+        loadingwork.css('display', 'block');
+        fetch(urlwork)
+            .then(response => response.json())
+            .then(data => {
+            resultListwork.empty();
+            data.result.forEach(result => {
+                const liwork = $('<div></div>').addClass('border border-secondary rounded');
+                
+                const buttonwork = $('<button></button>')
+                .addClass('btn btn-primary buttonwork')
+                .text('Add')
+                .attr('type', 'button');
+
+                let spanwork = $('<div></div>').html(result.text);
+                
+                liwork.append(buttonwork);
+                liwork.append(spanwork);
+                resultListwork.append(liwork);
+
+                // Add a click event listener to the button
+                buttonwork.on('click', function(event) {
+                event.preventDefault();
+                // Copy the text from the input element to the textarea
+                const textwork = $(this).next().text().trim();
+                const myInputwork = textwork;
+
+                // var hiddenjob = $('#id_job_description');
+                // var hiddenjobvalue = hiddenjob.val();
+
+
+                var list = $('<ul></ul>');
+                var listItem = $('<li></li>').text(textwork);
+                list.append(listItem);
+
+                var hiddenjobvalue =  list.prop('outerHTML');
+
+
+
+                //myTextareawork.value += textwork + " ";
+                buttonwork.text("REMOVE");
+                // Toggle the button color between danger and primary
+                if (buttonwork.hasClass("btn-danger")) {
+                    buttonwork.removeClass("btn-danger").addClass("btn-primary");
+                    buttonwork.text("ADD");
+
+
+                    // var summernoteContent = $('#summernote').summernote('code');
+                    //  $('#id_job_description').val(summernoteContent);
+
+                    $('ul li').each(function() {
+                        if ($(this).text().indexOf(textwork) > -1) {
+                            $(this).remove();
                         }
                     });
-                    //add remove button
+
+                    // const startwork = myTextareawork.val().indexOf(myInputwork);
+                    // const endwork = startwork + myInputwork.length;
+                    // // Remove the copied text from the textarea
+                    // myTextareawork.val(myTextareawork.val().substring(0, startwork) + myTextareawork.val().substring(endwork));
+                    // myTextareawork.val(myTextareawork.val().replace(myInputwork, ""));
+
+                } else {
+                    buttonwork.removeClass("btn-primary").addClass("btn-danger");
+                    // hiddenjob.val("");
+
+                    var summernotex = $('#summernote').summernote('code');
+
+                    summernotex = summernotex + hiddenjobvalue
+                    $('#summernote').summernote({
+                        // Summernote options
+                    }).summernote('code', summernotex);
+
+                }
                 });
-                loadingwork.style.display = 'none';
-            }).catch(error => {
-                console.error(error);
-                loadingwork.style.display = 'none';
+            });
+            loadingwork.css('display', 'none');
+            })
+            .catch(error => {
+            console.error(error);
+            loadingwork.css('display', 'none');
             });
         }
+
     </script>
     <!-- script for work end -->
 </body>
