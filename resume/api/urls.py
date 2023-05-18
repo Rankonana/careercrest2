@@ -3,6 +3,11 @@ from . import views
 
 urlpatterns = [
     path('', views.getRoutes),
+    path('work-job-title/<str:search_query>/', views.getworkJobtitle),
+    path('work-job-title-related/<str:search_query>/', views.getworkJobtitle),
+
+    path('work-job-description/<str:search_query>/', views.getworkJobdescription),
+
     path('softwares/', views.getSoftwares),
     path('softwares/<str:pk>/', views.getSoftware),
     path('add-edit-software/', views.software_detail),

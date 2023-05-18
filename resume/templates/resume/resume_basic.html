@@ -8,11 +8,15 @@
 <div class="container">
     <meta name="csrf-token" content="{{ csrf_token }}">
 
-    
+    <div class="mcentre">
+        <h4 class="font-weight-bold">What’s the best way for employers to contact you?</h4>
+        <p class="font-weight-normal">We suggest including an email and phone number.</p>
+    </div>
+
 
         <div class="row">
-            <div class="col-md-2">
-                  <div class="row">
+            <div class="col-md-2 mcentre">
+                <div class="row ">
                     {% if image %}
                     <img src="{{ image.url }}" alt="Sample Image for Photo Upload" id="uploadimage" class="img-fluid">
                     {% else %}
@@ -27,7 +31,7 @@
                     </button>
 
                     <!-- The Modal -->
-                    <div class="modal fade" id="myModal">
+                    <div class="modal fade " id="myModal">
                         <div class="modal-dialog">
                         <div class="modal-content">
                         
@@ -83,17 +87,17 @@
 
             </div>
             
-            <div class="col-md-8">
+            <div class="col-md-8 ">
                 <form id="myResumeForm"  method="post" enctype="multipart/form-data">
                     {% csrf_token %}
-                    <div class="row">
-                        <div class="col-6">
-                            <div class="form-group">
+                    <div class="row ">
+                        <div class="col-6 nopadding">
+                            <div class="form-group ">
                                 {{ form.firstname.label_tag }}
                                 {{ form.firstname }}
                             </div>
                         </div>
-                        <div class="col-6">
+                        <div class="col-6 nopadding">
                             <div class="form-group">
                                 {{ form.lastname.label_tag }}
                                 {{ form.lastname }}
@@ -101,7 +105,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-12">
+                        <div class="col-12 nopadding">
                             <div class="form-group">
                                 {{ form.profession.label_tag }}
                                 {{ form.profession }}
@@ -109,19 +113,19 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-6 nopadding">
                             <div class="form-group">
                                 {{ form.city.label_tag }}
                                 {{ form.city }}
                             </div>
                         </div>
-                        <div class="col-6 col-xl-3">
+                        <div class="col-6 col-xl-3 nopadding">
                             <div class="form-group">
                                 {{ form.country.label_tag }}
                                 {{ form.country }}
                             </div>
                         </div>
-                        <div class="col-6 col-xl-3">
+                        <div class="col-6 col-xl-3 nopadding">
                             <div class="form-group">
                                 {{ form.postalcode.label_tag }}
                                 {{ form.postalcode }}
@@ -129,13 +133,13 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-6 nopadding">
                             <div class="form-group">
                                 {{ form.phone.label_tag }}
                                 {{ form.phone }}
                         </div>
                         </div>
-                        <div class="col-6">
+                        <div class="col-6 nopadding">
                             <div class="form-group">
                                 {{ form.email.label_tag }}
                                 {{ form.email }}
@@ -151,20 +155,23 @@
                 
                 <a href="#" id="hideunhideSocialLink"  >+ Add Social Links</a>
                     <div id="socialcontainer" style="display: none;">
-                        <div class="row">
-                            <div class="col-6">
+                        <div class="row ">
+                            <div class="col-6 nopadding">
                                 <div class="form-group">
                                     <label for="social-media">Social Media:</label>
                                 </div>
                             </div>
-                            <div class="col-6">
+                            <div class="col-6 nopadding">
                                 <div class="form-group">
                                     <label for="email">Social Link:</label>
                                 </div>
                             </div>
                         </div>
                         <div id="socialdiv"></div>
-                        <button id="addsocial"  class="btn btn-outline-primary" > + Add one more</button>
+                        <div class="row mcentre">
+                            <button id="addsocial"  class="btn btn-primary mcentre" > + Add one more</button>
+
+                        </div>
 
                     </div>
                 
@@ -174,14 +181,19 @@
             </div>
 
             
-            <div class="col-md-2">
-                <div class="col">
+            <div class="col-md-2 mcentre hide-on-small">
+                
                     <img src="/media/resume-preview.jpg" class="img-fluid" alt="Image">
-                </div>
+                
                 <button type="button" class="btn btn-primary">Change Template</button>
             </div>
         </div>
-        <button id="basicnext"  class="btn btn-danger">Save And Next</button>
+
+        <footer style="padding-top: 20px;padding-bottom: 20px; ">
+            <button class="btn back-button">Back</button>
+            <button id="basicnext"  class="btn next-button">Next</button>
+        </footer>
+          
 
 </div>
 
@@ -300,7 +312,7 @@
                 divouter.setAttribute("class","row")
                 
                 const colname = document.createElement('div');
-                colname.setAttribute("class","col-6")
+                colname.setAttribute("class","col-6 nopadding")
                 const formname = document.createElement('div');
                 formname.setAttribute("class","form-group")
 
@@ -329,7 +341,7 @@
 
 
                 const colurl = document.createElement('div');
-                colurl.setAttribute("class","col-5")
+                colurl.setAttribute("class","col-5 nopadding")
                 const formgurl= document.createElement('div');
                 formgurl.setAttribute("class","form-group")
                 var socialurlInput = document.createElement('input');
@@ -346,7 +358,7 @@
                 });
 
                 const coldel = document.createElement('div');
-                coldel.setAttribute("class","col-1")
+                coldel.setAttribute("class","col-1 nopadding")
                 const formdel = document.createElement('div');
                 formdel.setAttribute("class","form-group")
 

@@ -4,26 +4,33 @@
 {% load static %}
 
 <div class="container">
-    <h2>Work History</h2>
+    <h2>Work History summary </h2>
 
-    {% for obj in works %}
-        {{obj.id}}--{{ obj.job_title }}, {{ obj.employer }},{{ obj.start_date }}
-       <a href="{% url 'addeditwork' tracking obj.worktracking  %}"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</a>
-       <a href="{% url 'deletework' tracking obj.worktracking  %}" style='color:red'><i class='fa fa-trash-o' ></i> delete</a>
+    <ul class="list-group ">
+
+      {% for obj in works %}
+        <li class="list-group-item bg-light">
+          <div class="d-flex justify-content-between align-items-center">
+            <h5>{{ obj.job_title }}, {{ obj.employer }}</h5>
+            <div>
+              <a href="{% url 'addeditwork' tracking obj.worktracking  %}" class="text-primary mr-2"><i class="fas fa-edit"></i></a>
+              <a href="{% url 'deletework' tracking obj.worktracking  %}"  class="text-danger"><i class="fas fa-trash-alt"></i></a>
+            </div>
+          </div>
+          <p class="mb-1">{{ obj.city }},{{ obj.country }} | {{ obj.start_date }}- {{ obj.end_date }}</p>
+          <p class="hide-on-small  text-dark">{{ obj.job_description|safe|striptags| slice:":100" }}</p>
+        </li>
+        {% endfor %}
+    </ul>
     
-       <hr>
-    {% endfor %}
-    
-    <a href="{% url 'addeditwork' tracking newone  %}" class="btn btn-outline-primary"> + Add new one</a>
+    <a href="{% url 'addeditwork' tracking newone  %}" class="btn btn-primary mcentre"> + Add another job</a>
     
 
-    <div class="btn-group-footer">
 
-        <a href="{% url 'list-edu' tracking %}" class="btn btn-default btn-next js-back-button"> Next</a>
-        <a href="{% url 'create-basic' tracking %}" class="btn btn-primary  btn-back js-next-button"> Back</a>
-
-
-    </div>
+    <footer>
+        <a href="{% url 'create-basic' tracking %}" class="btn back-button"> Back</a>
+        <a href="{% url 'list-edu' tracking %}" class="btn next-button"> Next</a>
+    </footer>
 
 
 </div>    
