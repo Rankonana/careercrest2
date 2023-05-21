@@ -266,8 +266,75 @@
 			display: none;
 		}
 		}
+        /* width */
+        ::-webkit-scrollbar {
+        width: 10px;
+        }
+
+        /* Track */
+        ::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 5px grey; 
+        border-radius: 10px;
+        }
+        
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+        background: #007bff; 
+        border-radius: 10px;
+        }
+
+        /* Handle on hover */
+        ::-webkit-scrollbar-thumb:hover {
+        background: #007bff; 
+        }
+
+        .results {
+            display: flex;
+        padding-top: 12px;
+        padding-bottom: 16px;
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    .results button {
+      margin-right: 10px;
+      height: 40px;
+
+    }
 
 
+    /* test start  */
+
+
+        #suggestionsList {
+        position: absolute;
+        /* top: 40px; */
+        left: 0;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        /* border-top: none; */
+        border-radius: 4px 4px 4px 4px;
+        border-bottom: 1px solid #ccc;
+        padding: 0;
+        list-style-type: none;
+        z-index: 1;
+        }
+
+        #suggestionsList li {
+        padding: 10px;
+        cursor: pointer;
+        }
+
+        #suggestionsList li:hover {
+        background-color: #f5f5f5;
+        }
+        
+
+      /* search end */
+
+        #suggestionsList li.active {
+        background-color: #f5f5f5;
+        }
 	
     </style>
 </head>
@@ -387,7 +454,7 @@
                         <div class="col-sm-7 job-suggestions">
                             <label>Search by job title for pre-written examples</label>
                             <div class="row">
-                                <div class="col-9 nopadding">
+                                <div class="col-9 nopadding ">
                                     <input type="search" id="search-box-work" class="form-control" placeholder="Title, industry, keyword">
                                     <ul id="suggestionsList" class="list-group mt-2"></ul>
         
@@ -395,6 +462,7 @@
                                 <div class="col-3 nopadding">
                                     <button type="button" id="btn-title-search-work" class="btn btn-primary" title="search"> <i class="fas fa-search"></i></button>
                                 </div>
+                                
                             </div>
                             <div class="row">
                                 <div class="col-sm-5 hide-on-small">
@@ -402,8 +470,8 @@
         
                                 </div>
                                 <div class="col-sm-7">
-                                    <label for="summary-label" class="control-label">Showing results for : <p id="jobtitledisplay-work" style="font-weight: bold;"></p>
-                                    </label>
+                                    <p for="summary-label" class="control-label">Showing results for : <div id="jobtitledisplay-work" style="font-weight: bold;"></div>
+                                    </p>
                                     <div id="loading-work">Loading...</div>
                                     <div id="suggestions-work" >
                                         <div id="result-list-work" class="list-unstyled "></div>
@@ -438,12 +506,7 @@
 
 
     </div>
-  <!-- <script>
-    $(document).ready(function() {
-        $('#summernote').summernote();
-    });
-  </script> -->
-      <!-- JavaScript Libraries -->
+    <!-- JavaScript Libraries -->
     <!-- <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{% static 'lib/wow/wow.min.js' %}"></script>
@@ -616,7 +679,7 @@
     </script>
     
     <!-- script for work start -->
-    <script id="for-work-job-titles">
+    <!-- <script id="for-work-job-titles">
         $(document).ready(function() {
             $('#search-box-work').keyup(function() {
                 var query = $('#search-box-work').val();
@@ -669,21 +732,21 @@
                     success: function(data) {
                         if (data[0].relatedJobTitles.length > 0) {
                         var relatedJobTitles = data[0].relatedJobTitles;
-                        var relatedJobTitlesList = "<ul>";
+                        var relatedJobTitlesList = "<div>";
                         relatedJobTitles.forEach(function(title) {
-                            relatedJobTitlesList += "<li ><a href='#'>" + "<i class='fas fa-search'></i> " + title + "</a></li>";
+                            relatedJobTitlesList += "<div ><a href='#'>" + "<i class='fas fa-search'></i> " + title + "</a></div>";
                         });
-                        relatedJobTitlesList += "</ul>";
+                        relatedJobTitlesList += "</div>";
                         var html = "<p><strong>Related job titles:</strong></p>" + relatedJobTitlesList;
                         $("#related-popular-work").html(html);
                         } else {
                         $("#related-popular-work").empty();
                         if (data.length > 0) {
-                            var popular = "<ol>";
+                            var popular = "<div>";
                             $.each(data, function(index, value) {
                             popular += "<li>" + value.title + "</li>";
                             });
-                            popular += "</ol>";
+                            popular += "</div>";
                             var html = "<p><strong>Popular job titles:</strong></p><a href='#'>" +"<i class='fas fa-search'></i> "+ popular + "</a>";
                             $("#related-popular-work").html(html);
                         }
@@ -726,21 +789,21 @@
                     success: function(data) {
                         if (data[0].relatedJobTitles.length > 0) {
                         var relatedJobTitles = data[0].relatedJobTitles;
-                        var relatedJobTitlesList = "<ul>";
+                        var relatedJobTitlesList = "<div>";
                         relatedJobTitles.forEach(function(title) {
-                            relatedJobTitlesList += "<li ><a href='#'>" + "<i class='fas fa-search'></i> " + title + "</a></li>";
+                            relatedJobTitlesList += "<div ><a href='#'>" + "<i class='fas fa-search'></i> " + title + "</a></div>";
                         });
-                        relatedJobTitlesList += "</ul>";
+                        relatedJobTitlesList += "</div>";
                         var html = "<p><strong>Related job titles:</strong></p>" + relatedJobTitlesList;
                         $("#related-popular-work").html(html);
                         } else {
                         $("#related-popular-work").empty();
                         if (data.length > 0) {
-                            var popular = "<ol>";
+                            var popular = "<div>";
                             $.each(data, function(index, value) {
-                            popular += "<li>" + value.title + "</li>";
+                            popular += "<div>" + value.title + "</div>";
                             });
-                            popular += "</ol>";
+                            popular += "</div>";
                             var html = "<p><strong>Popular job titles:</strong></p><a href='#'>" +"<i class='fas fa-search'></i> "+ popular + "</a>";
                             $("#related-popular-work").html(html);
                         }
@@ -779,98 +842,440 @@
         searchBtnwork.addEventListener("click", searchsummarywork);
     
         function searchsummarywork() {
-        const searchBtnwork = $('#btn-title-search-work');
-        const searchInputwork = $('#search-box-work');
-        const resultsDivwork = $('#suggestions');
-        const resultListwork = $('#result-list-work');
-        const loadingwork = $('#loading-work');
-        const jobtitledisplaywork = $('#jobtitledisplay-work');
-        jobtitledisplaywork.text(searchInputwork.val());
-        const urlwork = `/api/work-job-description/${searchInputwork.val()}/`;
-        loadingwork.css('display', 'block');
-        fetch(urlwork)
-            .then(response => response.json())
-            .then(data => {
-            resultListwork.empty();
-            data.result.forEach(result => {
-                const liwork = $('<div></div>').addClass('border border-secondary rounded');
-                
-                const buttonwork = $('<button></button>')
-                .addClass('btn btn-primary buttonwork')
-                .text('Add')
-                .attr('type', 'button');
+            const searchBtnwork = $('#btn-title-search-work');
+            const searchInputwork = $('#search-box-work');
+            const resultsDivwork = $('#suggestions');
+            const resultListwork = $('#result-list-work');
+            const loadingwork = $('#loading-work');
+            const jobtitledisplaywork = $('#jobtitledisplay-work');
+            jobtitledisplaywork.text(searchInputwork.val());
+            const urlwork = `/api/work-job-description/${searchInputwork.val()}/`;
+            loadingwork.css('display', 'block');
+            fetch(urlwork)
+                .then(response => response.json())
+                .then(data => {
+                resultListwork.empty();
+                data.result.forEach(result => {
+                    const liwork = $('<div></div>').addClass('results border border-secondary rounded');
+                    
+                    const buttonwork = $('<button></button>')
+                    .addClass('btn btn-primary buttonwork')
+                    .text('Add')
+                    .attr('type', 'button');
 
-                let spanwork = $('<div></div>').html(result.text);
-                
-                liwork.append(buttonwork);
-                liwork.append(spanwork);
-                resultListwork.append(liwork);
+                    let spanwork = $('<div></div>').html(result.text);
+                    
+                    liwork.append(buttonwork);
+                    liwork.append(spanwork);
+                    resultListwork.append(liwork);
 
-                // Add a click event listener to the button
-                buttonwork.on('click', function(event) {
-                event.preventDefault();
-                // Copy the text from the input element to the textarea
-                const textwork = $(this).next().text().trim();
-                const myInputwork = textwork;
+                    // Add a click event listener to the button
+                    buttonwork.on('click', function(event) {
+                    event.preventDefault();
+                    // Copy the text from the input element to the textarea
+                    const textwork = $(this).next().text().trim();
+                    const myInputwork = textwork;
 
-                // var hiddenjob = $('#id_job_description');
-                // var hiddenjobvalue = hiddenjob.val();
-
-
-                var list = $('<ul></ul>');
-                var listItem = $('<li></li>').text(textwork);
-                list.append(listItem);
-
-                var hiddenjobvalue =  list.prop('outerHTML');
+                    // var hiddenjob = $('#id_job_description');
+                    // var hiddenjobvalue = hiddenjob.val();
 
 
+                    var list = $('<ul></ul>');
+                    var listItem = $('<li></li>').text(textwork);
+                    list.append(listItem);
 
-                //myTextareawork.value += textwork + " ";
-                buttonwork.text("REMOVE");
-                // Toggle the button color between danger and primary
-                if (buttonwork.hasClass("btn-danger")) {
-                    buttonwork.removeClass("btn-danger").addClass("btn-primary");
-                    buttonwork.text("ADD");
+                    var hiddenjobvalue =  list.prop('outerHTML');
 
 
-                    // var summernoteContent = $('#summernote').summernote('code');
-                    //  $('#id_job_description').val(summernoteContent);
 
-                    $('ul li').each(function() {
-                        if ($(this).text().indexOf(textwork) > -1) {
-                            $(this).remove();
-                        }
+                    //myTextareawork.value += textwork + " ";
+                    buttonwork.text("REMOVE");
+                    // Toggle the button color between danger and primary
+                    if (buttonwork.hasClass("btn-danger")) {
+                        buttonwork.removeClass("btn-danger").addClass("btn-primary");
+                        buttonwork.text("ADD");
+
+
+                        $('ul li').each(function() {
+                            if ($(this).text().indexOf(textwork) > -1) {
+                                $(this).remove();
+                            }
+                        });
+
+                    } else {
+                        buttonwork.removeClass("btn-primary").addClass("btn-danger");
+                        var summernotex = $('#summernote').summernote('code');
+
+                        summernotex = summernotex + hiddenjobvalue
+                        $('#summernote').summernote({
+                            // Summernote options
+                        }).summernote('code', summernotex);
+
+                    }
                     });
-
-                    // const startwork = myTextareawork.val().indexOf(myInputwork);
-                    // const endwork = startwork + myInputwork.length;
-                    // // Remove the copied text from the textarea
-                    // myTextareawork.val(myTextareawork.val().substring(0, startwork) + myTextareawork.val().substring(endwork));
-                    // myTextareawork.val(myTextareawork.val().replace(myInputwork, ""));
-
-                } else {
-                    buttonwork.removeClass("btn-primary").addClass("btn-danger");
-                    // hiddenjob.val("");
-
-                    var summernotex = $('#summernote').summernote('code');
-
-                    summernotex = summernotex + hiddenjobvalue
-                    $('#summernote').summernote({
-                        // Summernote options
-                    }).summernote('code', summernotex);
-
-                }
                 });
-            });
-            loadingwork.css('display', 'none');
-            })
-            .catch(error => {
-            console.error(error);
-            loadingwork.css('display', 'none');
-            });
+                loadingwork.css('display', 'none');
+                })
+                .catch(error => {
+                console.error(error);
+                loadingwork.css('display', 'none');
+                });
         }
 
-    </script>
+    </script> -->
     <!-- script for work end -->
+
+    <script>
+        function searchsummarywork() {
+            const searchBtnwork = $('#btn-title-search-work');
+            const searchInputwork = $('#search-box-work');
+            const resultsDivwork = $('#suggestions');
+            const resultListwork = $('#result-list-work');
+            const loadingwork = $('#loading-work');
+            const jobtitledisplaywork = $('#jobtitledisplay-work');
+            jobtitledisplaywork.text(searchInputwork.val());
+            const urlwork = `/api/work-job-description/${searchInputwork.val()}/`;
+            loadingwork.css('display', 'block');
+            fetch(urlwork)
+                .then(response => response.json())
+                .then(data => {
+                resultListwork.empty();
+                data.result.forEach(result => {
+                    const liwork = $('<div></div>').addClass('results border border-secondary rounded');
+                    
+                    const buttonwork = $('<button></button>')
+                    .addClass('btn btn-primary buttonwork')
+                    .text('Add')
+                    .attr('type', 'button');
+
+                    let spanwork = $('<div></div>').html(result.text);
+                    
+                    liwork.append(buttonwork);
+                    liwork.append(spanwork);
+                    resultListwork.append(liwork);
+
+                    // Add a click event listener to the button
+                    buttonwork.on('click', function(event) {
+                    event.preventDefault();
+                    // Copy the text from the input element to the textarea
+                    const textwork = $(this).next().text().trim();
+                    const myInputwork = textwork;
+
+                    // var hiddenjob = $('#id_job_description');
+                    // var hiddenjobvalue = hiddenjob.val();
+
+
+                    var list = $('<ul></ul>');
+                    var listItem = $('<li></li>').text(textwork);
+                    list.append(listItem);
+
+                    var hiddenjobvalue =  list.prop('outerHTML');
+
+
+
+                    //myTextareawork.value += textwork + " ";
+                    buttonwork.text("REMOVE");
+                    // Toggle the button color between danger and primary
+                    if (buttonwork.hasClass("btn-danger")) {
+                        buttonwork.removeClass("btn-danger").addClass("btn-primary");
+                        buttonwork.text("ADD");
+
+
+                        $('ul li').each(function() {
+                            if ($(this).text().indexOf(textwork) > -1) {
+                                $(this).remove();
+                            }
+                        });
+
+                    } else {
+                        buttonwork.removeClass("btn-primary").addClass("btn-danger");
+                        var summernotex = $('#summernote').summernote('code');
+
+                        summernotex = summernotex + hiddenjobvalue
+                        $('#summernote').summernote({
+                            // Summernote options
+                        }).summernote('code', summernotex);
+
+                    }
+                    });
+                });
+                loadingwork.css('display', 'none');
+                })
+                .catch(error => {
+                console.error(error);
+                loadingwork.css('display', 'none');
+                });
+        }
+        $(document).ready(function() {
+        var suggestionIndex = -1; // Track the currently selected suggestion
+        var isRequestInProgress = false; // Flag variable to track API request status
+
+
+
+        $('#search-box-work').on('input', function() {
+            var query = $(this).val();
+            var endpoint = '/api/work-job-title/' + query;
+
+            if (isRequestInProgress) {
+              return; // If a request is already in progress, do not send another request
+            }
+            isRequestInProgress = true; // Set the flag to indicate an API request is in progress
+
+
+            
+            if (query.length > 0) {
+                // Make an AJAX request to the endpoint and handle the response
+            $.ajax({
+            url: endpoint,
+            method: 'GET',
+            success: function(response) {
+                var suggestions = response.map(function(item) {
+                return '<li>' + item.title + '</li>';
+                }).join('');
+
+                $('#suggestionsList').html(suggestions);
+                suggestionIndex = -1; // Reset the suggestion index
+            },
+            error: function() {
+                // Handle error
+            },
+            complete: function() {
+                isRequestInProgress = false; // Reset the flag once the request is complete
+            }
+            });
+            }
+            else{
+                hideSuggestions();
+
+            }
+            
+        });
+
+        $('#search-box-work').on('keydown', function(e) {
+            $('#suggestionsList').show();
+
+            var $suggestions = $('#suggestionsList li');
+
+            if ($suggestions.length === 0) {
+            return;
+            }
+
+            if (e.keyCode === 40) { // Arrow down key
+            suggestionIndex = Math.min(suggestionIndex + 1, $suggestions.length - 1);
+            setActiveSuggestion($suggestions);
+            e.preventDefault();
+            } else if (e.keyCode === 38) { // Arrow up key
+            suggestionIndex = Math.max(suggestionIndex - 1, -1);
+            setActiveSuggestion($suggestions);
+            e.preventDefault();
+            } else if (e.keyCode === 13) { // Enter key
+            if (suggestionIndex > -1) {
+                var selectedSuggestion = $suggestions.eq(suggestionIndex).text();
+                $('#search-box-work').val(selectedSuggestion);
+            }
+            hideSuggestions();
+            e.preventDefault();
+            searchsummarywork();
+
+            //
+            var suggestion = $suggestions.eq(suggestionIndex).text();
+            $('#search-box-work').val(suggestion);
+            $('#suggestionsList').hide();
+            // added start 
+            var query = suggestion;
+            if (query.length > 0) {
+                $.ajax({
+                url: '/api/work-job-title-related/' +query,
+                type: 'GET',
+                dataType: 'json',
+                data: {
+                    search_query: query
+                },
+                success: function(data) {
+                    if (data[0].relatedJobTitles.length > 0) {
+                    var relatedJobTitles = data[0].relatedJobTitles;
+                    var relatedJobTitlesList = "<div>";
+                    relatedJobTitles.forEach(function(title) {
+                        relatedJobTitlesList += "<div ><a href='#'>" + "<i class='fas fa-search'></i> " + title + "</a></div>";
+                    });
+                    relatedJobTitlesList += "</div>";
+                    var html = "<p><strong>Related job titles:</strong></p>" + relatedJobTitlesList;
+                    $("#related-popular-work").html(html);
+                    } else {
+                    $("#related-popular-work").empty();
+                    if (data.length > 0) {
+                        var popular = "<div>";
+                        $.each(data, function(index, value) {
+                        popular += "<div>" + value.title + "</div>";
+                        });
+                        popular += "</div>";
+                        var html = "<p><strong>Popular job titles:</strong></p><a href='#'>" +"<i class='fas fa-search'></i> "+ popular + "</a>";
+                        $("#related-popular-work").html(html);
+                    }
+                    }
+
+                    }
+                    });
+                    //adding event ha
+                    // add a click event handler to the links-container element
+                    $('#related-popular-work').on('click', 'a', function(event) {
+                        // prevent the default behavior of following the link
+                        event.preventDefault();
+                        // handle the click event here
+                        var searchValue = $(this).text();
+                        $("#search-box-work").val(searchValue);
+                        searchsummarywork();
+                    });
+                        //adding event ha
+                    } else {
+                        $('#suggestionsList').hide();
+                    }
+
+            //
+            }
+
+
+        });
+
+        $('#suggestionsList').on('click', 'li', function() {
+            var selectedSuggestion = $(this).text();
+            $('#search-box-work').val(selectedSuggestion);
+            hideSuggestions();
+            searchsummarywork();
+            hideSuggestions();
+            //
+            var suggestion = $(this).text();
+            $('#search-box-work').val(suggestion);
+            $('#suggestionsList').hide();
+            // added start 
+            var query = suggestion;
+            if (query.length > 0) {
+                $.ajax({
+                url: '/api/work-job-title-related/' +query,
+                type: 'GET',
+                dataType: 'json',
+                data: {
+                    search_query: query
+                },
+                success: function(data) {
+                    if (data[0].relatedJobTitles.length > 0) {
+                    var relatedJobTitles = data[0].relatedJobTitles;
+                    var relatedJobTitlesList = "<div>";
+                    relatedJobTitles.forEach(function(title) {
+                        relatedJobTitlesList += "<div ><a href='#'>" + "<i class='fas fa-search'></i> " + title + "</a></div>";
+                    });
+                    relatedJobTitlesList += "</div>";
+                    var html = "<p><strong>Related job titles:</strong></p>" + relatedJobTitlesList;
+                    $("#related-popular-work").html(html);
+                    } else {
+                    $("#related-popular-work").empty();
+                    if (data.length > 0) {
+                        var popular = "<div>";
+                        $.each(data, function(index, value) {
+                        popular += "<div>" + value.title + "</div>";
+                        });
+                        popular += "</div>";
+                        var html = "<p><strong>Popular job titles:</strong></p><a href='#'>" +"<i class='fas fa-search'></i> "+ popular + "</a>";
+                        $("#related-popular-work").html(html);
+                    }
+                    }
+
+                    }
+                    });
+                    //adding event ha
+                    // add a click event handler to the links-container element
+                    $('#related-popular-work').on('click', 'a', function(event) {
+                        // prevent the default behavior of following the link
+                        event.preventDefault();
+                        // handle the click event here
+                        var searchValue = $(this).text();
+                        $("#search-box-work").val(searchValue);
+                        searchsummarywork();
+                    });
+                        //adding event ha
+                    } else {
+                        $('#suggestionsList').hide();
+                    }
+            //
+        });
+
+        $('#btn-title-search-work').on('click', function() {
+            hideSuggestions();
+            searchsummarywork();
+            //
+            var suggestion = $('#search-box-work').val();
+            $('#search-box-work').val(suggestion);
+            $('#suggestionsList').hide();
+            // added start 
+            var query = suggestion;
+            if (query.length > 0) {
+                $.ajax({
+                url: '/api/work-job-title-related/' +query,
+                type: 'GET',
+                dataType: 'json',
+                data: {
+                    search_query: query
+                },
+                success: function(data) {
+                    if (data[0].relatedJobTitles.length > 0) {
+                    var relatedJobTitles = data[0].relatedJobTitles;
+                    var relatedJobTitlesList = "<div>";
+                    relatedJobTitles.forEach(function(title) {
+                        relatedJobTitlesList += "<div ><a href='#'>" + "<i class='fas fa-search'></i> " + title + "</a></div>";
+                    });
+                    relatedJobTitlesList += "</div>";
+                    var html = "<p><strong>Related job titles:</strong></p>" + relatedJobTitlesList;
+                    $("#related-popular-work").html(html);
+                    } else {
+                    $("#related-popular-work").empty();
+                    if (data.length > 0) {
+                        var popular = "<div>";
+                        $.each(data, function(index, value) {
+                        popular += "<div>" + value.title + "</div>";
+                        });
+                        popular += "</div>";
+                        var html = "<p><strong>Popular job titles:</strong></p><a href='#'>" +"<i class='fas fa-search'></i> "+ popular + "</a>";
+                        $("#related-popular-work").html(html);
+                    }
+                    }
+
+                    }
+                    });
+                    //adding event ha
+                    // add a click event handler to the links-container element
+                    $('#related-popular-work').on('click', 'a', function(event) {
+                        // prevent the default behavior of following the link
+                        event.preventDefault();
+                        // handle the click event here
+                        var searchValue = $(this).text();
+                        $("#search-box-work").val(searchValue);
+                        searchsummarywork();
+                    });
+                        //adding event ha
+                    } else {
+                        $('#suggestionsList').hide();
+                    }
+            //
+        });
+
+        function setActiveSuggestion($suggestions) {
+            $suggestions.removeClass('active');
+            if (suggestionIndex > -1) {
+            $suggestions.eq(suggestionIndex).addClass('active');
+            $('#search-box-work').val($suggestions.eq(suggestionIndex).text());
+            } else {
+            $('#search-box-work').val('');
+            }
+        }
+
+        function hideSuggestions() {
+            $('#suggestionsList').empty();
+            suggestionIndex = -1;
+        }
+        });
+
+
+    </script>
+
 </body>
 </html>
