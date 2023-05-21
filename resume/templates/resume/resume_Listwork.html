@@ -11,13 +11,13 @@
       {% for obj in works %}
         <li class="list-group-item bg-light">
           <div class="d-flex justify-content-between align-items-center">
-            <h5>{{ obj.job_title }}, {{ obj.employer }}</h5>
+            <h5>{{ obj.job_title }} , {{ obj.employer }}</h5>
             <div>
               <a href="{% url 'addeditwork' tracking obj.worktracking  %}" class="text-primary mr-2"><i class="fas fa-edit"></i></a>
               <a href="{% url 'deletework' tracking obj.worktracking  %}"  class="text-danger"><i class="fas fa-trash-alt"></i></a>
             </div>
           </div>
-          <p class="mb-1">{{ obj.city }},{{ obj.country }} | {{ obj.start_date }}- {{ obj.end_date }}</p>
+          <p class="mb-1">{{ obj.city }}, {{ obj.country }} | {{ obj.start_date }}- {{ obj.end_date }}</p>
           <p class="hide-on-small  text-dark">{{ obj.job_description|safe|striptags| slice:":100" }}</p>
         </li>
         {% endfor %}
