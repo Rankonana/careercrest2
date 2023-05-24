@@ -23,13 +23,16 @@
         {% endfor %}
     </ul>
     
-    <a href="{% url 'addeditwork' tracking newone  %}" class="btn btn-primary mcentre"> + Add another job</a>
     
-
+    {% if works  %}
+    <a href="{% url 'addeditwork' tracking newone  %}" class="btn btn-primary mcentre"> + Add another job</a>
+    {% else %}
+    <a href="{% url 'addeditwork' tracking newone  %}" class="btn btn-primary mcentre"> + Add a job</a>
+    {% endif %}
 
     <footer>
-        <a href="{% url 'create-basic' tracking %}" class="btn back-button"> Back</a>
-        <a href="{% url 'list-edu' tracking %}" class="btn next-button"> Next</a>
+        <a href="{% url 'create-basic' tracking %}" class="btn back-button btn-lg"> Back</a>
+        <a href="{% url 'list-edu' tracking %}" class="btn next-button btn-lg"> Next</a>
     </footer>
 
 
