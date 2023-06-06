@@ -63,6 +63,7 @@
 
 
    <style type="text/css">
+
         	#work-information,
 			#skills-information,
 			#JobExtradetails,
@@ -133,17 +134,11 @@
 				padding: 5px;
 				cursor: pointer;
 			}
+	
 
-			
-
-			#search-suggestions li:hover,
-            #search-suggestions-work li:hover,
-            #search-suggestions-accomplishments li:hover,
-            #search-suggestions-affiliations li:hover {
+			#search-suggestions li:hover,#search-suggestions-work li:hover,#search-suggestions-accomplishments li:hover,#search-suggestions-affiliations li:hover {
 				background-color: #e9e9e9;
 			}
-
-			
 
 			#suggestions,#suggestions-work,#suggestions-accomplishments, #suggestions-affiliations {
 				height: 200px;
@@ -228,32 +223,32 @@
 
 
         .container {
-        width: 100%;
-        height: 100%;
-        border-radius: 10px;
-        position: relative;
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+            position: relative;
 		}
 			.jrating .jrating-selected {
 			background-image: url("data:image/svg+xml,%0A%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='green'%3E%3Cpath d='M0 0h24v24H0z' fill='none'/%3E%3Cpath d='M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z'/%3E%3Cpath d='M0 0h24v24H0z' fill='none'/%3E%3C/svg%3E");
 		}
 		.nopadding {
-		padding-left: 5px !important;
-		padding-right: 5px !important;
+            padding-left: 5px !important;
+            padding-right: 5px !important;
 
 		}
 		footer {
-		padding: 5px;
-		text-align: center;
+            padding: 5px;
+            text-align: center;
 		}
 		.back-button {
-		background-color: #5a6064;
-		border: none;
-		color: white;
+            background-color: #5a6064;
+            border: none;
+            color: white;
 		}
 		.next-button {
-		background-color: #3ba709;
-		border: none;
-		color: white;
+            background-color: #3ba709;
+            border: none;
+            color: white;
 		}
 
 		.mcentre {
@@ -290,10 +285,10 @@
 
         .results {
             display: flex;
-        padding-top: 12px;
-        padding-bottom: 16px;
-        padding-left: 16px;
-        padding-right: 16px;
+            padding-top: 12px;
+            padding-bottom: 16px;
+            padding-left: 16px;
+            padding-right: 16px;
     }
 
     .results button {
@@ -307,17 +302,17 @@
 
 
         #suggestionsList {
-        position: absolute;
-        /* top: 40px; */
-        left: 0;
-        background-color: #fff;
-        border: 1px solid #ccc;
-        /* border-top: none; */
-        border-radius: 4px 4px 4px 4px;
-        border-bottom: 1px solid #ccc;
-        padding: 0;
-        list-style-type: none;
-        z-index: 1;
+            position: absolute;
+            /* top: 40px; */
+            left: 0;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            /* border-top: none; */
+            border-radius: 4px 4px 4px 4px;
+            border-bottom: 1px solid #ccc;
+            padding: 0;
+            list-style-type: none;
+            z-index: 1;
         }
 
         #suggestionsList li {
@@ -337,12 +332,30 @@
         }
 
 
-		@media (max-width: 768px) {
-        .visible-on-small {
+
+    
+
+    @media only screen and (min-width: 768px) {
+      /* CSS for large screens */
+
+      .toggle-container {
+      display: block;
+    }
+      .toggle-button {
+        display: none;
+      }
+    }
+
+    @media only screen and (max-width: 767px) {
+      /* CSS for small screens */
+
+      .toggle-container {
+      display: none;
+    }
+      .hidden-on-small {
             display: none;
         }
-      
-      .hidden-on-small {
+      .toggle-button {
         display: block;
       }
     }
@@ -462,8 +475,13 @@
                 </div>
                 <div id="JobExtradetails" style="display: none;">
                     <div class="row">
-                        <div class="col-sm-7 hidden-on-small ">
-                            <label>Search by job title for pre-written examples</label>
+                        <div class="col-sm-7">
+                            
+
+                            <div id="div1x" class="toggle-container" style="display: block;">
+                               
+
+                                <label>Search by job title for pre-written examples</label>
                             <div class="row">
                                 <div class="col-10 nopadding ">
                                     <input type="search" id="search-box-work" class="form-control" placeholder="Title, industry, keyword">
@@ -476,11 +494,11 @@
                                 
                             </div>
                             <div class="row">
-                                <div class="col-sm-5 hide1 visible">
+                                <div class="col-sm-5 hidden-on-small">
                                     <div id="related-popular-work"></div>
         
                                 </div>
-                                <div class="col-sm-7 hide2 hidden">
+                                <div  class="col-sm-7 " >
                                     <p for="summary-label" class="control-label">Showing results for : <div id="jobtitledisplay-work" style="font-weight: bold;"></div>
                                     </p>
                                     <div id="loading-work">Loading...</div>
@@ -492,11 +510,16 @@
                                    
                                 </div>
                             </div>
+
+                            </div>
+
+                            <div class="row visible-on-small-screen" >
+                                <button id="btnToggle" type="button"  onclick="toggleDiv()" class="toggle-button btn btn-primary w-100"><div id="changetext">Edit Description </div><i id="toggleIcon" class="fas fa-chevron-up"></i></button>
+                            </div>
                         </div>
 
-                        <a href="#" onclick="toggleDiv()">Toggle Divs</a>
 
-                        <div class="col-sm-5 visible-on-small test " >
+                        <div id="div2x" class="col-sm-5 toggle-container" >
                             <h3>Nice! Now let's add the job description</h3>
                             <div id="display-jog-title-employer-city"></div>
                             <div class="form-group">
@@ -521,6 +544,39 @@
 
 
     </div>
+
+    <script>
+         function toggleDiv() {
+            var div1 = document.getElementById('div1x');
+            var div2 = document.getElementById('div2x');
+
+            var changetext = document.getElementById('changetext');
+            var toggleIcon = document.getElementById('toggleIcon');
+
+            
+
+
+            if (div1.style.display === 'block') {
+                div1.style.display = 'none';
+                div2.style.display = 'block';
+                changetext.innerText = "Examples from Experts"
+
+                toggleIcon.classList.remove('fa-chevron-up');
+                toggleIcon.classList.add('fa-chevron-down');
+                
+
+            } else {
+                div1.style.display = 'block';
+                div2.style.display = 'none';
+                changetext.innerText = "Edit Description"
+
+                toggleIcon.classList.remove('fa-chevron-down');
+                toggleIcon.classList.add('fa-chevron-up');
+
+
+            }
+    }
+      </script>
     <!-- JavaScript Libraries -->
     <!-- <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -532,40 +588,6 @@
     <!-- Template Javascript -->
     <script src="{% static 'js/main.js'%}" ></script>
 
-    <script>
-        function toggleDiv() {
-         
-        var div1 = document.querySelector('.hide1');
-        var div2 = document.querySelector('.hide1');
-
-		
-            if(div1.contains("visible")){
-                div1.classList.remove('visible');
-                div1.classList.add('hidden');
-
-          }
-          else{
-            div1.classList.remove('hidden');
-            div1.classList.add('visible');
-
-          }
-
-          if(div2.contains("visible")){
-            div2.classList.remove('visible');
-                div2.classList.add('hidden');
-
-          }
-          else{
-            div2.classList.remove('hidden');
-            div2.classList.add('visible');
-
-          }
-		
-
-
-
-        }
-    </script>
     
 
 	 <script>
