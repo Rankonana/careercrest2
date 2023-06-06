@@ -37,22 +37,6 @@
 
         <div class="row">
             <div class="col-md-2 mcentre">
-                <!-- <div class="row ">
-                    {% if image %}
-                    <img src="{{ image.url }}" alt="Sample Image for Photo Upload" id="uploadimage" class="img-fluid">
-                    {% else %}
-                    <img src="/media/NoImageBlue.png" alt="Sample Image for Photo Upload" id="uploadimage" class="img-fluid">
-                    {% endif %}
-                </div> -->
-
-                 <!-- <form id="image-form" enctype="multipart/form-data">
-                    <label for="image-file" class="btn btn-primary">Upload image
-                        <input type="file" class="item-img file center-block filepreviewprofile" id="image-file" name="image"  style="width: 0px;height: 0px;overflow: hidden;">
-                    </label>
-                  </form>  -->
-                  <!-- <label for="image-file" class="btn btn-primary">Upload image
-                    <input type="file" class="item-img file center-block filepreviewprofile" id="image-file" name="image"  style="width: 0px;height: 0px;overflow: hidden;">
-                </label> -->
 
                 <label class="label" data-toggle="tooltip" title="Change your avatar">                   
                     {% if image %}
@@ -77,8 +61,6 @@
                         </div>
                         <div class="modal-body">
                           <div class="img-container">
-                            <!-- <img id="image" src="https://avatars0.githubusercontent.com/u/3456749"> -->
-
 
                             {% if image %}
                             <img class="rounded" id="image" src="{{ image.url }}" alt="avatar">
@@ -89,7 +71,7 @@
                         </div>
                         <div class="modal-footer">
                           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                          <button type="button" class="btn btn-primary" id="crop">Crop</button>
+                          <button type="button" class="btn btn-primary" id="crop">SAVE</button>
                         </div>
                       </div>
                     </div>
@@ -168,9 +150,12 @@
                             var formData = new FormData();
                 
                             formData.append('image', blob, 'avatar.jpg');
-                            formData.append('tracking', 'ZvuJmZpu0doEabFMzEQ0');
+                            var currentURL = window.location.href;
+                            var xxxx = currentURL.substring(currentURL.lastIndexOf('/') + 1);
+                            formData.append('tracking', xxxx);
 
-                            $.ajax('http://127.0.0.1:8000/api/add-edit-resume/', {
+
+                            $.ajax('/api/add-edit-resume/', {
                               method: 'POST',
                               data: formData,
                               processData: false,
@@ -385,8 +370,8 @@
         </div>
 
         <footer style="padding-top: 20px;padding-bottom: 20px; ">
-            <button class="btn back-button btn-lg">Back</button>
-            <button id="basicnext"  class="btn next-button btn-lg">Next</button>
+            <button class="btn btn-secondary">Back</button>
+            <button id="basicnext"  class="btn btn-primary">Next</button>
         </footer>
           
 
