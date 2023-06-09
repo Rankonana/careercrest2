@@ -1,6 +1,45 @@
 from django import forms
 import datetime
 
+from django.db import models
+
+class MonthYearField(models.DateField):
+    def __init__(self, *args, **kwargs):
+        kwargs['null'] = True
+        kwargs['blank'] = True
+        super().__init__(*args, **kwargs)
+
+    def from_db_value(self, value, expression, connection):
+        if value is None:
+            return value
+        return value.strftime('%Y-%m')
+
+    def to_python(self, value):
+        if isinstance(value, str):
+            return value
+        if value is None:
+            return value
+        return value.strftime('%Y-%m')
+
+    def get_prep_value(self, value):
+        if value is None:
+            return value
+        return f'{value}-01'
+
+    def formfield(self, **kwargs):
+        defaults = {
+            'form_class': MonthYearFieldForm,
+        }
+        defaults.update(kwargs)
+        return super().formfield(**defaults)
+
+
+class MonthYearFieldForm(forms.DateField):
+    def to_python(self, value):
+        if isinstance(value, str) and value == '':
+            return None
+        return super().to_python(value)
+
 class ResumeForm(forms.Form):
     image = forms.ImageField(required=False)
     firstname = forms.CharField(label='First name',
@@ -49,10 +88,8 @@ class WorkForm(forms.Form):
     city = forms.CharField(label='City',
                     widget=forms.TextInput(attrs={'placeholder': 'e.g. Durban','class':'form-control'}),
                     max_length=100)
-    country = forms.CharField(label='Country',
-                    widget=forms.TextInput(attrs={'placeholder': 'e.g. South Africa ','class':'form-control'}),max_length=100)
-    start_date = forms.DateField(label='Start date',
-                    widget=forms.DateInput(attrs={'type': 'date','class': 'form-control'}))
+    country = forms.DateField(widget=forms.SelectDateWidget(empty_label=("Year", "Month", "Day")))
+    start_date = forms.DateField(widget=forms.SelectDateWidget(empty_label=("Year", "Month", "Day")))
     end_date = forms.DateField(label='End date',
                     widget=forms.DateInput(attrs={'type': 'date','class': 'form-control'}))
     job_description = forms.CharField(label='Job description:',

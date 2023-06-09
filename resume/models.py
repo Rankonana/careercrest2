@@ -1,6 +1,9 @@
 from django.contrib.auth.models import User
 from django.contrib.auth.models import AbstractUser, AnonymousUser
 from django.db import models
+from django.db import models
+from django import forms
+
 
 # class CustomUser(AbstractUser):
 #     # Add custom fields here if needed
@@ -30,6 +33,43 @@ class SocialLinks(models.Model):
 
     def __str__(self):
         return self.socialtracking
+class MonthYearField(models.DateField):
+    def __init__(self, *args, **kwargs):
+        kwargs['null'] = True
+        kwargs['blank'] = True
+        super().__init__(*args, **kwargs)
+
+    def from_db_value(self, value, expression, connection):
+        if value is None:
+            return value
+        return value.strftime('%Y-%m')
+
+    def to_python(self, value):
+        if isinstance(value, str):
+            return value
+        if value is None:
+            return value
+        return value.strftime('%Y-%m')
+
+    def get_prep_value(self, value):
+        if value is None:
+            return value
+        return f'{value}-01'
+
+    def formfield(self, **kwargs):
+        defaults = {
+            'form_class': MonthYearFieldForm,
+        }
+        defaults.update(kwargs)
+        return super().formfield(**defaults)
+
+
+class MonthYearFieldForm(forms.DateField):
+    def to_python(self, value):
+        if isinstance(value, str) and value == '':
+            return None
+        return super().to_python(value)
+
 
 class WorkExperience(models.Model):
     resume = models.ForeignKey(Resume, on_delete=models.CASCADE, related_name='work_experience')
@@ -37,8 +77,8 @@ class WorkExperience(models.Model):
     employer = models.CharField(max_length=200,null=True,blank=True)
     city = models.CharField(max_length=200,null=True,blank=True)
     country = models.CharField(max_length=200,null=True,blank=True)
-    start_date = models.DateField()
-    end_date = models.DateField()
+    start_date = MonthYearField()
+    end_date = MonthYearField()
     job_description = models.TextField(null=True, blank=True)
     worktracking = models.CharField(max_length=200,null=True,blank=True)
 
