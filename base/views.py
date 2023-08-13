@@ -7,6 +7,16 @@ from django.http import HttpResponse
 from django.http import JsonResponse
 from django.views.generic import ListView, DetailView
 
+from django.shortcuts import render, redirect
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login
+from django.contrib import messages
+from django.contrib.auth import views as auth_views
+from django.views import generic
+from django.urls import reverse_lazy
+
+from .forms import JobPostingForm
+
 
 def listing_api(request):
     page_number = request.GET.get("page", 1)
@@ -51,10 +61,8 @@ def listing_api(request):
         "description": jb.description,
         "location": jb.location,
         "salary": jb.salary,
-        "remotePosition": jb.remotePosition,
         "jobType": str(jb.jobType),
         "jobCategory": str(jb.jobCategory),
-        "positionFilled": jb.positionFilled,
         "featuredListing": jb.featuredListing,
         "importantInformation": jb.importantInformation,
         "expiryDate": str(jb.expiryDate),
@@ -172,6 +180,34 @@ def xxx(request, page):
     page_object.adjusted_elided_pages = paginator.get_elided_page_range(page)
     context = {"page_obj": page_object}
     return render(request, "base/xxx.html", context)
+
 def loadmore(request):
     return render(request,'base/loadmore.html')
+
+
+def post_job(request):
+    if request.method == 'POST':
+        form = JobPostingForm(request.POST)
+
+        if form.is_valid():
+            job = form.save(commit=False)  # Save the form data but don't commit it to the database yet
+            job.posted_by = request.user  # Set the user who posted the job
+            description = form.cleaned_data['description']
+            if description:
+                description_limit = 100
+                truncated_description = description[:description_limit]
+                job.seodescription = truncated_description
+            else:
+                job.seodescription = ""
+            job.save()  # Commit the changes to the database
+            messages.success(request, 'Job posted successfully!')
+
+
+            return redirect('home')  # Redirect to the list of job postings after successful submission
+    else:
+        form = JobPostingForm()
+
+    return render(request, 'base/job_posting_form.html', {'form': form})
+
+
 

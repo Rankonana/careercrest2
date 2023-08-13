@@ -51,7 +51,6 @@ INSTALLED_APPS = [
 
     #Blog and Resume
     'blog.apps.BlogConfig',
-    'resume.apps.ResumeConfig',
 
     'datetimepicker',
     'crispy_forms', # add this
@@ -60,7 +59,6 @@ INSTALLED_APPS = [
     'rest_framework',
 
     'corsheaders',
-
 
 
 ]

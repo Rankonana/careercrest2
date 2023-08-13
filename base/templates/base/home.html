@@ -61,6 +61,27 @@ Our user-friendly interface and powerful search engine make job hunting easy and
 {% block content %}
 {% load static %}
 
+
+<div id="messages-container">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-success" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>
+    <!-- Add JavaScript code to auto-hide the messages -->
+    <script>
+        setTimeout(function() {
+            var messagesContainer = document.getElementById('messages-container');
+            if (messagesContainer) {
+                messagesContainer.style.display = 'none';
+            }
+        }, 5000); // 5000 milliseconds (5 seconds) - change this value to adjust the duration
+    </script>
+
+
 <!-- Carousel Start -->
 <div class="container-fluid p-0">
     <div class="owl-carousel header-carousel position-relative">
@@ -142,7 +163,7 @@ Our user-friendly interface and powerful search engine make job hunting easy and
     
     function calltheapi() {
             var currentPage = $('.my-list').data('page');
-            var url = 'https://careercrest.co.za/terms.json';
+            var url = '/terms.json';
 
             const params = new URLSearchParams(window.location.search);
             const location = params.get('location');

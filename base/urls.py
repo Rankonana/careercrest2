@@ -33,6 +33,8 @@ urlpatterns = [
     path("terms.json",views.listing_api,name="terms-api"),
     path('loadmore/',views.loadmore,name="loadmore"),
 
+    path('post-a-job/',views.post_job,name="post-a-job"),
+
 
 
 
